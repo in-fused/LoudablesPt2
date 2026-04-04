@@ -1,0 +1,163 @@
+{
+  "moduleId": "module1",
+  "sceneId": "family-house",
+  "title": "Family House Arrival",
+  "itemDialogues": {
+    "casa": {
+      "lines": [
+        {
+          "id": "casa-1",
+          "speaker": "Mamá",
+          "es": "Bienvenida a la casa.",
+          "en": "Welcome to the house."
+        },
+        {
+          "id": "casa-2",
+          "speaker": "Visitante",
+          "es": "Gracias, qué casa tan bonita.",
+          "en": "Thank you, what a lovely house."
+        }
+      ],
+      "responseExercise": {
+        "prompt": "Your host says: 'Bienvenida a la casa.' What is a good response?",
+        "choices": [
+          {
+            "id": "casa-choice-1",
+            "text": "Gracias, qué casa tan bonita.",
+            "rating": "appropriate",
+            "feedback": "Great fit. You responded politely and stayed on the arrival topic."
+          },
+          {
+            "id": "casa-choice-2",
+            "text": "Sí, quiero agua, por favor.",
+            "rating": "acceptable",
+            "feedback": "Understandable, but this shifts early to a request instead of greeting first."
+          },
+          {
+            "id": "casa-choice-3",
+            "text": "La silla está debajo de la mesa.",
+            "rating": "off_target",
+            "feedback": "Off-target for this welcome moment."
+          }
+        ]
+      }
+    },
+    "mama": {
+      "lines": [
+        {
+          "id": "mama-1",
+          "speaker": "Visitante",
+          "es": "Hola, mamá. Gracias por recibirme.",
+          "en": "Hi, mom. Thanks for having me."
+        },
+        {
+          "id": "mama-2",
+          "speaker": "Mamá",
+          "es": "Hola, me alegra verte.",
+          "en": "Hi, I am happy to see you."
+        }
+      ],
+      "responseExercise": {
+        "prompt": "Mamá says: 'Hola, me alegra verte.' What should you say?",
+        "choices": [
+          {
+            "id": "mama-choice-1",
+            "text": "Yo también, mamá.",
+            "rating": "appropriate",
+            "feedback": "Good fit. Warm and natural family response."
+          },
+          {
+            "id": "mama-choice-2",
+            "text": "¿Dónde está la puerta?",
+            "rating": "acceptable",
+            "feedback": "Understandable Spanish, but not the best social response in this moment."
+          },
+          {
+            "id": "mama-choice-3",
+            "text": "El agua es una silla.",
+            "rating": "off_target",
+            "feedback": "Off-target for the greeting prompt."
+          }
+        ]
+      }
+    },
+    "agua": {
+      "lines": [
+        {
+          "id": "agua-1",
+          "speaker": "Mamá",
+          "es": "¿Quieres agua fría?",
+          "en": "Do you want cold water?"
+        },
+        {
+          "id": "agua-2",
+          "speaker": "Visitante",
+          "es": "Sí, agua, por favor.",
+          "en": "Yes, water, please."
+        }
+      ],
+      "responseExercise": {
+        "prompt": "You are offered water. Choose the best response.",
+        "choices": [
+          {
+            "id": "agua-choice-1",
+            "text": "Sí, el agua, por favor.",
+            "rating": "appropriate",
+            "feedback": "Great fit. Polite and correct use of 'el agua'."
+          },
+          {
+            "id": "agua-choice-2",
+            "text": "Sí, gracias.",
+            "rating": "acceptable",
+            "feedback": "Understandable, but less specific than directly mentioning water."
+          },
+          {
+            "id": "agua-choice-3",
+            "text": "No, la puerta.",
+            "rating": "off_target",
+            "feedback": "Off-target for this offer prompt."
+          }
+        ]
+      }
+    },
+    "comida": {
+      "lines": [
+        {
+          "id": "comida-1",
+          "speaker": "Mamá",
+          "es": "Hay comida en la mesa.",
+          "en": "There is food on the table."
+        },
+        {
+          "id": "comida-2",
+          "speaker": "Visitante",
+          "es": "Perfecto, tengo hambre.",
+          "en": "Perfect, I am hungry."
+        }
+      ],
+      "responseExercise": {
+        "prompt": "Mamá says there is food ready. Pick a natural response.",
+        "choices": [
+          {
+            "id": "comida-choice-1",
+            "text": "Gracias, tengo hambre.",
+            "rating": "appropriate",
+            "feedback": "Great fit. Natural and polite for family mealtime."
+          },
+          {
+            "id": "comida-choice-2",
+            "text": "Ahora no, quizá después.",
+            "rating": "acceptable",
+            "feedback": "Understandable response, though less aligned with the welcoming meal context."
+          },
+          {
+            "id": "comida-choice-3",
+            "text": "La comida está en la puerta.",
+            "rating": "off_target",
+            "feedback": "Off-target for the prompt context."
+          }
+        ]
+      }
+    }
+  }
+}

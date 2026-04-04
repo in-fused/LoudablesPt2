@@ -1,0 +1,45 @@
+{
+  "moduleId": "module1",
+  "list": [
+    {
+      "id": "casa",
+      "es": "casa",
+      "en": "house"
+    },
+    {
+      "id": "puerta",
+      "es": "puerta",
+      "en": "door"
+    },
+    {
+      "id": "mesa",
+      "es": "mesa",
+      "en": "table"
+    },
+    {
+      "id": "silla",
+      "es": "silla",
+      "en": "chair"
+    },
+    {
+      "id": "agua",
+      "es": "agua",
+      "en": "water"
+    },
+    {
+      "id": "comida",
+      "es": "comida",
+      "en": "food"
+    },
+    {
+      "id": "mama",
+      "es": "mamá",
+      "en": "mom"
+    },
+    {
+      "id": "nina",
+      "es": "niña",
+      "en": "girl"
+    }
+  ]
+}

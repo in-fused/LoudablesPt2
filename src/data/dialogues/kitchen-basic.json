@@ -1,0 +1,115 @@
+{
+  "moduleId": "module1",
+  "sceneId": "kitchen-basic",
+  "title": "Kitchen Basics",
+  "itemDialogues": {
+    "cocina": {
+      "lines": [
+        {
+          "id": "cocina-1",
+          "speaker": "Mamá",
+          "es": "La cocina está lista para cocinar.",
+          "en": "The kitchen is ready for cooking."
+        },
+        {
+          "id": "cocina-2",
+          "speaker": "Visitante",
+          "es": "Perfecto, la cocina se ve muy limpia.",
+          "en": "Perfect, the kitchen looks very clean."
+        }
+      ],
+      "responseExercise": {
+        "prompt": "Mamá says the kitchen is ready. Choose the best response.",
+        "choices": [
+          {
+            "id": "cocina-choice-1",
+            "text": "Perfecto, la cocina se ve muy limpia.",
+            "rating": "appropriate",
+            "feedback": "Great fit. You stayed on topic and responded naturally."
+          },
+          {
+            "id": "cocina-choice-2",
+            "text": "Sí, quiero sentarme en la silla.",
+            "rating": "acceptable",
+            "feedback": "Understandable Spanish, but it shifts away from the kitchen setup."
+          },
+          {
+            "id": "cocina-choice-3",
+            "text": "No, la casa está debajo del pan.",
+            "rating": "off_target",
+            "feedback": "Off-target for this kitchen prompt."
+          }
+        ]
+      }
+    },
+    "pan": {
+      "lines": [
+        {
+          "id": "pan-1",
+          "speaker": "Mamá",
+          "es": "¿Quieres pan con la comida?",
+          "en": "Do you want bread with the meal?"
+        },
+        {
+          "id": "pan-2",
+          "speaker": "Visitante",
+          "es": "Sí, un poco de pan, por favor.",
+          "en": "Yes, a little bread, please."
+        }
+      ],
+      "responseExercise": {
+        "prompt": "You are offered bread at the table. Pick a natural response.",
+        "choices": [
+          {
+            "id": "pan-choice-1",
+            "text": "Sí, un poco de pan, por favor.",
+            "rating": "appropriate",
+            "feedback": "Great fit. Polite and natural for this family meal moment."
+          },
+          {
+            "id": "pan-choice-2",
+            "text": "No, gracias.",
+            "rating": "acceptable",
+            "feedback": "Understandable and polite, but less aligned with accepting the offer."
+          },
+          {
+            "id": "pan-choice-3",
+            "text": "El vaso está en la puerta.",
+            "rating": "off_target",
+            "feedback": "Off-target for the bread offer prompt."
+          }
+        ]
+      }
+    },
+    "plato": {
+      "lines": [
+        {
+          "id": "plato-1",
+          "speaker": "Mamá",
+          "es": "Pon el plato en la mesa.",
+          "en": "Put the plate on the table."
+        }
+      ]
+    },
+    "vaso": {
+      "lines": [
+        {
+          "id": "vaso-1",
+          "speaker": "Visitante",
+          "es": "Necesito un vaso de agua.",
+          "en": "I need a glass of water."
+        }
+      ]
+    },
+    "sal": {
+      "lines": [
+        {
+          "id": "sal-1",
+          "speaker": "Mamá",
+          "es": "La sal está al lado del pan.",
+          "en": "The salt is next to the bread."
+        }
+      ]
+    }
+  }
+}

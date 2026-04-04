@@ -1,0 +1,14 @@
+[
+  {
+    "id": "agua-el",
+    "itemId": "agua",
+    "topic": "Article exception",
+    "text": "Use 'el agua' in singular to avoid two strong 'a' sounds, even though agua is feminine."
+  },
+  {
+    "id": "mama-accent",
+    "itemId": "mama",
+    "topic": "Accent mark",
+    "text": "Write mamá with an accent on the final 'a' when referring to mom."
+  }
+]

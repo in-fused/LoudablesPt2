@@ -1,0 +1,25 @@
+:root {
+  --font-body: "Avenir Next", "Segoe UI", -apple-system, BlinkMacSystemFont, sans-serif;
+
+  --color-bg: #f5efe6;
+  --color-surface: #fffaf2;
+  --color-surface-strong: #f2e4d0;
+  --color-text: #2e251a;
+  --color-muted: #6a5a45;
+  --color-accent: #b25f2a;
+  --color-accent-soft: #d98d57;
+  --color-border: #e2d3be;
+
+  --radius-lg: 20px;
+  --radius-md: 14px;
+  --radius-sm: 10px;
+
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+
+  --shadow-soft: 0 6px 20px rgba(71, 45, 20, 0.08);
+}

@@ -1,0 +1,59 @@
+# REPO BLUEPRINT
+
+```text
+/public
+  /icons
+  /audio
+  /images
+  index.html
+  manifest.json
+  service-worker.js
+
+/src
+  /app
+    AppLayout.jsx
+  /components
+    BottomDrawer.jsx
+    SceneCanvas.jsx
+    DialoguePanel.jsx
+    AudioButton.jsx
+    GrammarHint.jsx
+  /features
+    /scene
+      useScene.js
+    /dialogue
+      useDialogue.js
+    /progress
+      progressStore.js
+    /pwa
+      registerServiceWorker.js
+  /data
+    /scenes
+      family-house.json
+    /dialogues
+      module1.json
+    /vocabulary
+      core.json
+    /grammar
+      hints.json
+  /lib
+    constants.js
+    helpers.js
+    audio.js
+  /styles
+    variables.css
+    app.css
+  App.jsx
+  main.jsx
+
+/docs
+  PRD.md
+  FOUNDATION_SPEC.md
+  GUARDRAILS.md
+  REPO_BLUEPRINT.md
+  CODEX_RULES.md
+  ACCEPTANCE_CHECKLIST.md
+
+package.json
+README.md
+```

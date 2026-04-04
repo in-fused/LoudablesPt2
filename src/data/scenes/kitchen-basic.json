@@ -1,0 +1,32 @@
+{
+  "id": "kitchen-basic",
+  "title": "Kitchen Basics",
+  "description": "You step into the kitchen and practice useful words for simple family mealtime talk.",
+  "items": [
+    {
+      "id": "cocina",
+      "spanish": "cocina",
+      "english": "kitchen"
+    },
+    {
+      "id": "plato",
+      "spanish": "plato",
+      "english": "plate"
+    },
+    {
+      "id": "vaso",
+      "spanish": "vaso",
+      "english": "glass"
+    },
+    {
+      "id": "pan",
+      "spanish": "pan",
+      "english": "bread"
+    },
+    {
+      "id": "sal",
+      "spanish": "sal",
+      "english": "salt"
+    }
+  ]
+}
