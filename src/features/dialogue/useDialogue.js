@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import familyHouseDialogues from "../../data/dialogues/family-house.json";
 import kitchenBasicDialogues from "../../data/dialogues/kitchen-basic.json";
+import vocabularyCoreData from "../../data/vocabulary/core.json";
 import {
   getProgress,
   markResponseCompleted,
@@ -17,10 +18,24 @@ function safeArray(value) {
   return Array.isArray(value) ? value : [];
 }
 
+function buildAudioKey(sceneId, scope, targetId) {
+  if (!sceneId || !scope || !targetId) {
+    return "placeholder";
+  }
+  return `scene.${sceneId}.${scope}.${targetId}`;
+}
+
 const DIALOGUES_BY_SCENE = {
   "family-house": familyHouseDialogues,
   "kitchen-basic": kitchenBasicDialogues
 };
+
+const VOCAB_AUDIO_KEY_BY_ID = safeArray(vocabularyCoreData?.list).reduce((acc, entry) => {
+  if (entry?.id && entry?.audioKey) {
+    acc[entry.id] = entry.audioKey;
+  }
+  return acc;
+}, {});
 
 function buildExercise(exercise) {
   if (!exercise || typeof exercise !== "object") {
@@ -95,6 +110,41 @@ export function useDialogue(sceneId) {
     return buildExercise(getItemEntry(itemId).responseExercise);
   }
 
+  function getItemAudioTarget(itemId, selectedItem) {
+    if (!itemId) {
+      return {
+        key: "placeholder",
+        label: "Play selected item audio"
+      };
+    }
+
+    const entry = getItemEntry(itemId);
+    const fallbackVocabularyAudioKey = VOCAB_AUDIO_KEY_BY_ID[itemId];
+    const key = entry.audioKey || fallbackVocabularyAudioKey || buildAudioKey(sceneId, "item", itemId);
+    const spokenLabel = selectedItem?.spanish || itemId;
+
+    return {
+      key,
+      label: `Play ${spokenLabel} audio`
+    };
+  }
+
+  function getLineAudioTarget(line, itemId) {
+    if (!line || typeof line !== "object") {
+      return null;
+    }
+
+    const lineId = line.id || itemId;
+    if (!lineId) {
+      return null;
+    }
+
+    return {
+      key: line.audioKey || buildAudioKey(sceneId, "line", lineId),
+      label: `Play ${line.speaker || "dialogue"} line`
+    };
+  }
+
   function chooseResponse(itemId, choiceId) {
     if (!itemId || !choiceId) {
       return;
@@ -154,6 +204,8 @@ export function useDialogue(sceneId) {
   return {
     getLinesForItem,
     getResponseExerciseForItem,
+    getItemAudioTarget,
+    getLineAudioTarget,
     chooseResponse,
     getSelectedChoiceForItem,
     isResponseCompleted,

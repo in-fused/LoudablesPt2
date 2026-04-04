@@ -309,6 +309,15 @@ button {
   background: var(--color-accent-soft);
 }
 
+.audio-button-inline {
+  min-height: 30px;
+  width: auto;
+  border-radius: var(--radius-sm);
+  padding: 0 var(--space-2);
+  font-size: 0.74rem;
+  font-weight: 600;
+}
+
 .dialogue-panel,
 .grammar-hint,
 .response-panel {
@@ -330,6 +339,13 @@ button {
 .dialogue-line {
   padding-bottom: var(--space-2);
   border-bottom: 1px solid var(--color-border);
+}
+
+.dialogue-line-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-2);
 }
 
 .dialogue-line:last-child {

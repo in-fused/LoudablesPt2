@@ -4,15 +4,18 @@
   "title": "Kitchen Basics",
   "itemDialogues": {
     "cocina": {
+      "audioKey": "scene.kitchen-basic.item.cocina",
       "lines": [
         {
           "id": "cocina-1",
+          "audioKey": "scene.kitchen-basic.line.cocina-1",
           "speaker": "Mamá",
           "es": "La cocina está lista para cocinar.",
           "en": "The kitchen is ready for cooking."
         },
         {
           "id": "cocina-2",
+          "audioKey": "scene.kitchen-basic.line.cocina-2",
           "speaker": "Visitante",
           "es": "Perfecto, la cocina se ve muy limpia.",
           "en": "Perfect, the kitchen looks very clean."
@@ -43,15 +46,18 @@
       }
     },
     "pan": {
+      "audioKey": "scene.kitchen-basic.item.pan",
       "lines": [
         {
           "id": "pan-1",
+          "audioKey": "scene.kitchen-basic.line.pan-1",
           "speaker": "Mamá",
           "es": "¿Quieres pan con la comida?",
           "en": "Do you want bread with the meal?"
         },
         {
           "id": "pan-2",
+          "audioKey": "scene.kitchen-basic.line.pan-2",
           "speaker": "Visitante",
           "es": "Sí, un poco de pan, por favor.",
           "en": "Yes, a little bread, please."
@@ -82,9 +88,11 @@
       }
     },
     "plato": {
+      "audioKey": "scene.kitchen-basic.item.plato",
       "lines": [
         {
           "id": "plato-1",
+          "audioKey": "scene.kitchen-basic.line.plato-1",
           "speaker": "Mamá",
           "es": "Pon el plato en la mesa.",
           "en": "Put the plate on the table."
@@ -92,9 +100,11 @@
       ]
     },
     "vaso": {
+      "audioKey": "scene.kitchen-basic.item.vaso",
       "lines": [
         {
           "id": "vaso-1",
+          "audioKey": "scene.kitchen-basic.line.vaso-1",
           "speaker": "Visitante",
           "es": "Necesito un vaso de agua.",
           "en": "I need a glass of water."
@@ -102,9 +112,11 @@
       ]
     },
     "sal": {
+      "audioKey": "scene.kitchen-basic.item.sal",
       "lines": [
         {
           "id": "sal-1",
+          "audioKey": "scene.kitchen-basic.line.sal-1",
           "speaker": "Mamá",
           "es": "La sal está al lado del pan.",
           "en": "The salt is next to the bread."

@@ -4,42 +4,80 @@
     {
       "id": "casa",
       "es": "casa",
-      "en": "house"
+      "en": "house",
+      "audioKey": "vocab.casa"
     },
     {
       "id": "puerta",
       "es": "puerta",
-      "en": "door"
+      "en": "door",
+      "audioKey": "vocab.puerta"
     },
     {
       "id": "mesa",
       "es": "mesa",
-      "en": "table"
+      "en": "table",
+      "audioKey": "vocab.mesa"
     },
     {
       "id": "silla",
       "es": "silla",
-      "en": "chair"
+      "en": "chair",
+      "audioKey": "vocab.silla"
     },
     {
       "id": "agua",
       "es": "agua",
-      "en": "water"
+      "en": "water",
+      "audioKey": "vocab.agua"
     },
     {
       "id": "comida",
       "es": "comida",
-      "en": "food"
+      "en": "food",
+      "audioKey": "vocab.comida"
     },
     {
       "id": "mama",
       "es": "mamá",
-      "en": "mom"
+      "en": "mom",
+      "audioKey": "vocab.mama"
     },
     {
       "id": "nina",
       "es": "niña",
-      "en": "girl"
+      "en": "girl",
+      "audioKey": "vocab.nina"
+    },
+    {
+      "id": "cocina",
+      "es": "cocina",
+      "en": "kitchen",
+      "audioKey": "vocab.cocina"
+    },
+    {
+      "id": "plato",
+      "es": "plato",
+      "en": "plate",
+      "audioKey": "vocab.plato"
+    },
+    {
+      "id": "vaso",
+      "es": "vaso",
+      "en": "glass",
+      "audioKey": "vocab.vaso"
+    },
+    {
+      "id": "pan",
+      "es": "pan",
+      "en": "bread",
+      "audioKey": "vocab.pan"
+    },
+    {
+      "id": "sal",
+      "es": "sal",
+      "en": "salt",
+      "audioKey": "vocab.sal"
     }
   ]
 }

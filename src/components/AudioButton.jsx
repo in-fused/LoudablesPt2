@@ -1,13 +1,20 @@
-import { playAudioPlaceholder } from "../lib/audio";
+import { normalizeAudioTarget, playAudioTarget } from "../lib/audio";
 
-function AudioButton({ label, audioKey }) {
+function AudioButton({ label, audioKey, audioTarget, variant = "primary" }) {
+  const resolvedTarget = normalizeAudioTarget(audioTarget || audioKey);
+  const buttonLabel = label || resolvedTarget.label || "Play audio";
+  const buttonClassName = variant === "inline"
+    ? "audio-button audio-button-inline"
+    : "audio-button";
+
   return (
     <button
       type="button"
-      className="audio-button"
-      onClick={() => playAudioPlaceholder(audioKey)}
+      className={buttonClassName}
+      onClick={() => playAudioTarget(resolvedTarget)}
+      aria-label={buttonLabel}
     >
-      {label}
+      {buttonLabel}
     </button>
   );
 }

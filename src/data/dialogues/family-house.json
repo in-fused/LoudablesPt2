@@ -4,15 +4,18 @@
   "title": "Family House Arrival",
   "itemDialogues": {
     "casa": {
+      "audioKey": "scene.family-house.item.casa",
       "lines": [
         {
           "id": "casa-1",
+          "audioKey": "scene.family-house.line.casa-1",
           "speaker": "Mamá",
           "es": "Bienvenida a la casa.",
           "en": "Welcome to the house."
         },
         {
           "id": "casa-2",
+          "audioKey": "scene.family-house.line.casa-2",
           "speaker": "Visitante",
           "es": "Gracias, qué casa tan bonita.",
           "en": "Thank you, what a lovely house."
@@ -43,15 +46,18 @@
       }
     },
     "mama": {
+      "audioKey": "scene.family-house.item.mama",
       "lines": [
         {
           "id": "mama-1",
+          "audioKey": "scene.family-house.line.mama-1",
           "speaker": "Visitante",
           "es": "Hola, mamá. Gracias por recibirme.",
           "en": "Hi, mom. Thanks for having me."
         },
         {
           "id": "mama-2",
+          "audioKey": "scene.family-house.line.mama-2",
           "speaker": "Mamá",
           "es": "Hola, me alegra verte.",
           "en": "Hi, I am happy to see you."
@@ -82,15 +88,18 @@
       }
     },
     "agua": {
+      "audioKey": "scene.family-house.item.agua",
       "lines": [
         {
           "id": "agua-1",
+          "audioKey": "scene.family-house.line.agua-1",
           "speaker": "Mamá",
           "es": "¿Quieres agua fría?",
           "en": "Do you want cold water?"
         },
         {
           "id": "agua-2",
+          "audioKey": "scene.family-house.line.agua-2",
           "speaker": "Visitante",
           "es": "Sí, agua, por favor.",
           "en": "Yes, water, please."
@@ -121,15 +130,18 @@
       }
     },
     "comida": {
+      "audioKey": "scene.family-house.item.comida",
       "lines": [
         {
           "id": "comida-1",
+          "audioKey": "scene.family-house.line.comida-1",
           "speaker": "Mamá",
           "es": "Hay comida en la mesa.",
           "en": "There is food on the table."
         },
         {
           "id": "comida-2",
+          "audioKey": "scene.family-house.line.comida-2",
           "speaker": "Visitante",
           "es": "Perfecto, tengo hambre.",
           "en": "Perfect, I am hungry."

@@ -1,4 +1,6 @@
-function DialoguePanel({ lines }) {
+import AudioButton from "./AudioButton";
+
+function DialoguePanel({ lines, getLineAudioTarget, selectedItemId }) {
   const safeLines = Array.isArray(lines) && lines.length
     ? lines
     : [
@@ -15,13 +17,26 @@ function DialoguePanel({ lines }) {
       <p className="panel-label">Conversation</p>
 
       <ul className="dialogue-list">
-        {safeLines.map((line) => (
-          <li key={line.id} className="dialogue-line">
-            <p className="line-speaker">{line.speaker}</p>
-            <p className="line-es">{line.es}</p>
-            <p className="line-en">{line.en}</p>
-          </li>
-        ))}
+        {safeLines.map((line) => {
+          const lineAudioTarget = getLineAudioTarget?.(line, selectedItemId);
+
+          return (
+            <li key={line.id} className="dialogue-line">
+              <div className="dialogue-line-meta">
+                <p className="line-speaker">{line.speaker}</p>
+                {lineAudioTarget ? (
+                  <AudioButton
+                    variant="inline"
+                    label="Play line"
+                    audioTarget={lineAudioTarget}
+                  />
+                ) : null}
+              </div>
+              <p className="line-es">{line.es}</p>
+              <p className="line-en">{line.en}</p>
+            </li>
+          );
+        })}
       </ul>
     </section>
   );
