@@ -28,6 +28,7 @@ function SceneCanvas({ scene, selectedItem, onSelectItem, itemStatusById = {} })
   const sceneProgress = getProgress(safeSceneId);
   const completedItemCount = (sceneProgress.completedResponseItemIds || []).filter((itemId) => sceneItemIds.includes(itemId)).length;
   const completionRatio = sceneItemIds.length ? completedItemCount / sceneItemIds.length : 0;
+  const lastCompletedItemId = sceneProgress.lastCompletedItemId;
 
   const recommendationText = !recommendedItem
     ? "Scene complete. Tap any item to review."
@@ -51,12 +52,13 @@ function SceneCanvas({ scene, selectedItem, onSelectItem, itemStatusById = {} })
           const isActive = selectedItem?.id === item.id;
           const status = itemStatusById[item.id] || "default";
           const isRecommended = item.id === recommendedItemId;
+          const isJustCompleted = status === "completed" && item.id === lastCompletedItemId;
 
           return (
             <button
               key={item.id}
               type="button"
-              className={`scene-item-button ${isActive ? "is-active" : ""} ${status === "seen" ? "is-seen" : ""} ${status === "completed" ? "is-completed" : ""} ${isRecommended ? "is-recommended" : ""}`}
+              className={`scene-item-button ${isActive ? "is-active" : ""} ${status === "seen" ? "is-seen" : ""} ${status === "completed" ? "is-completed" : ""} ${isRecommended ? "is-recommended" : ""} ${isJustCompleted ? "is-just-completed" : ""}`}
               onClick={() => onSelectItem?.(item.id)}
               aria-pressed={isActive}
             >

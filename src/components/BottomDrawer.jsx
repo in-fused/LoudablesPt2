@@ -103,7 +103,10 @@ function BottomDrawer({ selectedItem, dialogueState, grammarHint }) {
     .join(" ");
 
   return (
-    <aside className="bottom-drawer" aria-label="Conversation drawer">
+    <aside
+      className={`bottom-drawer ${conversationState.isAutoAdvancePending ? "is-auto-advancing" : ""} ${engagementState.isRecentlyCompleted ? "is-recently-completed" : ""}`}
+      aria-label="Conversation drawer"
+    >
       <div className="drawer-header">
         <p className="drawer-label">Selected Item</p>
         <p className="drawer-value">{selectedItemLabel}</p>

@@ -33,7 +33,10 @@ function ResponseChoices({
   }
 
   return (
-    <section className="response-panel" aria-label="Response exercise">
+    <section
+      className={`response-panel ${isCompleted ? "is-completed" : ""} ${isRecentlyCompleted ? "is-recently-completed" : ""}`}
+      aria-label="Response exercise"
+    >
       <p className="panel-label">Your Response</p>
       <p className="response-prompt">{exercise.prompt}</p>
 
@@ -59,7 +62,7 @@ function ResponseChoices({
             <button
               key={choice.id}
               type="button"
-              className={`response-choice-button ${isSelected ? "is-selected" : ""}`}
+              className={`response-choice-button ${isSelected ? "is-selected" : ""} ${isSelected && isCompleted ? "is-confirmed" : ""}`}
               onClick={() => onSelectChoice(choice.id)}
               aria-pressed={isSelected}
             >

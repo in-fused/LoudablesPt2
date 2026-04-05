@@ -13,7 +13,7 @@ function DialoguePanel({ lines, getLineAudioTarget, selectedItemId, stepNumber, 
     ];
 
   return (
-    <section className="dialogue-panel" aria-label="Dialogue panel">
+    <section className={`dialogue-panel ${isRecentlyCompleted ? "is-recently-completed" : ""}`} aria-label="Dialogue panel">
       <p className="panel-label">Conversation</p>
       {totalSteps > 1 ? (
         <p className="response-guidance">
