@@ -44,9 +44,8 @@ function buildExercise(exercise) {
 
 function buildConversationSteps(itemEntry, itemId) {
   const safeEntry = safeObject(itemEntry);
-  const explicitSteps = safeArray(safeEntry.steps);
-
-  const normalizedExplicitSteps = explicitSteps
+  const steps = safeArray(safeEntry.steps);
+  const normalizedSteps = steps
     .map((step, index) => {
       const safeStep = safeObject(step);
       const lines = safeArray(safeStep.lines);
@@ -63,10 +62,11 @@ function buildConversationSteps(itemEntry, itemId) {
     })
     .filter(Boolean);
 
-  if (normalizedExplicitSteps.length) {
-    return normalizedExplicitSteps;
+  if (normalizedSteps.length) {
+    return normalizedSteps;
   }
 
+  // Keep a lightweight legacy fallback in case an older content file remains.
   const lines = safeArray(safeEntry.lines);
   const responseExercise = buildExercise(safeEntry.responseExercise);
   if (!lines.length && !responseExercise) {
