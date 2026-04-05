@@ -196,6 +196,7 @@ export function useDialogue(sceneId) {
   const [completedResponseItemIds, setCompletedResponseItemIds] = useState(() => {
     return safeArray(initialProgress.completedResponseItemIds).filter((itemId) => exercisableItemIds.includes(itemId));
   });
+  const [pendingAutoAdvanceByItem, setPendingAutoAdvanceByItem] = useState({});
 
   useEffect(() => {
     const sceneProgress = getProgress(sceneId);
@@ -211,6 +212,39 @@ export function useDialogue(sceneId) {
       safeArray(sceneProgress.completedResponseItemIds).filter((itemId) => exercisableItemIds.includes(itemId))
     );
   }, [sceneId, conversationStepsByItem, exercisableItemIds]);
+
+  useEffect(() => {
+    return () => {
+      setPendingAutoAdvanceByItem({});
+    };
+  }, [sceneId]);
+
+  useEffect(() => {
+    const pendingItemIds = Object.keys(pendingAutoAdvanceByItem).filter((itemId) => pendingAutoAdvanceByItem[itemId]);
+    if (!pendingItemIds.length) {
+      return undefined;
+    }
+
+    const timerIds = pendingItemIds
+      .map((itemId) => {
+        if (!canContinueConversation(itemId)) {
+          return null;
+        }
+
+        return window.setTimeout(() => {
+          continueConversation(itemId);
+        }, 900);
+      })
+      .filter(Boolean);
+
+    if (!timerIds.length) {
+      return undefined;
+    }
+
+    return () => {
+      timerIds.forEach((timerId) => window.clearTimeout(timerId));
+    };
+  }, [pendingAutoAdvanceByItem, selectedChoiceByItemStep, conversationStepByItem]);
 
   function getItemEntry(itemId) {
     return safeObject(itemDialogues[itemId]);
@@ -279,6 +313,10 @@ export function useDialogue(sceneId) {
     return isCurrentStepResponseCompleted(itemId);
   }
 
+  function isAutoAdvancePending(itemId) {
+    return Boolean(pendingAutoAdvanceByItem[itemId]);
+  }
+
   function isConversationCompleted(itemId) {
     return completedResponseItemIds.includes(itemId);
   }
@@ -292,22 +330,39 @@ export function useDialogue(sceneId) {
     const currentStepResponseCompleted = !currentStep?.responseExercise
       ? true
       : Boolean(getSelectedChoiceIdForStep(itemId, currentStepIndex));
+    const autoAdvancePending = isAutoAdvancePending(itemId);
 
     return {
       currentStepIndex,
       stepNumber: currentStepIndex + 1,
       totalSteps,
       hasNextStep: nextStepAvailable,
-      canContinue: nextStepAvailable && currentStepResponseCompleted,
+      canContinue: nextStepAvailable && currentStepResponseCompleted && !autoAdvancePending,
       isCurrentStepResponseCompleted: currentStepResponseCompleted,
-      isCompleted: isConversationCompleted(itemId)
+      isCompleted: isConversationCompleted(itemId),
+      isAutoAdvancePending: autoAdvancePending
     };
+  }
+
+  function shouldAutoAdvanceAfterResponse(itemId, stepIndex) {
+    const steps = getConversationSteps(itemId);
+    const nextStep = steps[stepIndex + 1];
+    if (!nextStep) {
+      return false;
+    }
+
+    return !nextStep.responseExercise;
   }
 
   function continueConversation(itemId) {
     if (!itemId || !canContinueConversation(itemId)) {
       return;
     }
+
+    setPendingAutoAdvanceByItem((prev) => ({
+      ...prev,
+      [itemId]: false
+    }));
 
     const currentStepIndex = getCurrentStepIndex(itemId);
     const nextStepIndex = currentStepIndex + 1;
@@ -398,6 +453,20 @@ export function useDialogue(sceneId) {
         return [...prev, itemId];
       });
       markResponseCompleted(itemId, sceneId);
+      setPendingAutoAdvanceByItem((prev) => ({
+        ...prev,
+        [itemId]: false
+      }));
+    } else if (shouldAutoAdvanceAfterResponse(itemId, currentStepIndex)) {
+      setPendingAutoAdvanceByItem((prev) => ({
+        ...prev,
+        [itemId]: true
+      }));
+    } else {
+      setPendingAutoAdvanceByItem((prev) => ({
+        ...prev,
+        [itemId]: false
+      }));
     }
 
     setSelectedChoiceForStep(itemId, currentStepIndex, choiceId, sceneId);
@@ -427,6 +496,7 @@ export function useDialogue(sceneId) {
     setSelectedChoiceByItemStep({});
     setConversationStepByItem({});
     setCompletedResponseItemIds([]);
+    setPendingAutoAdvanceByItem({});
   }
 
   function resetProgress() {
@@ -434,6 +504,7 @@ export function useDialogue(sceneId) {
     setSelectedChoiceByItemStep({});
     setConversationStepByItem({});
     setCompletedResponseItemIds([]);
+    setPendingAutoAdvanceByItem({});
   }
 
   return {

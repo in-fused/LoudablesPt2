@@ -5,6 +5,7 @@ function ResponseChoices({
   isCompleted,
   hasNextStep,
   canContinue,
+  isAutoAdvancePending,
   onContinue
 }) {
   if (!exercise) {
@@ -62,7 +63,10 @@ function ResponseChoices({
       </div>
 
       {selectedChoice ? (
-        <p className="response-feedback">{selectedChoice.feedback}</p>
+        <p className="response-feedback">
+          {selectedChoice.feedback}
+          {isAutoAdvancePending ? " Next line coming up..." : ""}
+        </p>
       ) : null}
 
       {canContinue ? (

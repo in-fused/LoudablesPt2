@@ -42,6 +42,8 @@ function BottomDrawer({ selectedItem, dialogueState, grammarHint }) {
 
   const guidanceText = !selectedItem
     ? "Start with the highlighted recommended word."
+    : conversationState.isAutoAdvancePending
+      ? "Nice response. Continuing to the next line..."
     : conversationState.totalSteps > 1 && conversationState.hasNextStep && conversationState.canContinue
       ? "Continue to the next line when you are ready."
       : conversationState.totalSteps > 1 && conversationState.hasNextStep
@@ -74,6 +76,7 @@ function BottomDrawer({ selectedItem, dialogueState, grammarHint }) {
         getLineAudioTarget={dialogueState?.getLineAudioTarget}
         stepNumber={conversationState.stepNumber}
         totalSteps={conversationState.totalSteps}
+        isAutoAdvancePending={conversationState.isAutoAdvancePending}
       />
 
       <ResponseChoices
@@ -83,6 +86,7 @@ function BottomDrawer({ selectedItem, dialogueState, grammarHint }) {
         isCompleted={responseCompleted}
         hasNextStep={conversationState.hasNextStep}
         canContinue={conversationState.canContinue}
+        isAutoAdvancePending={conversationState.isAutoAdvancePending}
         onContinue={() => dialogueState?.continueConversation?.(itemId)}
       />
 
