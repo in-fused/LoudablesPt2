@@ -19,6 +19,15 @@ function ResponseChoices({
       }
     : null;
 
+  const feedbackTone = selectedChoice?.rating || "";
+  const feedbackToneLabel = feedbackTone === "appropriate"
+    ? "Strong match."
+    : feedbackTone === "acceptable"
+      ? "Works, but there is a more natural option."
+      : feedbackTone === "off_target"
+        ? "Off target for this moment."
+        : "";
+
   if (!safeExercise || !safeExercise.choices.length) {
     return (
       <section className="response-panel" aria-label="Response exercise">
@@ -82,8 +91,8 @@ function ResponseChoices({
       </div>
 
       {selectedChoice ? (
-        <p className="response-feedback">
-          {selectedChoice.feedback || "Response selected."}
+        <p className={`response-feedback ${feedbackTone ? `is-${feedbackTone}` : ""}`} role="status" aria-live="polite">
+          {feedbackToneLabel ? `${feedbackToneLabel} ` : ""}{selectedChoice.feedback || "Response selected."}
           {isAutoAdvancePending ? " Next line coming up..." : ""}
         </p>
       ) : null}

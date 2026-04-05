@@ -29,12 +29,14 @@ function BottomDrawer({ selectedItem, dialogueState, grammarHint }) {
   const conversationState = dialogueState?.getConversationStateForItem
     ? dialogueState.getConversationStateForItem(itemId)
     : {
-        currentStepIndex: 0,
-        stepNumber: 1,
-        totalSteps: 1,
-        hasNextStep: false,
-        canContinue: false
+    currentStepIndex: 0,
+    stepNumber: 1,
+    totalSteps: 1,
+    hasNextStep: false,
+    canContinue: false,
+    isAutoAdvancePending: false
       };
+
   const engagementState = dialogueState?.getEngagementStateForItem
     ? dialogueState.getEngagementStateForItem(itemId)
     : {
@@ -121,7 +123,7 @@ function BottomDrawer({ selectedItem, dialogueState, grammarHint }) {
         />
       </div>
 
-      <p className="drawer-guidance">{combinedGuidance}</p>
+      <p className="drawer-guidance" aria-live="polite">{combinedGuidance}</p>
 
       <DialoguePanel
         lines={dialogueLines}
