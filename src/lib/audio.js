@@ -29,7 +29,6 @@ export function normalizeAudioTarget(target) {
 
 export function playAudioTarget(target) {
   const normalizedTarget = normalizeAudioTarget(target);
-  console.info("[audio placeholder]", normalizedTarget.key);
   return normalizedTarget;
 }
 

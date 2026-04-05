@@ -31,13 +31,22 @@ function buildExercise(exercise) {
     return null;
   }
 
-  const choices = safeArray(exercise.choices);
-  if (!exercise.prompt || !choices.length) {
+  const prompt = typeof exercise.prompt === "string" ? exercise.prompt.trim() : "";
+  const choices = safeArray(exercise.choices)
+    .filter((choice) => choice && typeof choice === "object" && choice.id && choice.text)
+    .map((choice) => ({
+      ...choice,
+      id: String(choice.id),
+      text: String(choice.text),
+      feedback: typeof choice.feedback === "string" ? choice.feedback : ""
+    }));
+
+  if (!prompt || !choices.length) {
     return null;
   }
 
   return {
-    prompt: exercise.prompt,
+    prompt,
     choices
   };
 }
@@ -228,6 +237,10 @@ export function useDialogue(sceneId) {
   }, [sceneId]);
 
   useEffect(() => {
+    if (typeof window === "undefined") {
+      return undefined;
+    }
+
     const pendingItemIds = Object.keys(pendingAutoAdvanceByItem).filter((itemId) => pendingAutoAdvanceByItem[itemId]);
     if (!pendingItemIds.length) {
       return undefined;
@@ -342,7 +355,7 @@ export function useDialogue(sceneId) {
 
     return {
       currentStepIndex,
-      stepNumber: currentStepIndex + 1,
+      stepNumber: totalSteps > 0 ? currentStepIndex + 1 : 0,
       totalSteps,
       hasNextStep: nextStepAvailable,
       canContinue: nextStepAvailable && currentStepResponseCompleted && !autoAdvancePending,
@@ -353,7 +366,7 @@ export function useDialogue(sceneId) {
   }
 
   function getSuggestedNextItemId(currentItemId) {
-    const sceneItemIds = Object.keys(itemDialogues);
+    const sceneItemIds = safeArray(exercisableItemIds);
     if (!sceneItemIds.length) {
       return null;
     }
@@ -420,6 +433,9 @@ export function useDialogue(sceneId) {
     const nextStepIndex = currentStepIndex + 1;
     const steps = getConversationSteps(itemId);
     const nextStep = steps[nextStepIndex];
+    if (!nextStep) {
+      return;
+    }
     const isFinalStep = nextStepIndex === steps.length - 1;
     const finalStepHasNoResponse = isFinalStep && !nextStep?.responseExercise;
 
@@ -494,6 +510,12 @@ export function useDialogue(sceneId) {
       return;
     }
 
+    const normalizedChoiceId = String(choiceId);
+    const isValidChoice = safeArray(exercise.choices).some((choice) => choice.id === normalizedChoiceId);
+    if (!isValidChoice) {
+      return;
+    }
+
     const currentStepIndex = getCurrentStepIndex(itemId);
     const hasNext = hasNextStep(itemId);
 
@@ -501,7 +523,7 @@ export function useDialogue(sceneId) {
       ...prev,
       [itemId]: {
         ...safeObject(prev[itemId]),
-        [String(currentStepIndex)]: choiceId
+        [String(currentStepIndex)]: normalizedChoiceId
       }
     }));
 
@@ -530,8 +552,8 @@ export function useDialogue(sceneId) {
       }));
     }
 
-    setSelectedChoiceForStep(itemId, currentStepIndex, choiceId, sceneId);
-    setSelectedChoice(itemId, choiceId, sceneId);
+    setSelectedChoiceForStep(itemId, currentStepIndex, normalizedChoiceId, sceneId);
+    setSelectedChoice(itemId, normalizedChoiceId, sceneId);
   }
 
   function getSelectedChoiceForItem(itemId) {

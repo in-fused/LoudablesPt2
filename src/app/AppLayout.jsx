@@ -3,13 +3,15 @@ import SceneCanvas from "../components/SceneCanvas";
 import BottomDrawer from "../components/BottomDrawer";
 
 function AppLayout({ sceneState, dialogueState }) {
-  const activeSceneTitle = sceneState.scene?.title || "Family House Arrival";
+  const activeSceneTitle = sceneState.scene?.title || "Scene";
 
   const moduleProgress = useMemo(() => {
-    const sceneItems = sceneState.scene?.items || [];
+    const sceneItems = Array.isArray(sceneState.scene?.items)
+      ? sceneState.scene.items.filter((item) => item && item.id)
+      : [];
     const sceneItemIds = new Set(sceneItems.map((item) => item.id));
     const sceneLabelById = sceneItems.reduce((acc, item) => {
-      acc[item.id] = item.spanish;
+      acc[item.id] = item.spanish || item.id;
       return acc;
     }, {});
 
@@ -57,7 +59,7 @@ function AppLayout({ sceneState, dialogueState }) {
 
   function handleResetAllProgress() {
     dialogueState.resetProgress?.();
-    sceneState.resetCurrentSceneProgress?.();
+    sceneState.resetAllProgress?.();
   }
 
   return (
@@ -83,6 +85,7 @@ function AppLayout({ sceneState, dialogueState }) {
             );
           })}
         </div>
+        {(sceneState.scenes || []).length === 0 ? <p className="response-fallback">No scenes are currently available.</p> : null}
         <p className="app-progress-summary">
           {activeSceneTitle}: Seen {moduleProgress.seenCount}/{moduleProgress.totalItems} • Responses {moduleProgress.completedCount}/{moduleProgress.totalExercises}
         </p>
@@ -96,7 +99,9 @@ function AppLayout({ sceneState, dialogueState }) {
           <div className="app-module-banner" role="status" aria-live="polite">
             <p className="app-module-message">Keep exploring {activeSceneTitle} to finish the remaining response words.</p>
             <p className="app-module-subtext">
-              {moduleProgress.remainingCount} response words left: {moduleProgress.remainingLabels.join(", ")}
+              {moduleProgress.totalExercises === 0
+                ? "No response exercises are available in this scene yet."
+                : `${moduleProgress.remainingCount} response words left: ${moduleProgress.remainingLabels.join(", ")}`}
             </p>
           </div>
         )}

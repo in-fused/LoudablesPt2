@@ -2,13 +2,14 @@ import { getProgress, getRecommendedItemId } from "../features/progress/progress
 
 function SceneCanvas({ scene, selectedItem, onSelectItem, itemStatusById = {} }) {
   const safeScene = scene || {
-    title: "Scene Placeholder",
-    description: "Scene content is loading.",
-    items: [{ id: "placeholder", spanish: "casa", english: "house" }]
+    id: "scene-fallback",
+    title: "Scene",
+    description: "Scene content is currently unavailable.",
+    items: []
   };
-  const safeItems = Array.isArray(safeScene.items) && safeScene.items.length
-    ? safeScene.items
-    : [{ id: "placeholder", spanish: "casa", english: "house" }];
+  const safeItems = Array.isArray(safeScene.items)
+    ? safeScene.items.filter((item) => item && item.id)
+    : [];
 
   function getStatusLabel(status) {
     if (status === "completed") {
@@ -31,7 +32,9 @@ function SceneCanvas({ scene, selectedItem, onSelectItem, itemStatusById = {} })
   const lastCompletedItemId = sceneProgress.lastCompletedItemId;
 
   const recommendationText = !recommendedItem
-    ? "Scene complete. Tap any item to review."
+    ? sceneItemIds.length
+      ? "Scene complete. Tap any item to review."
+      : "No vocabulary items available in this scene yet."
     : completedItemCount === 0
       ? `Start with: ${recommendedItem.spanish}`
       : completionRatio >= 0.8
@@ -48,7 +51,7 @@ function SceneCanvas({ scene, selectedItem, onSelectItem, itemStatusById = {} })
       </div>
 
       <div className="scene-items" aria-label="Scene vocabulary items">
-        {safeItems.map((item) => {
+        {safeItems.length ? safeItems.map((item) => {
           const isActive = selectedItem?.id === item.id;
           const status = itemStatusById[item.id] || "default";
           const isRecommended = item.id === recommendedItemId;
@@ -62,13 +65,13 @@ function SceneCanvas({ scene, selectedItem, onSelectItem, itemStatusById = {} })
               onClick={() => onSelectItem?.(item.id)}
               aria-pressed={isActive}
             >
-              <span className="item-spanish">{item.spanish}</span>
-              <span className="item-english">{item.english}</span>
+              <span className="item-spanish">{item.spanish || item.id}</span>
+              <span className="item-english">{item.english || "Vocabulary item"}</span>
               <span className="item-status">{getStatusLabel(status)}</span>
               {isRecommended ? <span className="item-recommended-badge">Recommended</span> : null}
             </button>
           );
-        })}
+        }) : <p className="response-fallback">No vocabulary items are available for this scene yet.</p>}
       </div>
     </div>
   );

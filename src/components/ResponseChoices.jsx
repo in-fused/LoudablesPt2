@@ -10,7 +10,16 @@ function ResponseChoices({
   isAutoAdvancePending,
   onContinue
 }) {
-  if (!exercise) {
+  const safeExercise = exercise && typeof exercise === "object"
+    ? {
+        prompt: typeof exercise.prompt === "string" ? exercise.prompt : "",
+        choices: Array.isArray(exercise.choices)
+          ? exercise.choices.filter((choice) => choice && choice.id && choice.text)
+          : []
+      }
+    : null;
+
+  if (!safeExercise || !safeExercise.choices.length) {
     return (
       <section className="response-panel" aria-label="Response exercise">
         <p className="panel-label">Your Response</p>
@@ -19,7 +28,7 @@ function ResponseChoices({
         ) : (
           <p className="response-fallback">No response exercise for this word yet.</p>
         )}
-        {canContinue ? (
+        {canContinue && typeof onContinue === "function" ? (
           <button
             type="button"
             className="response-choice-button"
@@ -38,7 +47,7 @@ function ResponseChoices({
       aria-label="Response exercise"
     >
       <p className="panel-label">Your Response</p>
-      <p className="response-prompt">{exercise.prompt}</p>
+      <p className="response-prompt">{safeExercise.prompt || "Choose the best response."}</p>
 
       {isCompleted ? (
         <>
@@ -55,7 +64,7 @@ function ResponseChoices({
       ) : null}
 
       <div className="response-choices" role="group" aria-label="Response options">
-        {exercise.choices.map((choice) => {
+        {safeExercise.choices.map((choice) => {
           const isSelected = selectedChoice?.id === choice.id;
 
           return (
@@ -63,7 +72,7 @@ function ResponseChoices({
               key={choice.id}
               type="button"
               className={`response-choice-button ${isSelected ? "is-selected" : ""} ${isSelected && isCompleted ? "is-confirmed" : ""}`}
-              onClick={() => onSelectChoice(choice.id)}
+              onClick={() => onSelectChoice?.(choice.id)}
               aria-pressed={isSelected}
             >
               {choice.text}
@@ -74,12 +83,12 @@ function ResponseChoices({
 
       {selectedChoice ? (
         <p className="response-feedback">
-          {selectedChoice.feedback}
+          {selectedChoice.feedback || "Response selected."}
           {isAutoAdvancePending ? " Next line coming up..." : ""}
         </p>
       ) : null}
 
-      {canContinue ? (
+      {canContinue && typeof onContinue === "function" ? (
         <button
           type="button"
           className="response-choice-button"

@@ -6,7 +6,7 @@ import ResponseChoices from "./ResponseChoices";
 function BottomDrawer({ selectedItem, dialogueState, grammarHint }) {
   const selectedItemLabel = selectedItem
     ? `${selectedItem.spanish} (${selectedItem.english})`
-    : "No item selected";
+    : "No item selected yet";
 
   const itemId = selectedItem?.id;
 
@@ -51,7 +51,7 @@ function BottomDrawer({ selectedItem, dialogueState, grammarHint }) {
     ? dialogueState.exercisableItemIds.length
     : 0;
   const completedResponseItems = Array.isArray(dialogueState?.completedResponseItemIds)
-    ? dialogueState.completedResponseItemIds.length
+    ? Math.min(dialogueState.completedResponseItemIds.length, totalResponseItems)
     : 0;
   const remainingResponseItems = Math.max(totalResponseItems - completedResponseItems, 0);
   const completionRatio = totalResponseItems > 0 ? completedResponseItems / totalResponseItems : 0;
@@ -85,7 +85,9 @@ function BottomDrawer({ selectedItem, dialogueState, grammarHint }) {
     : "";
 
   const guidanceText = !selectedItem
-    ? "Start with the highlighted recommended word."
+    ? totalResponseItems
+      ? "Start with the highlighted recommended word."
+      : "Tap any visible word to explore this scene."
     : conversationState.isAutoAdvancePending
       ? "Nice response. Continuing to the next line..."
     : conversationState.totalSteps > 1 && conversationState.hasNextStep && conversationState.canContinue
@@ -134,14 +136,24 @@ function BottomDrawer({ selectedItem, dialogueState, grammarHint }) {
       <ResponseChoices
         exercise={responseExercise}
         selectedChoice={selectedChoice}
-        onSelectChoice={(choiceId) => dialogueState?.chooseResponse?.(itemId, choiceId)}
+        onSelectChoice={(choiceId) => {
+          if (!itemId) {
+            return;
+          }
+          dialogueState?.chooseResponse?.(itemId, choiceId);
+        }}
         isCompleted={responseCompleted}
         isRecentlyCompleted={engagementState.isRecentlyCompleted}
         suggestedNextLabel={suggestedNextLabel}
         hasNextStep={conversationState.hasNextStep}
         canContinue={conversationState.canContinue}
         isAutoAdvancePending={conversationState.isAutoAdvancePending}
-        onContinue={() => dialogueState?.continueConversation?.(itemId)}
+        onContinue={() => {
+          if (!itemId) {
+            return;
+          }
+          dialogueState?.continueConversation?.(itemId);
+        }}
       />
 
       <GrammarHint hint={grammarHint} />

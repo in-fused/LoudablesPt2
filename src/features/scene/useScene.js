@@ -5,6 +5,7 @@ import {
   getActiveSceneId,
   getProgress,
   getRecommendedItemId,
+  resetModuleProgress,
   resetSceneProgress,
   setActiveScene,
   setRecommendedItem,
@@ -34,10 +35,11 @@ export function useScene() {
 
   const activeSceneEntry = useMemo(() => {
     return getSceneEntry(activeSceneId);
-  }, [scenes, activeSceneId]);
+  }, [activeSceneId]);
 
   const scene = activeSceneEntry?.scene || getSceneEntry(getDefaultSceneId())?.scene;
-  const sceneItemIds = useMemo(() => scene.items.map((item) => item.id), [scene]);
+  const sceneItems = useMemo(() => safeArray(scene?.items).filter((item) => item?.id), [scene]);
+  const sceneItemIds = useMemo(() => sceneItems.map((item) => item.id), [sceneItems]);
 
   function resolveSceneProgress(nextSceneId, nextSceneItemIds) {
     const progress = getProgress(nextSceneId);
@@ -62,8 +64,8 @@ export function useScene() {
   const [seenItemIds, setSeenItemIds] = useState(initialSceneProgress.seenItemIds);
 
   const selectedItem = useMemo(() => {
-    return scene.items.find((item) => item.id === selectedItemId) || scene.items[0] || null;
-  }, [scene, selectedItemId]);
+    return sceneItems.find((item) => item.id === selectedItemId) || sceneItems[0] || null;
+  }, [sceneItems, selectedItemId]);
 
   useEffect(() => {
     const nextSceneProgress = resolveSceneProgress(activeSceneId, sceneItemIds);
@@ -102,7 +104,7 @@ export function useScene() {
   }, [recommendedItemId, activeSceneId]);
 
   function selectItem(itemId) {
-    if (!sceneItemIds.includes(itemId)) {
+    if (!itemId || !sceneItemIds.includes(itemId)) {
       return;
     }
 
@@ -132,8 +134,15 @@ export function useScene() {
     setSeenItemIds(nextSceneProgress.seenItemIds);
   }
 
+  function resetAllProgress() {
+    resetModuleProgress(activeSceneId);
+    const nextSceneProgress = resolveSceneProgress(activeSceneId, sceneItemIds);
+    setSelectedItemId(nextSceneProgress.selectedItemId);
+    setSeenItemIds(nextSceneProgress.seenItemIds);
+  }
+
   return {
-    sceneId: scene.id,
+    sceneId: scene?.id || getDefaultSceneId(),
     activeSceneId,
     scenes,
     scene,
@@ -141,6 +150,7 @@ export function useScene() {
     selectItem,
     switchScene,
     resetCurrentSceneProgress,
+    resetAllProgress,
     grammarHint,
     seenItemIds,
     recommendedItemId,

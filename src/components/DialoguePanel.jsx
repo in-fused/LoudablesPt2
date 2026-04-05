@@ -1,21 +1,32 @@
 import AudioButton from "./AudioButton";
 
 function DialoguePanel({ lines, getLineAudioTarget, selectedItemId, stepNumber, totalSteps, isAutoAdvancePending, isRecentlyCompleted }) {
-  const safeLines = Array.isArray(lines) && lines.length
+  const normalizedLines = Array.isArray(lines)
     ? lines
+      .filter((line) => line && typeof line === "object")
+      .map((line, index) => ({
+        id: line.id || `${selectedItemId || "item"}-line-${index + 1}`,
+        speaker: line.speaker || "Speaker",
+        es: line.es || "No Spanish line available.",
+        en: line.en || "No English line available."
+      }))
+    : [];
+
+  const safeLines = normalizedLines.length
+    ? normalizedLines
     : [
-      {
-        id: "no-dialogue",
-        speaker: "Note",
-        es: "No conversation example yet for this word.",
-        en: "No conversation example yet for this word."
-      }
-    ];
+        {
+          id: "no-dialogue",
+          speaker: "Note",
+          es: "No conversation example yet for this word.",
+          en: "No conversation example yet for this word."
+        }
+      ];
 
   return (
     <section className={`dialogue-panel ${isRecentlyCompleted ? "is-recently-completed" : ""}`} aria-label="Dialogue panel">
       <p className="panel-label">Conversation</p>
-      {totalSteps > 1 ? (
+      {totalSteps > 1 && stepNumber > 0 ? (
         <p className="response-guidance">
           {isAutoAdvancePending ? `Step ${stepNumber} of ${totalSteps} • moving forward...` : `Step ${stepNumber} of ${totalSteps}`}
         </p>

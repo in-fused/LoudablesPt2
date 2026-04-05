@@ -2,29 +2,49 @@ import { STORAGE_KEYS } from "../../lib/constants";
 
 const DEFAULT_SCENE_ID = "family-house";
 
-const DEFAULT_PROGRESS = {
-  moduleId: "module1",
-  selectedItemId: null,
-  seenItemIds: [],
-  completedResponseItemIds: [],
-  selectedChoiceByItem: {},
-  conversationStepByItem: {},
-  selectedChoiceByItemStep: {},
-  recommendationHistoryItemIds: [],
-  lastRecommendedItemId: null,
-  lastCompletedItemId: null
-};
+function createDefaultProgress() {
+  return {
+    moduleId: "module1",
+    selectedItemId: null,
+    seenItemIds: [],
+    completedResponseItemIds: [],
+    selectedChoiceByItem: {},
+    conversationStepByItem: {},
+    selectedChoiceByItemStep: {},
+    recommendationHistoryItemIds: [],
+    lastRecommendedItemId: null,
+    lastCompletedItemId: null
+  };
+}
 
-const DEFAULT_STORE = {
-  moduleId: "module1",
-  activeSceneId: DEFAULT_SCENE_ID,
-  progressByScene: {
-    [DEFAULT_SCENE_ID]: DEFAULT_PROGRESS
+function createDefaultStore(activeSceneId = DEFAULT_SCENE_ID, sceneIds = [DEFAULT_SCENE_ID]) {
+  const normalizedSceneIds = toItemIdArray(sceneIds);
+  const storeSceneIds = normalizedSceneIds.length ? normalizedSceneIds : [DEFAULT_SCENE_ID];
+  const progressByScene = storeSceneIds.reduce((acc, sceneId) => {
+    acc[sceneId] = createDefaultProgress();
+    return acc;
+  }, {});
+
+  if (!progressByScene[DEFAULT_SCENE_ID]) {
+    progressByScene[DEFAULT_SCENE_ID] = createDefaultProgress();
   }
-};
+
+  const normalizedActiveSceneId = progressByScene[activeSceneId] ? activeSceneId : DEFAULT_SCENE_ID;
+
+  return {
+    moduleId: "module1",
+    activeSceneId: normalizedActiveSceneId,
+    progressByScene
+  };
+}
+
+const DEFAULT_STORE = createDefaultStore();
 
 function read(key, fallback) {
   try {
+    if (typeof window === "undefined" || !window.localStorage) {
+      return fallback;
+    }
     const raw = window.localStorage.getItem(key);
     return raw ? JSON.parse(raw) : fallback;
   } catch {
@@ -34,6 +54,9 @@ function read(key, fallback) {
 
 function write(key, value) {
   try {
+    if (typeof window === "undefined" || !window.localStorage) {
+      return;
+    }
     window.localStorage.setItem(key, JSON.stringify(value));
   } catch {
     // Storage failures are non-blocking.
@@ -108,8 +131,8 @@ function normalizeProgress(value) {
   });
 
   return {
-    moduleId: value?.moduleId || DEFAULT_PROGRESS.moduleId,
-    selectedItemId: value?.selectedItemId || DEFAULT_PROGRESS.selectedItemId,
+    moduleId: value?.moduleId || createDefaultProgress().moduleId,
+    selectedItemId: toItemId(value?.selectedItemId),
     seenItemIds: toUniqueArray(value?.seenItemIds),
     completedResponseItemIds: toUniqueArray(value?.completedResponseItemIds),
     selectedChoiceByItem,
@@ -162,12 +185,12 @@ function normalizeStore(value) {
 
   const progressByScene = normalizeProgressByScene(value?.progressByScene);
   const mergedProgressByScene = {
-    [DEFAULT_SCENE_ID]: normalizeProgress(progressByScene[DEFAULT_SCENE_ID]),
+    [DEFAULT_SCENE_ID]: normalizeProgress(progressByScene[DEFAULT_SCENE_ID] || createDefaultProgress()),
     ...progressByScene
   };
 
-  const activeSceneId = value?.activeSceneId && mergedProgressByScene[value.activeSceneId]
-    ? value.activeSceneId
+  const activeSceneId = toItemId(value?.activeSceneId) && mergedProgressByScene[value.activeSceneId]
+    ? toItemId(value.activeSceneId)
     : DEFAULT_SCENE_ID;
 
   return {
@@ -196,78 +219,99 @@ export function getActiveSceneId() {
 }
 
 export function setActiveScene(sceneId) {
-  if (!sceneId) {
+  const normalizedSceneId = toItemId(sceneId);
+  if (!normalizedSceneId) {
     return getStore();
   }
-  return saveStore({ activeSceneId: sceneId });
+  return saveStore({ activeSceneId: normalizedSceneId });
 }
 
 export function getProgress(sceneId = DEFAULT_SCENE_ID) {
+  const normalizedSceneId = toItemId(sceneId) || DEFAULT_SCENE_ID;
   const store = getStore();
-  const sceneProgress = store.progressByScene[sceneId];
-  return normalizeProgress(sceneProgress || DEFAULT_PROGRESS);
+  const sceneProgress = store.progressByScene[normalizedSceneId];
+  return normalizeProgress(sceneProgress || createDefaultProgress());
 }
 
 export function saveProgress(partialProgress, sceneId = DEFAULT_SCENE_ID) {
+  const normalizedSceneId = toItemId(sceneId) || DEFAULT_SCENE_ID;
   const store = getStore();
-  const existing = getProgress(sceneId);
+  const existing = getProgress(normalizedSceneId);
   const next = normalizeProgress({ ...existing, ...partialProgress });
   saveStore({
     progressByScene: {
       ...store.progressByScene,
-      [sceneId]: next
+      [normalizedSceneId]: next
     }
   });
   return next;
 }
 
 export function setSelectedItem(itemId, sceneId = DEFAULT_SCENE_ID) {
+  const normalizedItemId = toItemId(itemId);
+  if (!normalizedItemId) {
+    return getProgress(sceneId);
+  }
+
   const current = getProgress(sceneId);
-  const seenItemIds = current.seenItemIds.includes(itemId)
+  const seenItemIds = current.seenItemIds.includes(normalizedItemId)
     ? current.seenItemIds
-    : [...current.seenItemIds, itemId];
+    : [...current.seenItemIds, normalizedItemId];
 
   return saveProgress({
-    selectedItemId: itemId,
+    selectedItemId: normalizedItemId,
     seenItemIds
   }, sceneId);
 }
 
 export function markResponseCompleted(itemId, sceneId = DEFAULT_SCENE_ID) {
+  const normalizedItemId = toItemId(itemId);
+  if (!normalizedItemId) {
+    return getProgress(sceneId);
+  }
+
   const current = getProgress(sceneId);
-  if (current.completedResponseItemIds.includes(itemId)) {
+  if (current.completedResponseItemIds.includes(normalizedItemId)) {
     return current;
   }
 
   return saveProgress({
-    completedResponseItemIds: [...current.completedResponseItemIds, itemId],
-    lastCompletedItemId: itemId
+    completedResponseItemIds: [...current.completedResponseItemIds, normalizedItemId],
+    lastCompletedItemId: normalizedItemId
   }, sceneId);
 }
 
 export function setSelectedChoice(itemId, choiceId, sceneId = DEFAULT_SCENE_ID) {
+  const normalizedItemId = toItemId(itemId);
+  const normalizedChoiceId = toItemId(choiceId);
+  if (!normalizedItemId || !normalizedChoiceId) {
+    return getProgress(sceneId);
+  }
+
   const current = getProgress(sceneId);
   return saveProgress({
     selectedChoiceByItem: {
       ...current.selectedChoiceByItem,
-      [itemId]: choiceId
+      [normalizedItemId]: normalizedChoiceId
     }
   }, sceneId);
 }
 
 export function setSelectedChoiceForStep(itemId, stepIndex, choiceId, sceneId = DEFAULT_SCENE_ID) {
   const current = getProgress(sceneId);
+  const normalizedItemId = toItemId(itemId);
   const normalizedStepIndex = Number(stepIndex);
-  if (!itemId || !Number.isInteger(normalizedStepIndex) || normalizedStepIndex < 0 || !choiceId) {
+  const normalizedChoiceId = toItemId(choiceId);
+  if (!normalizedItemId || !Number.isInteger(normalizedStepIndex) || normalizedStepIndex < 0 || !normalizedChoiceId) {
     return current;
   }
 
   return saveProgress({
     selectedChoiceByItemStep: {
       ...current.selectedChoiceByItemStep,
-      [itemId]: {
-        ...(current.selectedChoiceByItemStep[itemId] || {}),
-        [String(normalizedStepIndex)]: choiceId
+      [normalizedItemId]: {
+        ...(current.selectedChoiceByItemStep[normalizedItemId] || {}),
+        [String(normalizedStepIndex)]: normalizedChoiceId
       }
     }
   }, sceneId);
@@ -275,15 +319,16 @@ export function setSelectedChoiceForStep(itemId, stepIndex, choiceId, sceneId = 
 
 export function setConversationStep(itemId, stepIndex, sceneId = DEFAULT_SCENE_ID) {
   const current = getProgress(sceneId);
+  const normalizedItemId = toItemId(itemId);
   const normalizedStepIndex = Number(stepIndex);
-  if (!itemId || !Number.isInteger(normalizedStepIndex) || normalizedStepIndex < 0) {
+  if (!normalizedItemId || !Number.isInteger(normalizedStepIndex) || normalizedStepIndex < 0) {
     return current;
   }
 
   return saveProgress({
     conversationStepByItem: {
       ...current.conversationStepByItem,
-      [itemId]: normalizedStepIndex
+      [normalizedItemId]: normalizedStepIndex
     }
   }, sceneId);
 }
@@ -313,7 +358,7 @@ export function getRecommendedItemId(sceneItemIds, sceneId = DEFAULT_SCENE_ID, s
       return false;
     }
     const hasStepProgress = Number(progress.conversationStepByItem[itemId]) > 0;
-    const hasChoiceProgress = Object.keys(progress.selectedChoiceByItemStep[itemId] || {}).length > 0;
+    const hasChoiceProgress = Object.keys(toChoiceMap(progress.selectedChoiceByItemStep[itemId])).length > 0;
     return hasStepProgress || hasChoiceProgress;
   });
   const remainingItems = orderedSceneItemIds.filter((itemId) => !completedItemIdSet.has(itemId));
@@ -365,19 +410,24 @@ export function setRecommendedItem(itemId, sceneId = DEFAULT_SCENE_ID) {
 
 export function resetSceneProgress(sceneId = DEFAULT_SCENE_ID) {
   const store = getStore();
-  const nextSceneId = sceneId || DEFAULT_SCENE_ID;
+  const nextSceneId = toItemId(sceneId) || DEFAULT_SCENE_ID;
 
   const nextStore = saveStore({
     progressByScene: {
       ...store.progressByScene,
-      [nextSceneId]: DEFAULT_PROGRESS
+      [nextSceneId]: createDefaultProgress()
     }
   });
 
   return normalizeProgress(nextStore.progressByScene[nextSceneId]);
 }
 
-export function resetModuleProgress() {
-  write(STORAGE_KEYS.PROGRESS, DEFAULT_STORE);
-  return DEFAULT_STORE;
+export function resetModuleProgress(preferredActiveSceneId = null) {
+  const currentStore = getStore();
+  const sceneIds = Object.keys(currentStore.progressByScene || {});
+  const normalizedPreferredActiveSceneId = toItemId(preferredActiveSceneId);
+  const nextActiveSceneId = normalizedPreferredActiveSceneId || currentStore.activeSceneId || DEFAULT_SCENE_ID;
+  const nextStore = createDefaultStore(nextActiveSceneId, sceneIds.length ? sceneIds : [DEFAULT_SCENE_ID]);
+  write(STORAGE_KEYS.PROGRESS, nextStore);
+  return nextStore;
 }
