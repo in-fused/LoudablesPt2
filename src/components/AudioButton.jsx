@@ -2,6 +2,7 @@ import { normalizeAudioTarget, playAudioTarget } from "../lib/audio";
 
 function AudioButton({ label, audioKey, audioTarget, variant = "primary" }) {
   const resolvedTarget = normalizeAudioTarget(audioTarget || audioKey);
+  const resolvedAudioKey = resolvedTarget.key;
   const buttonLabel = label || resolvedTarget.label || "Play audio";
   const buttonClassName = variant === "inline"
     ? "audio-button audio-button-inline"
