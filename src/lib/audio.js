@@ -16,6 +16,35 @@ const AUDIO_SOURCE_MAP = {
 
 let activeAudio = null;
 let activeRequestId = 0;
+let playbackState = {
+  isPlaying: false,
+  activeKey: null
+};
+const playbackListeners = new Set();
+
+function notifyPlaybackListeners() {
+  playbackListeners.forEach((listener) => {
+    try {
+      listener();
+    } catch {
+      // Ignore listener errors.
+    }
+  });
+}
+
+function setPlaybackState(nextState) {
+  const nextIsPlaying = Boolean(nextState?.isPlaying);
+  const nextActiveKey = toSafeString(nextState?.activeKey) || null;
+  if (playbackState.isPlaying === nextIsPlaying && playbackState.activeKey === nextActiveKey) {
+    return;
+  }
+
+  playbackState = {
+    isPlaying: nextIsPlaying,
+    activeKey: nextActiveKey
+  };
+  notifyPlaybackListeners();
+}
 
 export function normalizeAudioTarget(target) {
   if (typeof target === "string") {
@@ -57,6 +86,7 @@ function resolveAudioSource(key) {
 
 function stopActiveAudio() {
   if (!activeAudio) {
+    setPlaybackState({ isPlaying: false, activeKey: null });
     return;
   }
 
@@ -68,6 +98,7 @@ function stopActiveAudio() {
   }
 
   activeAudio = null;
+  setPlaybackState({ isPlaying: false, activeKey: null });
 }
 
 export function playAudioTarget(target) {
@@ -84,16 +115,19 @@ export function playAudioTarget(target) {
 
   const audio = new Audio(source);
   activeAudio = audio;
+  setPlaybackState({ isPlaying: true, activeKey: normalizedTarget.key });
 
   audio.addEventListener("ended", () => {
     if (activeAudio === audio) {
       activeAudio = null;
+      setPlaybackState({ isPlaying: false, activeKey: null });
     }
   });
 
   audio.addEventListener("error", () => {
     if (activeAudio === audio) {
       activeAudio = null;
+      setPlaybackState({ isPlaying: false, activeKey: null });
     }
   });
 
@@ -102,6 +136,7 @@ export function playAudioTarget(target) {
     playPromise.catch(() => {
       if (activeRequestId === requestId && activeAudio === audio) {
         activeAudio = null;
+        setPlaybackState({ isPlaying: false, activeKey: null });
       }
     });
   }
@@ -111,4 +146,19 @@ export function playAudioTarget(target) {
 
 export function playAudioPlaceholder(audioKey) {
   return playAudioTarget({ key: audioKey, label: "Play audio" });
+}
+
+export function getAudioPlaybackState() {
+  return playbackState;
+}
+
+export function subscribeToAudioPlayback(listener) {
+  if (typeof listener !== "function") {
+    return () => {};
+  }
+
+  playbackListeners.add(listener);
+  return () => {
+    playbackListeners.delete(listener);
+  };
 }
