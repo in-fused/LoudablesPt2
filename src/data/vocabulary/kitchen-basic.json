@@ -1,0 +1,35 @@
+{
+  "sceneId": "kitchen-basic",
+  "list": [
+    {
+      "id": "cocina",
+      "spanish": "cocina",
+      "english": "kitchen",
+      "audioKey": "vocab.cocina"
+    },
+    {
+      "id": "plato",
+      "spanish": "plato",
+      "english": "plate",
+      "audioKey": "vocab.plato"
+    },
+    {
+      "id": "vaso",
+      "spanish": "vaso",
+      "english": "glass",
+      "audioKey": "vocab.vaso"
+    },
+    {
+      "id": "pan",
+      "spanish": "pan",
+      "english": "bread",
+      "audioKey": "vocab.pan"
+    },
+    {
+      "id": "sal",
+      "spanish": "sal",
+      "english": "salt",
+      "audioKey": "vocab.sal"
+    }
+  ]
+}

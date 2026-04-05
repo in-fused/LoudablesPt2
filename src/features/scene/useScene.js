@@ -1,58 +1,10 @@
 import { useEffect, useMemo, useState } from "react";
-import familyHouseSceneData from "../../data/scenes/family-house.json";
-import kitchenBasicSceneData from "../../data/scenes/kitchen-basic.json";
 import grammarHints from "../../data/grammar/hints.json";
+import { getDefaultSceneId, getSceneEntry, getSceneRegistry } from "../../data/scenes/registry";
 import { getActiveSceneId, getProgress, resetSceneProgress, setActiveScene, setSelectedItem } from "../progress/progressStore";
-
-const FALLBACK_SCENE = {
-  id: "family-house",
-  title: "Family House Arrival",
-  description: "Scene placeholder is active.",
-  items: [
-    {
-      id: "casa",
-      spanish: "casa",
-      english: "house"
-    }
-  ]
-};
 
 function safeArray(value) {
   return Array.isArray(value) ? value : [];
-}
-
-function resolveScene(sceneData, fallbackId, fallbackLabel) {
-  if (sceneData && typeof sceneData === "object") {
-    const items = safeArray(sceneData.items);
-    return {
-      id: sceneData.id || fallbackId || FALLBACK_SCENE.id,
-      title: sceneData.title || FALLBACK_SCENE.title,
-      description: sceneData.description || FALLBACK_SCENE.description,
-      label: sceneData.title || fallbackLabel || FALLBACK_SCENE.title,
-      items: items.length ? items : FALLBACK_SCENE.items
-    };
-  }
-
-  return {
-    ...FALLBACK_SCENE,
-    id: fallbackId || FALLBACK_SCENE.id,
-    label: fallbackLabel || FALLBACK_SCENE.title
-  };
-}
-
-function resolveSceneRegistry() {
-  return [
-    {
-      id: "family-house",
-      label: "Family House",
-      scene: resolveScene(familyHouseSceneData, "family-house", "Family House")
-    },
-    {
-      id: "kitchen-basic",
-      label: "Kitchen Basics",
-      scene: resolveScene(kitchenBasicSceneData, "kitchen-basic", "Kitchen Basics")
-    }
-  ];
 }
 
 function findGrammarHintForItem(itemId) {
@@ -65,18 +17,18 @@ function findGrammarHintForItem(itemId) {
 }
 
 export function useScene() {
-  const scenes = useMemo(() => resolveSceneRegistry(), []);
+  const scenes = useMemo(() => getSceneRegistry(), []);
   const sceneIdSet = useMemo(() => new Set(scenes.map((entry) => entry.id)), [scenes]);
   const [activeSceneId, setActiveSceneId] = useState(() => {
     const storedSceneId = getActiveSceneId();
-    return sceneIdSet.has(storedSceneId) ? storedSceneId : "family-house";
+    return sceneIdSet.has(storedSceneId) ? storedSceneId : getDefaultSceneId();
   });
 
   const activeSceneEntry = useMemo(() => {
-    return scenes.find((entry) => entry.id === activeSceneId) || scenes[0];
+    return getSceneEntry(activeSceneId);
   }, [scenes, activeSceneId]);
 
-  const scene = activeSceneEntry?.scene || FALLBACK_SCENE;
+  const scene = activeSceneEntry?.scene || getSceneEntry(getDefaultSceneId())?.scene;
   const sceneItemIds = useMemo(() => scene.items.map((item) => item.id), [scene]);
 
   function resolveSceneProgress(nextSceneId, nextSceneItemIds) {

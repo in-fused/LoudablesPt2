@@ -30,6 +30,14 @@ function BottomDrawer({ selectedItem, dialogueState, grammarHint }) {
     ? dialogueState.getItemAudioTarget(itemId, selectedItem)
     : { key: itemId || "placeholder", label: "Play selected item audio" };
 
+  const guidanceText = !selectedItem
+    ? "Start with the highlighted recommended word."
+    : !responseExercise
+      ? "You can explore this word, then try a highlighted word next."
+      : !responseCompleted
+        ? "Try this next: choose a response to keep progressing through this scene."
+        : "You're progressing through this scene. You can revisit this word or explore another.";
+
   return (
     <aside className="bottom-drawer" aria-label="Conversation drawer">
       <div className="drawer-header">
@@ -43,6 +51,8 @@ function BottomDrawer({ selectedItem, dialogueState, grammarHint }) {
           audioTarget={selectedItemAudioTarget}
         />
       </div>
+
+      <p className="drawer-guidance">{guidanceText}</p>
 
       <DialoguePanel
         lines={dialogueLines}

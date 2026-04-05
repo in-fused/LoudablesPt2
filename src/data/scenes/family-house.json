@@ -2,46 +2,14 @@
   "id": "family-house",
   "title": "Family House Arrival",
   "description": "You arrive at a family house and notice common home objects used in daily conversation.",
-  "items": [
-    {
-      "id": "casa",
-      "spanish": "casa",
-      "english": "house"
-    },
-    {
-      "id": "puerta",
-      "spanish": "puerta",
-      "english": "door"
-    },
-    {
-      "id": "mesa",
-      "spanish": "mesa",
-      "english": "table"
-    },
-    {
-      "id": "silla",
-      "spanish": "silla",
-      "english": "chair"
-    },
-    {
-      "id": "agua",
-      "spanish": "agua",
-      "english": "water"
-    },
-    {
-      "id": "comida",
-      "spanish": "comida",
-      "english": "food"
-    },
-    {
-      "id": "mama",
-      "spanish": "mamá",
-      "english": "mom"
-    },
-    {
-      "id": "nina",
-      "spanish": "niña",
-      "english": "girl"
-    }
+  "itemIds": [
+    "casa",
+    "puerta",
+    "mesa",
+    "silla",
+    "agua",
+    "comida",
+    "mama",
+    "nina"
   ]
 }

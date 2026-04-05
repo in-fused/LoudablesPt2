@@ -1,7 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import familyHouseDialogues from "../../data/dialogues/family-house.json";
-import kitchenBasicDialogues from "../../data/dialogues/kitchen-basic.json";
-import vocabularyCoreData from "../../data/vocabulary/core.json";
+import { getDefaultSceneId, getSceneEntry, getSceneVocabularyById } from "../../data/scenes/registry";
 import {
   getProgress,
   markResponseCompleted,
@@ -24,18 +22,6 @@ function buildAudioKey(sceneId, scope, targetId) {
   }
   return `scene.${sceneId}.${scope}.${targetId}`;
 }
-
-const DIALOGUES_BY_SCENE = {
-  "family-house": familyHouseDialogues,
-  "kitchen-basic": kitchenBasicDialogues
-};
-
-const VOCAB_AUDIO_KEY_BY_ID = safeArray(vocabularyCoreData?.list).reduce((acc, entry) => {
-  if (entry?.id && entry?.audioKey) {
-    acc[entry.id] = entry.audioKey;
-  }
-  return acc;
-}, {});
 
 function buildExercise(exercise) {
   if (!exercise || typeof exercise !== "object") {
@@ -72,8 +58,10 @@ function restoreSelectedChoices(itemDialogues, storedChoiceMap) {
 }
 
 export function useDialogue(sceneId) {
+  const vocabularyById = useMemo(() => getSceneVocabularyById(sceneId || getDefaultSceneId()), [sceneId]);
+
   const itemDialogues = useMemo(() => {
-    const sceneDialogueData = DIALOGUES_BY_SCENE[sceneId] || DIALOGUES_BY_SCENE["family-house"];
+    const sceneDialogueData = getSceneEntry(sceneId || getDefaultSceneId())?.dialogue;
     return safeObject(sceneDialogueData?.itemDialogues);
   }, [sceneId]);
 
@@ -119,7 +107,7 @@ export function useDialogue(sceneId) {
     }
 
     const entry = getItemEntry(itemId);
-    const fallbackVocabularyAudioKey = VOCAB_AUDIO_KEY_BY_ID[itemId];
+    const fallbackVocabularyAudioKey = vocabularyById[itemId]?.audioKey;
     const key = entry.audioKey || fallbackVocabularyAudioKey || buildAudioKey(sceneId, "item", itemId);
     const spokenLabel = selectedItem?.spanish || itemId;
 

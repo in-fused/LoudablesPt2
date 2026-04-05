@@ -1,0 +1,53 @@
+{
+  "sceneId": "family-house",
+  "list": [
+    {
+      "id": "casa",
+      "spanish": "casa",
+      "english": "house",
+      "audioKey": "vocab.casa"
+    },
+    {
+      "id": "puerta",
+      "spanish": "puerta",
+      "english": "door",
+      "audioKey": "vocab.puerta"
+    },
+    {
+      "id": "mesa",
+      "spanish": "mesa",
+      "english": "table",
+      "audioKey": "vocab.mesa"
+    },
+    {
+      "id": "silla",
+      "spanish": "silla",
+      "english": "chair",
+      "audioKey": "vocab.silla"
+    },
+    {
+      "id": "agua",
+      "spanish": "agua",
+      "english": "water",
+      "audioKey": "vocab.agua"
+    },
+    {
+      "id": "comida",
+      "spanish": "comida",
+      "english": "food",
+      "audioKey": "vocab.comida"
+    },
+    {
+      "id": "mama",
+      "spanish": "mamá",
+      "english": "mom",
+      "audioKey": "vocab.mama"
+    },
+    {
+      "id": "nina",
+      "spanish": "niña",
+      "english": "girl",
+      "audioKey": "vocab.nina"
+    }
+  ]
+}

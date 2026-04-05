@@ -207,6 +207,13 @@ button {
   font-size: 0.9rem;
 }
 
+.scene-recommendation {
+  margin: var(--space-2) 0 0;
+  font-size: 0.82rem;
+  color: #8b6746;
+  font-weight: 600;
+}
+
 .scene-items {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -237,6 +244,11 @@ button {
   background: #eef6e7;
 }
 
+.scene-item-button.is-recommended {
+  border-color: #d69f5c;
+  box-shadow: inset 0 0 0 1px #ecd2b0;
+}
+
 .scene-item-button:active,
 .scene-item-button.is-active {
   border-color: var(--color-accent);
@@ -260,6 +272,15 @@ button {
   color: var(--color-muted);
   text-transform: uppercase;
   letter-spacing: 0.06em;
+}
+
+.item-recommended-badge {
+  margin-top: 2px;
+  font-size: 0.68rem;
+  color: #8b6746;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
 }
 
 .bottom-drawer {
@@ -292,6 +313,12 @@ button {
   margin: 0;
   font-size: 0.95rem;
   font-weight: 600;
+}
+
+.drawer-guidance {
+  margin: 0;
+  font-size: 0.84rem;
+  color: var(--color-muted);
 }
 
 .audio-button {
