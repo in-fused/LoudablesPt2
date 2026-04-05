@@ -2,17 +2,63 @@ function toSafeString(value) {
   return typeof value === "string" ? value.trim() : "";
 }
 
-// Temporary static mapping. This will be replaced by dataset-driven ingestion.
-const AUDIO_SOURCE_MAP = {
-  // Manual Phase 24 test set.
-  // Add future files under /public/audio/... and map key -> absolute public path.
-  // Example: "scene.family-house.item.casa": "/audio/family-house/item-casa.mp3"
-  "scene.family-house.item.casa": "/audio/family-house/item-casa.mp3",
-  "scene.family-house.item.mama": "/audio/family-house/item-mama.mp3",
-  "scene.family-house.item.agua": "/audio/family-house/item-agua.mp3",
-  "scene.family-house.line.casa-1": "/audio/family-house/line-casa-1.mp3",
-  "scene.kitchen-basic.line.cocina-1": "/audio/kitchen-basic/line-cocina-1.mp3"
+// Static authoring structure for manual/local audio assets.
+// Future real imports should be added here by scene.
+//
+// Item key shape:
+//   scene.<sceneId>.item.<itemId> -> /audio/<sceneId>/item-<itemId>.mp3
+//
+// Dialogue line key shape:
+//   scene.<sceneId>.line.<lineId> -> /audio/<sceneId>/line-<lineId>.mp3
+//
+// Example:
+//   items: { casa: "item-casa.mp3" }
+//   lines: { "casa-1": "line-casa-1.mp3" }
+const AUDIO_ASSETS_BY_SCENE = {
+  "family-house": {
+    items: {
+      casa: "item-casa.mp3",
+      mama: "item-mama.mp3",
+      agua: "item-agua.mp3"
+    },
+    lines: {
+      "casa-1": "line-casa-1.mp3"
+    }
+  },
+  "kitchen-basic": {
+    items: {},
+    lines: {
+      "cocina-1": "line-cocina-1.mp3"
+    }
+  }
 };
+
+function buildAudioSourceMap(assetsByScene) {
+  return Object.entries(assetsByScene).reduce((mapAcc, [sceneId, sceneAssets]) => {
+    const items = sceneAssets?.items && typeof sceneAssets.items === "object" ? sceneAssets.items : {};
+    const lines = sceneAssets?.lines && typeof sceneAssets.lines === "object" ? sceneAssets.lines : {};
+
+    Object.entries(items).forEach(([itemId, filename]) => {
+      const safeFilename = toSafeString(filename);
+      if (!itemId || !safeFilename) {
+        return;
+      }
+      mapAcc[`scene.${sceneId}.item.${itemId}`] = `/audio/${sceneId}/${safeFilename}`;
+    });
+
+    Object.entries(lines).forEach(([lineId, filename]) => {
+      const safeFilename = toSafeString(filename);
+      if (!lineId || !safeFilename) {
+        return;
+      }
+      mapAcc[`scene.${sceneId}.line.${lineId}`] = `/audio/${sceneId}/${safeFilename}`;
+    });
+
+    return mapAcc;
+  }, {});
+}
+
+const AUDIO_SOURCE_MAP = buildAudioSourceMap(AUDIO_ASSETS_BY_SCENE);
 
 let activeAudio = null;
 let activeRequestId = 0;
