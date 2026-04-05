@@ -1,7 +1,15 @@
 import { useEffect, useMemo, useState } from "react";
 import grammarHints from "../../data/grammar/hints.json";
 import { getDefaultSceneId, getSceneEntry, getSceneRegistry } from "../../data/scenes/registry";
-import { getActiveSceneId, getProgress, resetSceneProgress, setActiveScene, setSelectedItem } from "../progress/progressStore";
+import {
+  getActiveSceneId,
+  getProgress,
+  getRecommendedItemId,
+  resetSceneProgress,
+  setActiveScene,
+  setRecommendedItem,
+  setSelectedItem
+} from "../progress/progressStore";
 
 function safeArray(value) {
   return Array.isArray(value) ? value : [];
@@ -33,9 +41,10 @@ export function useScene() {
 
   function resolveSceneProgress(nextSceneId, nextSceneItemIds) {
     const progress = getProgress(nextSceneId);
+    const recommendedItemId = getRecommendedItemId(nextSceneItemIds, nextSceneId, progress.selectedItemId);
     const progressSelectedItemId = nextSceneItemIds.includes(progress.selectedItemId)
       ? progress.selectedItemId
-      : nextSceneItemIds[0] || null;
+      : (recommendedItemId || nextSceneItemIds[0] || null);
 
     const seenFromProgress = safeArray(progress.seenItemIds).filter((id) => nextSceneItemIds.includes(id));
     const nextSeenItemIds = progressSelectedItemId && !seenFromProgress.includes(progressSelectedItemId)
@@ -80,6 +89,18 @@ export function useScene() {
     return findGrammarHintForItem(selectedItem?.id);
   }, [selectedItem?.id]);
 
+  const recommendedItemId = getRecommendedItemId(sceneItemIds, activeSceneId, selectedItemId);
+  const sceneProgress = getProgress(activeSceneId);
+  const completedItemCount = safeArray(sceneProgress.completedResponseItemIds).filter((id) => sceneItemIds.includes(id)).length;
+  const completionPercent = sceneItemIds.length ? Math.round((completedItemCount / sceneItemIds.length) * 100) : 0;
+
+  useEffect(() => {
+    if (!recommendedItemId) {
+      return;
+    }
+    setRecommendedItem(recommendedItemId, activeSceneId);
+  }, [recommendedItemId, activeSceneId]);
+
   function selectItem(itemId) {
     if (!sceneItemIds.includes(itemId)) {
       return;
@@ -121,6 +142,9 @@ export function useScene() {
     switchScene,
     resetCurrentSceneProgress,
     grammarHint,
-    seenItemIds
+    seenItemIds,
+    recommendedItemId,
+    completedItemCount,
+    completionPercent
   };
 }

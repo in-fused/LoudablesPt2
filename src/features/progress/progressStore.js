@@ -9,7 +9,9 @@ const DEFAULT_PROGRESS = {
   completedResponseItemIds: [],
   selectedChoiceByItem: {},
   conversationStepByItem: {},
-  selectedChoiceByItemStep: {}
+  selectedChoiceByItemStep: {},
+  recommendationHistoryItemIds: [],
+  lastRecommendedItemId: null
 };
 
 const DEFAULT_STORE = {
@@ -82,6 +84,14 @@ function toChoiceMapByStep(value) {
   }, {});
 }
 
+function toItemIdArray(value) {
+  return toUniqueArray(value).filter((id) => typeof id === "string" && id);
+}
+
+function toItemId(value) {
+  return typeof value === "string" && value ? value : null;
+}
+
 function normalizeProgress(value) {
   const selectedChoiceByItem = toChoiceMap(value?.selectedChoiceByItem);
   const selectedChoiceByItemStep = toChoiceMapByStep(value?.selectedChoiceByItemStep);
@@ -103,7 +113,9 @@ function normalizeProgress(value) {
     completedResponseItemIds: toUniqueArray(value?.completedResponseItemIds),
     selectedChoiceByItem,
     conversationStepByItem,
-    selectedChoiceByItemStep
+    selectedChoiceByItemStep,
+    recommendationHistoryItemIds: toItemIdArray(value?.recommendationHistoryItemIds).slice(-6),
+    lastRecommendedItemId: toItemId(value?.lastRecommendedItemId)
   };
 }
 
@@ -270,6 +282,81 @@ export function setConversationStep(itemId, stepIndex, sceneId = DEFAULT_SCENE_I
       ...current.conversationStepByItem,
       [itemId]: normalizedStepIndex
     }
+  }, sceneId);
+}
+
+function getItemProgressScore(itemId, progress, seenItemIdSet) {
+  const itemChoiceMapByStep = progress.selectedChoiceByItemStep[itemId];
+  const choiceCount = itemChoiceMapByStep ? Object.keys(itemChoiceMapByStep).length : 0;
+  const stepIndex = Number(progress.conversationStepByItem[itemId]) || 0;
+  const seenBonus = seenItemIdSet.has(itemId) ? 1 : 0;
+  return choiceCount * 2 + stepIndex + seenBonus;
+}
+
+export function getRecommendedItemId(sceneItemIds, sceneId = DEFAULT_SCENE_ID, selectedItemId = null) {
+  const orderedSceneItemIds = toItemIdArray(sceneItemIds);
+  if (!orderedSceneItemIds.length) {
+    return null;
+  }
+
+  const progress = getProgress(sceneId);
+  const seenItemIdSet = new Set(progress.seenItemIds.filter((id) => orderedSceneItemIds.includes(id)));
+  const completedItemIdSet = new Set(progress.completedResponseItemIds.filter((id) => orderedSceneItemIds.includes(id)));
+  const recentRecommendations = toItemIdArray(progress.recommendationHistoryItemIds).slice(-2);
+
+  const unseenItems = orderedSceneItemIds.filter((itemId) => !seenItemIdSet.has(itemId) && !completedItemIdSet.has(itemId));
+  const partialItems = orderedSceneItemIds.filter((itemId) => {
+    if (completedItemIdSet.has(itemId)) {
+      return false;
+    }
+    const hasStepProgress = Number(progress.conversationStepByItem[itemId]) > 0;
+    const hasChoiceProgress = Object.keys(progress.selectedChoiceByItemStep[itemId] || {}).length > 0;
+    return hasStepProgress || hasChoiceProgress;
+  });
+  const remainingItems = orderedSceneItemIds.filter((itemId) => !completedItemIdSet.has(itemId));
+
+  const baseCandidates = unseenItems.length
+    ? unseenItems
+    : partialItems.length
+      ? partialItems
+      : remainingItems;
+
+  if (!baseCandidates.length) {
+    return null;
+  }
+
+  const candidates = baseCandidates.length > 1 && selectedItemId
+    ? baseCandidates.filter((itemId) => itemId !== selectedItemId)
+    : baseCandidates;
+
+  const effectiveCandidates = candidates.length ? candidates : baseCandidates;
+
+  const sortedCandidates = [...effectiveCandidates].sort((a, b) => {
+    const scoreDelta = getItemProgressScore(a, progress, seenItemIdSet) - getItemProgressScore(b, progress, seenItemIdSet);
+    if (scoreDelta !== 0) {
+      return scoreDelta;
+    }
+    return orderedSceneItemIds.indexOf(a) - orderedSceneItemIds.indexOf(b);
+  });
+
+  const nonRecentCandidates = sortedCandidates.filter((itemId) => !recentRecommendations.includes(itemId));
+  return (nonRecentCandidates[0] || sortedCandidates[0] || null);
+}
+
+export function setRecommendedItem(itemId, sceneId = DEFAULT_SCENE_ID) {
+  if (!itemId) {
+    return getProgress(sceneId);
+  }
+
+  const current = getProgress(sceneId);
+  if (current.lastRecommendedItemId === itemId) {
+    return current;
+  }
+
+  const nextHistory = [...toItemIdArray(current.recommendationHistoryItemIds).filter((id) => id !== itemId), itemId].slice(-6);
+  return saveProgress({
+    recommendationHistoryItemIds: nextHistory,
+    lastRecommendedItemId: itemId
   }, sceneId);
 }
 

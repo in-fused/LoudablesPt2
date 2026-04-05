@@ -1,3 +1,5 @@
+import { getProgress, getRecommendedItemId } from "../features/progress/progressStore";
+
 function SceneCanvas({ scene, selectedItem, onSelectItem, itemStatusById = {} }) {
   const safeScene = scene || {
     title: "Scene Placeholder",
@@ -18,11 +20,22 @@ function SceneCanvas({ scene, selectedItem, onSelectItem, itemStatusById = {} })
     return "New";
   }
 
-  const recommendedItemId = safeItems.find((item) => (itemStatusById[item.id] || "default") === "default")?.id
-    || safeItems.find((item) => (itemStatusById[item.id] || "default") !== "completed")?.id
-    || null;
+  const safeSceneId = safeScene.id;
+  const sceneItemIds = safeItems.map((item) => item.id);
+  const recommendedItemId = getRecommendedItemId(sceneItemIds, safeSceneId, selectedItem?.id);
 
   const recommendedItem = safeItems.find((item) => item.id === recommendedItemId) || null;
+  const sceneProgress = getProgress(safeSceneId);
+  const completedItemCount = (sceneProgress.completedResponseItemIds || []).filter((itemId) => sceneItemIds.includes(itemId)).length;
+  const completionRatio = sceneItemIds.length ? completedItemCount / sceneItemIds.length : 0;
+
+  const recommendationText = !recommendedItem
+    ? "Scene complete. Tap any item to review."
+    : completedItemCount === 0
+      ? `Start with: ${recommendedItem.spanish}`
+      : completionRatio >= 0.8
+        ? `Finish with: ${recommendedItem.spanish}`
+        : `Continue with: ${recommendedItem.spanish}`;
 
   return (
     <div className="scene-canvas" role="region" aria-label={safeScene.title}>
@@ -30,9 +43,7 @@ function SceneCanvas({ scene, selectedItem, onSelectItem, itemStatusById = {} })
         <p className="scene-kicker">Scene</p>
         <h2 className="scene-title">{safeScene.title}</h2>
         <p className="scene-description">{safeScene.description}</p>
-        {recommendedItem ? (
-          <p className="scene-recommendation">Try next: {recommendedItem.spanish}</p>
-        ) : null}
+        <p className="scene-recommendation">{recommendationText}</p>
       </div>
 
       <div className="scene-items" aria-label="Scene vocabulary items">
