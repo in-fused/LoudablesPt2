@@ -4,19 +4,14 @@ function toSafeString(value) {
 
 // Temporary static mapping. This will be replaced by dataset-driven ingestion.
 const AUDIO_SOURCE_MAP = {
-  "item:mesa": "/audio/mesa.mp3",
-  "line:family_house_1": "/audio/line1.mp3",
-
-  // Current scene key examples
+  // Manual Phase 24 test set.
+  // Add future files under /public/audio/... and map key -> absolute public path.
+  // Example: "scene.family-house.item.casa": "/audio/family-house/item-casa.mp3"
   "scene.family-house.item.casa": "/audio/family-house/item-casa.mp3",
   "scene.family-house.item.mama": "/audio/family-house/item-mama.mp3",
   "scene.family-house.item.agua": "/audio/family-house/item-agua.mp3",
-  "scene.family-house.item.comida": "/audio/family-house/item-comida.mp3",
-  "scene.kitchen-basic.item.cocina": "/audio/kitchen-basic/item-cocina.mp3",
-  "scene.kitchen-basic.item.pan": "/audio/kitchen-basic/item-pan.mp3",
-  "scene.kitchen-basic.item.plato": "/audio/kitchen-basic/item-plato.mp3",
-  "scene.kitchen-basic.item.vaso": "/audio/kitchen-basic/item-vaso.mp3",
-  "scene.kitchen-basic.item.sal": "/audio/kitchen-basic/item-sal.mp3"
+  "scene.family-house.line.casa-1": "/audio/family-house/line-casa-1.mp3",
+  "scene.kitchen-basic.line.cocina-1": "/audio/kitchen-basic/line-cocina-1.mp3"
 };
 
 let activeAudio = null;
