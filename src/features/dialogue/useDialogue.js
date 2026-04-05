@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { getDefaultSceneId, getSceneEntry, getSceneVocabularyById } from "../../data/scenes/registry";
 import {
   getProgress,
+  getRecommendedItemId,
   markResponseCompleted,
   resetSceneProgress,
   resetModuleProgress as resetStoredModuleProgress,
@@ -196,6 +197,10 @@ export function useDialogue(sceneId) {
   const [completedResponseItemIds, setCompletedResponseItemIds] = useState(() => {
     return safeArray(initialProgress.completedResponseItemIds).filter((itemId) => exercisableItemIds.includes(itemId));
   });
+  const [lastCompletedItemId, setLastCompletedItemId] = useState(() => {
+    const storedLastCompletedItemId = initialProgress.lastCompletedItemId;
+    return storedLastCompletedItemId && itemDialogues[storedLastCompletedItemId] ? storedLastCompletedItemId : null;
+  });
   const [pendingAutoAdvanceByItem, setPendingAutoAdvanceByItem] = useState({});
 
   useEffect(() => {
@@ -211,6 +216,9 @@ export function useDialogue(sceneId) {
     setCompletedResponseItemIds(
       safeArray(sceneProgress.completedResponseItemIds).filter((itemId) => exercisableItemIds.includes(itemId))
     );
+    setLastCompletedItemId(sceneProgress.lastCompletedItemId && itemDialogues[sceneProgress.lastCompletedItemId]
+      ? sceneProgress.lastCompletedItemId
+      : null);
   }, [sceneId, conversationStepsByItem, exercisableItemIds]);
 
   useEffect(() => {
@@ -344,6 +352,50 @@ export function useDialogue(sceneId) {
     };
   }
 
+  function getSuggestedNextItemId(currentItemId) {
+    const sceneItemIds = Object.keys(itemDialogues);
+    if (!sceneItemIds.length) {
+      return null;
+    }
+
+    const recommendedItemId = getRecommendedItemId(sceneItemIds, sceneId, currentItemId);
+    if (recommendedItemId && recommendedItemId !== currentItemId) {
+      return recommendedItemId;
+    }
+
+    const fallbackItemId = sceneItemIds.find((itemId) => itemId !== currentItemId && !isConversationCompleted(itemId));
+    return fallbackItemId || null;
+  }
+
+  function getEngagementStateForItem(itemId) {
+    const totalItems = exercisableItemIds.length;
+    const completedItems = completedResponseItemIds.length;
+    const completionRatio = totalItems > 0 ? completedItems / totalItems : 0;
+    const isRecentlyCompleted = Boolean(itemId && lastCompletedItemId && itemId === lastCompletedItemId);
+    const suggestedNextItemId = getSuggestedNextItemId(itemId);
+
+    let encouragement = "";
+    if (isRecentlyCompleted && completedItems === 1) {
+      encouragement = "Nice work, first item complete.";
+    } else if (isRecentlyCompleted && completionRatio >= 0.8 && completedItems < totalItems) {
+      encouragement = "Great work. You're close to finishing this scene.";
+    } else if (isRecentlyCompleted) {
+      encouragement = "Nice work, this item is complete.";
+    } else if (completedItems > 0 && completionRatio < 0.5) {
+      encouragement = "Keep going, you're building momentum.";
+    } else if (completedItems > 0 && completionRatio < 1) {
+      encouragement = "You're making great progress.";
+    } else if (totalItems > 0 && completedItems >= totalItems) {
+      encouragement = "Scene complete. Review or revisit any item.";
+    }
+
+    return {
+      isRecentlyCompleted,
+      encouragement,
+      suggestedNextItemId
+    };
+  }
+
   function shouldAutoAdvanceAfterResponse(itemId, stepIndex) {
     const steps = getConversationSteps(itemId);
     const nextStep = steps[stepIndex + 1];
@@ -385,6 +437,7 @@ export function useDialogue(sceneId) {
         }
         return [...prev, itemId];
       });
+      setLastCompletedItemId(itemId);
       markResponseCompleted(itemId, sceneId);
     }
   }
@@ -424,6 +477,13 @@ export function useDialogue(sceneId) {
     };
   }
 
+  function getItemDisplayLabel(itemId) {
+    if (!itemId) {
+      return "";
+    }
+    return vocabularyById[itemId]?.spanish || itemId;
+  }
+
   function chooseResponse(itemId, choiceId) {
     if (!itemId || !choiceId) {
       return;
@@ -452,6 +512,7 @@ export function useDialogue(sceneId) {
         }
         return [...prev, itemId];
       });
+      setLastCompletedItemId(itemId);
       markResponseCompleted(itemId, sceneId);
       setPendingAutoAdvanceByItem((prev) => ({
         ...prev,
@@ -496,6 +557,7 @@ export function useDialogue(sceneId) {
     setSelectedChoiceByItemStep({});
     setConversationStepByItem({});
     setCompletedResponseItemIds([]);
+    setLastCompletedItemId(null);
     setPendingAutoAdvanceByItem({});
   }
 
@@ -504,6 +566,7 @@ export function useDialogue(sceneId) {
     setSelectedChoiceByItemStep({});
     setConversationStepByItem({});
     setCompletedResponseItemIds([]);
+    setLastCompletedItemId(null);
     setPendingAutoAdvanceByItem({});
   }
 
@@ -511,10 +574,12 @@ export function useDialogue(sceneId) {
     getLinesForItem,
     getResponseExerciseForItem,
     getItemAudioTarget,
+    getItemDisplayLabel,
     getLineAudioTarget,
     chooseResponse,
     continueConversation,
     getConversationStateForItem,
+    getEngagementStateForItem,
     getSelectedChoiceForItem,
     isResponseCompleted,
     completedResponseItemIds,

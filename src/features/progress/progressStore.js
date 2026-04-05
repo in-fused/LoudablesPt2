@@ -11,7 +11,8 @@ const DEFAULT_PROGRESS = {
   conversationStepByItem: {},
   selectedChoiceByItemStep: {},
   recommendationHistoryItemIds: [],
-  lastRecommendedItemId: null
+  lastRecommendedItemId: null,
+  lastCompletedItemId: null
 };
 
 const DEFAULT_STORE = {
@@ -115,7 +116,8 @@ function normalizeProgress(value) {
     conversationStepByItem,
     selectedChoiceByItemStep,
     recommendationHistoryItemIds: toItemIdArray(value?.recommendationHistoryItemIds).slice(-6),
-    lastRecommendedItemId: toItemId(value?.lastRecommendedItemId)
+    lastRecommendedItemId: toItemId(value?.lastRecommendedItemId),
+    lastCompletedItemId: toItemId(value?.lastCompletedItemId)
   };
 }
 
@@ -238,7 +240,8 @@ export function markResponseCompleted(itemId, sceneId = DEFAULT_SCENE_ID) {
   }
 
   return saveProgress({
-    completedResponseItemIds: [...current.completedResponseItemIds, itemId]
+    completedResponseItemIds: [...current.completedResponseItemIds, itemId],
+    lastCompletedItemId: itemId
   }, sceneId);
 }
 

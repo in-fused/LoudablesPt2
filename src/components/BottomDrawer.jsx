@@ -35,6 +35,13 @@ function BottomDrawer({ selectedItem, dialogueState, grammarHint }) {
         hasNextStep: false,
         canContinue: false
       };
+  const engagementState = dialogueState?.getEngagementStateForItem
+    ? dialogueState.getEngagementStateForItem(itemId)
+    : {
+        isRecentlyCompleted: false,
+        encouragement: "",
+        suggestedNextItemId: null
+      };
 
   const selectedItemAudioTarget = dialogueState?.getItemAudioTarget
     ? dialogueState.getItemAudioTarget(itemId, selectedItem)
@@ -69,6 +76,14 @@ function BottomDrawer({ selectedItem, dialogueState, grammarHint }) {
           ? "Finish the remaining items to complete this scene."
           : "Continue where you left off.";
 
+  const suggestedNextLabel = dialogueState?.getItemDisplayLabel
+    ? dialogueState.getItemDisplayLabel(engagementState.suggestedNextItemId)
+    : engagementState.suggestedNextItemId;
+
+  const continuityText = responseCompleted && suggestedNextLabel
+    ? `Try next: ${suggestedNextLabel}.`
+    : "";
+
   const guidanceText = !selectedItem
     ? "Start with the highlighted recommended word."
     : conversationState.isAutoAdvancePending
@@ -83,7 +98,7 @@ function BottomDrawer({ selectedItem, dialogueState, grammarHint }) {
         ? "Try this next: choose a response to keep progressing through this scene."
         : "You're progressing through this scene. You can revisit this word or explore another.";
 
-  const combinedGuidance = [guidanceText, progressStateGuidance, milestoneText]
+  const combinedGuidance = [guidanceText, progressStateGuidance, milestoneText, engagementState.encouragement, continuityText]
     .filter((text, index, all) => text && all.indexOf(text) === index)
     .join(" ");
 
@@ -110,6 +125,7 @@ function BottomDrawer({ selectedItem, dialogueState, grammarHint }) {
         stepNumber={conversationState.stepNumber}
         totalSteps={conversationState.totalSteps}
         isAutoAdvancePending={conversationState.isAutoAdvancePending}
+        isRecentlyCompleted={engagementState.isRecentlyCompleted}
       />
 
       <ResponseChoices
@@ -117,6 +133,8 @@ function BottomDrawer({ selectedItem, dialogueState, grammarHint }) {
         selectedChoice={selectedChoice}
         onSelectChoice={(choiceId) => dialogueState?.chooseResponse?.(itemId, choiceId)}
         isCompleted={responseCompleted}
+        isRecentlyCompleted={engagementState.isRecentlyCompleted}
+        suggestedNextLabel={suggestedNextLabel}
         hasNextStep={conversationState.hasNextStep}
         canContinue={conversationState.canContinue}
         isAutoAdvancePending={conversationState.isAutoAdvancePending}

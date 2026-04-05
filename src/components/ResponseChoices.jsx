@@ -3,6 +3,8 @@ function ResponseChoices({
   selectedChoice,
   onSelectChoice,
   isCompleted,
+  isRecentlyCompleted,
+  suggestedNextLabel,
   hasNextStep,
   canContinue,
   isAutoAdvancePending,
@@ -37,8 +39,13 @@ function ResponseChoices({
 
       {isCompleted ? (
         <>
-          <p className="response-completed-note">Completed for this word.</p>
+          <p className="response-completed-note">
+            {isRecentlyCompleted ? "Great response. This word is now complete." : "Completed for this word."}
+          </p>
           <p className="response-review-note">You can still tap another response to review this word.</p>
+          {suggestedNextLabel ? (
+            <p className="response-guidance">Continue with: {suggestedNextLabel}</p>
+          ) : null}
         </>
       ) : !selectedChoice ? (
         <p className="response-guidance">Choose a response to continue this conversation moment.</p>
