@@ -26,14 +26,28 @@ function BottomDrawer({ selectedItem, dialogueState, grammarHint }) {
     ? dialogueState.isResponseCompleted(itemId)
     : false;
 
+  const conversationState = dialogueState?.getConversationStateForItem
+    ? dialogueState.getConversationStateForItem(itemId)
+    : {
+        currentStepIndex: 0,
+        stepNumber: 1,
+        totalSteps: 1,
+        hasNextStep: false,
+        canContinue: false
+      };
+
   const selectedItemAudioTarget = dialogueState?.getItemAudioTarget
     ? dialogueState.getItemAudioTarget(itemId, selectedItem)
     : { key: itemId || "placeholder", label: "Play selected item audio" };
 
   const guidanceText = !selectedItem
     ? "Start with the highlighted recommended word."
-    : !responseExercise
-      ? "You can explore this word, then try a highlighted word next."
+    : conversationState.totalSteps > 1 && conversationState.hasNextStep && conversationState.canContinue
+      ? "Continue to the next line when you are ready."
+      : conversationState.totalSteps > 1 && conversationState.hasNextStep
+        ? "Respond to continue this short conversation."
+        : !responseExercise
+          ? "You can explore this word, then try a highlighted word next."
       : !responseCompleted
         ? "Try this next: choose a response to keep progressing through this scene."
         : "You're progressing through this scene. You can revisit this word or explore another.";
@@ -58,6 +72,8 @@ function BottomDrawer({ selectedItem, dialogueState, grammarHint }) {
         lines={dialogueLines}
         selectedItemId={itemId}
         getLineAudioTarget={dialogueState?.getLineAudioTarget}
+        stepNumber={conversationState.stepNumber}
+        totalSteps={conversationState.totalSteps}
       />
 
       <ResponseChoices
@@ -65,6 +81,9 @@ function BottomDrawer({ selectedItem, dialogueState, grammarHint }) {
         selectedChoice={selectedChoice}
         onSelectChoice={(choiceId) => dialogueState?.chooseResponse?.(itemId, choiceId)}
         isCompleted={responseCompleted}
+        hasNextStep={conversationState.hasNextStep}
+        canContinue={conversationState.canContinue}
+        onContinue={() => dialogueState?.continueConversation?.(itemId)}
       />
 
       <GrammarHint hint={grammarHint} />

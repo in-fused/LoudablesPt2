@@ -1,9 +1,30 @@
-function ResponseChoices({ exercise, selectedChoice, onSelectChoice, isCompleted }) {
+function ResponseChoices({
+  exercise,
+  selectedChoice,
+  onSelectChoice,
+  isCompleted,
+  hasNextStep,
+  canContinue,
+  onContinue
+}) {
   if (!exercise) {
     return (
       <section className="response-panel" aria-label="Response exercise">
         <p className="panel-label">Your Response</p>
-        <p className="response-fallback">No response exercise for this word yet.</p>
+        {hasNextStep ? (
+          <p className="response-guidance">No response needed here. Continue when ready.</p>
+        ) : (
+          <p className="response-fallback">No response exercise for this word yet.</p>
+        )}
+        {canContinue ? (
+          <button
+            type="button"
+            className="response-choice-button"
+            onClick={onContinue}
+          >
+            Continue
+          </button>
+        ) : null}
       </section>
     );
   }
@@ -42,6 +63,16 @@ function ResponseChoices({ exercise, selectedChoice, onSelectChoice, isCompleted
 
       {selectedChoice ? (
         <p className="response-feedback">{selectedChoice.feedback}</p>
+      ) : null}
+
+      {canContinue ? (
+        <button
+          type="button"
+          className="response-choice-button"
+          onClick={onContinue}
+        >
+          Continue
+        </button>
       ) : null}
     </section>
   );

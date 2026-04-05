@@ -7,7 +7,9 @@ const DEFAULT_PROGRESS = {
   selectedItemId: null,
   seenItemIds: [],
   completedResponseItemIds: [],
-  selectedChoiceByItem: {}
+  selectedChoiceByItem: {},
+  conversationStepByItem: {},
+  selectedChoiceByItemStep: {}
 };
 
 const DEFAULT_STORE = {
@@ -52,13 +54,56 @@ function toChoiceMap(value) {
   }, {});
 }
 
+function toStepIndexMap(value) {
+  if (!value || typeof value !== "object" || Array.isArray(value)) {
+    return {};
+  }
+
+  return Object.entries(value).reduce((acc, [itemId, stepIndex]) => {
+    const normalizedStepIndex = Number(stepIndex);
+    if (itemId && Number.isInteger(normalizedStepIndex) && normalizedStepIndex >= 0) {
+      acc[itemId] = normalizedStepIndex;
+    }
+    return acc;
+  }, {});
+}
+
+function toChoiceMapByStep(value) {
+  if (!value || typeof value !== "object" || Array.isArray(value)) {
+    return {};
+  }
+
+  return Object.entries(value).reduce((acc, [itemId, choiceMap]) => {
+    const normalizedChoiceMap = toChoiceMap(choiceMap);
+    if (itemId && Object.keys(normalizedChoiceMap).length > 0) {
+      acc[itemId] = normalizedChoiceMap;
+    }
+    return acc;
+  }, {});
+}
+
 function normalizeProgress(value) {
+  const selectedChoiceByItem = toChoiceMap(value?.selectedChoiceByItem);
+  const selectedChoiceByItemStep = toChoiceMapByStep(value?.selectedChoiceByItemStep);
+  const conversationStepByItem = toStepIndexMap(value?.conversationStepByItem);
+
+  Object.entries(selectedChoiceByItem).forEach(([itemId, choiceId]) => {
+    if (!selectedChoiceByItemStep[itemId]) {
+      selectedChoiceByItemStep[itemId] = {};
+    }
+    if (!selectedChoiceByItemStep[itemId]["0"]) {
+      selectedChoiceByItemStep[itemId]["0"] = choiceId;
+    }
+  });
+
   return {
     moduleId: value?.moduleId || DEFAULT_PROGRESS.moduleId,
     selectedItemId: value?.selectedItemId || DEFAULT_PROGRESS.selectedItemId,
     seenItemIds: toUniqueArray(value?.seenItemIds),
     completedResponseItemIds: toUniqueArray(value?.completedResponseItemIds),
-    selectedChoiceByItem: toChoiceMap(value?.selectedChoiceByItem)
+    selectedChoiceByItem,
+    conversationStepByItem,
+    selectedChoiceByItemStep
   };
 }
 
@@ -82,7 +127,14 @@ function normalizeStore(value) {
     typeof value === "object" &&
     !Array.isArray(value) &&
     !value.progressByScene &&
-    ("selectedItemId" in value || "seenItemIds" in value || "completedResponseItemIds" in value || "selectedChoiceByItem" in value);
+    (
+      "selectedItemId" in value ||
+      "seenItemIds" in value ||
+      "completedResponseItemIds" in value ||
+      "selectedChoiceByItem" in value ||
+      "conversationStepByItem" in value ||
+      "selectedChoiceByItemStep" in value
+    );
 
   if (isLegacyProgressShape) {
     return {
@@ -184,6 +236,39 @@ export function setSelectedChoice(itemId, choiceId, sceneId = DEFAULT_SCENE_ID) 
     selectedChoiceByItem: {
       ...current.selectedChoiceByItem,
       [itemId]: choiceId
+    }
+  }, sceneId);
+}
+
+export function setSelectedChoiceForStep(itemId, stepIndex, choiceId, sceneId = DEFAULT_SCENE_ID) {
+  const current = getProgress(sceneId);
+  const normalizedStepIndex = Number(stepIndex);
+  if (!itemId || !Number.isInteger(normalizedStepIndex) || normalizedStepIndex < 0 || !choiceId) {
+    return current;
+  }
+
+  return saveProgress({
+    selectedChoiceByItemStep: {
+      ...current.selectedChoiceByItemStep,
+      [itemId]: {
+        ...(current.selectedChoiceByItemStep[itemId] || {}),
+        [String(normalizedStepIndex)]: choiceId
+      }
+    }
+  }, sceneId);
+}
+
+export function setConversationStep(itemId, stepIndex, sceneId = DEFAULT_SCENE_ID) {
+  const current = getProgress(sceneId);
+  const normalizedStepIndex = Number(stepIndex);
+  if (!itemId || !Number.isInteger(normalizedStepIndex) || normalizedStepIndex < 0) {
+    return current;
+  }
+
+  return saveProgress({
+    conversationStepByItem: {
+      ...current.conversationStepByItem,
+      [itemId]: normalizedStepIndex
     }
   }, sceneId);
 }

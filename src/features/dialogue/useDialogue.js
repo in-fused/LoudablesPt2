@@ -5,7 +5,9 @@ import {
   markResponseCompleted,
   resetSceneProgress,
   resetModuleProgress as resetStoredModuleProgress,
-  setSelectedChoice
+  setSelectedChoice,
+  setSelectedChoiceForStep,
+  setConversationStep
 } from "../progress/progressStore";
 
 function safeObject(value) {
@@ -39,18 +41,120 @@ function buildExercise(exercise) {
   };
 }
 
-function restoreSelectedChoices(itemDialogues, storedChoiceMap) {
+function buildConversationSteps(itemEntry, itemId) {
+  const safeEntry = safeObject(itemEntry);
+  const explicitSteps = safeArray(safeEntry.steps);
+
+  const normalizedExplicitSteps = explicitSteps
+    .map((step, index) => {
+      const safeStep = safeObject(step);
+      const lines = safeArray(safeStep.lines);
+      const responseExercise = buildExercise(safeStep.responseExercise);
+      if (!lines.length && !responseExercise) {
+        return null;
+      }
+
+      return {
+        id: safeStep.id || `${itemId || "item"}-step-${index + 1}`,
+        lines,
+        responseExercise
+      };
+    })
+    .filter(Boolean);
+
+  if (normalizedExplicitSteps.length) {
+    return normalizedExplicitSteps;
+  }
+
+  const lines = safeArray(safeEntry.lines);
+  const responseExercise = buildExercise(safeEntry.responseExercise);
+  if (!lines.length && !responseExercise) {
+    return [];
+  }
+
+  return [
+    {
+      id: `${itemId || "item"}-step-1`,
+      lines,
+      responseExercise
+    }
+  ];
+}
+
+function restoreSelectedChoicesByStep(conversationStepsByItem, storedChoiceMapByStep, storedChoiceMap) {
+  const safeChoiceMapByStep = safeObject(storedChoiceMapByStep);
   const safeChoiceMap = safeObject(storedChoiceMap);
 
-  return Object.entries(safeChoiceMap).reduce((acc, [itemId, choiceId]) => {
-    const exercise = buildExercise(itemDialogues[itemId]?.responseExercise);
-    if (!exercise) {
+  const restoredByStep = Object.entries(conversationStepsByItem).reduce((acc, [itemId, steps]) => {
+    const safeSteps = safeArray(steps);
+    if (!safeSteps.length) {
       return acc;
     }
 
-    const isValidChoice = exercise.choices.some((choice) => choice.id === choiceId);
-    if (isValidChoice) {
-      acc[itemId] = choiceId;
+    const itemChoiceMap = safeObject(safeChoiceMapByStep[itemId]);
+    const normalizedChoiceMap = {};
+
+    safeSteps.forEach((step, stepIndex) => {
+      const exercise = step?.responseExercise;
+      if (!exercise) {
+        return;
+      }
+
+      const stepChoiceId = itemChoiceMap[String(stepIndex)];
+      if (typeof stepChoiceId !== "string" || !stepChoiceId) {
+        return;
+      }
+
+      const isValidChoice = exercise.choices.some((choice) => choice.id === stepChoiceId);
+      if (isValidChoice) {
+        normalizedChoiceMap[String(stepIndex)] = stepChoiceId;
+      }
+    });
+
+    if (Object.keys(normalizedChoiceMap).length > 0) {
+      acc[itemId] = normalizedChoiceMap;
+    }
+
+    return acc;
+  }, {});
+
+  Object.entries(safeChoiceMap).forEach(([itemId, choiceId]) => {
+    const firstStepExercise = conversationStepsByItem[itemId]?.[0]?.responseExercise;
+    if (!firstStepExercise) {
+      return;
+    }
+
+    const isValidChoice = firstStepExercise.choices.some((choice) => choice.id === choiceId);
+    if (!isValidChoice) {
+      return;
+    }
+
+    if (!restoredByStep[itemId]) {
+      restoredByStep[itemId] = {};
+    }
+
+    if (!restoredByStep[itemId]["0"]) {
+      restoredByStep[itemId]["0"] = choiceId;
+    }
+  });
+
+  return restoredByStep;
+}
+
+function restoreConversationSteps(conversationStepsByItem, storedStepMap) {
+  const safeStepMap = safeObject(storedStepMap);
+
+  return Object.entries(conversationStepsByItem).reduce((acc, [itemId, steps]) => {
+    const stepCount = safeArray(steps).length;
+    if (stepCount <= 1) {
+      return acc;
+    }
+
+    const rawStep = Number(safeStepMap[itemId]);
+    const normalizedStep = Number.isInteger(rawStep) ? rawStep : 0;
+    const clampedStep = Math.max(0, Math.min(normalizedStep, stepCount - 1));
+    if (clampedStep > 0) {
+      acc[itemId] = clampedStep;
     }
 
     return acc;
@@ -65,13 +169,29 @@ export function useDialogue(sceneId) {
     return safeObject(sceneDialogueData?.itemDialogues);
   }, [sceneId]);
 
-  const exercisableItemIds = useMemo(() => {
-    return Object.keys(itemDialogues).filter((itemId) => buildExercise(itemDialogues[itemId]?.responseExercise));
+  const conversationStepsByItem = useMemo(() => {
+    return Object.entries(itemDialogues).reduce((acc, [itemId, itemEntry]) => {
+      acc[itemId] = buildConversationSteps(itemEntry, itemId);
+      return acc;
+    }, {});
   }, [itemDialogues]);
 
+  const exercisableItemIds = useMemo(() => {
+    return Object.keys(conversationStepsByItem).filter((itemId) => {
+      return safeArray(conversationStepsByItem[itemId]).some((step) => step?.responseExercise);
+    });
+  }, [conversationStepsByItem]);
+
   const initialProgress = getProgress(sceneId);
-  const [selectedChoiceByItem, setSelectedChoiceByItem] = useState(() => {
-    return restoreSelectedChoices(itemDialogues, initialProgress.selectedChoiceByItem);
+  const [selectedChoiceByItemStep, setSelectedChoiceByItemStep] = useState(() => {
+    return restoreSelectedChoicesByStep(
+      conversationStepsByItem,
+      initialProgress.selectedChoiceByItemStep,
+      initialProgress.selectedChoiceByItem
+    );
+  });
+  const [conversationStepByItem, setConversationStepByItem] = useState(() => {
+    return restoreConversationSteps(conversationStepsByItem, initialProgress.conversationStepByItem);
   });
   const [completedResponseItemIds, setCompletedResponseItemIds] = useState(() => {
     return safeArray(initialProgress.completedResponseItemIds).filter((itemId) => exercisableItemIds.includes(itemId));
@@ -79,23 +199,139 @@ export function useDialogue(sceneId) {
 
   useEffect(() => {
     const sceneProgress = getProgress(sceneId);
-    setSelectedChoiceByItem(restoreSelectedChoices(itemDialogues, sceneProgress.selectedChoiceByItem));
+    setSelectedChoiceByItemStep(
+      restoreSelectedChoicesByStep(
+        conversationStepsByItem,
+        sceneProgress.selectedChoiceByItemStep,
+        sceneProgress.selectedChoiceByItem
+      )
+    );
+    setConversationStepByItem(restoreConversationSteps(conversationStepsByItem, sceneProgress.conversationStepByItem));
     setCompletedResponseItemIds(
       safeArray(sceneProgress.completedResponseItemIds).filter((itemId) => exercisableItemIds.includes(itemId))
     );
-  }, [sceneId, itemDialogues, exercisableItemIds]);
+  }, [sceneId, conversationStepsByItem, exercisableItemIds]);
 
   function getItemEntry(itemId) {
     return safeObject(itemDialogues[itemId]);
   }
 
+  function getConversationSteps(itemId) {
+    return safeArray(conversationStepsByItem[itemId]);
+  }
+
+  function getCurrentStepIndex(itemId) {
+    const steps = getConversationSteps(itemId);
+    if (!steps.length) {
+      return 0;
+    }
+
+    const rawStep = Number(conversationStepByItem[itemId]);
+    const normalizedStep = Number.isInteger(rawStep) ? rawStep : 0;
+    return Math.max(0, Math.min(normalizedStep, steps.length - 1));
+  }
+
+  function getCurrentStep(itemId) {
+    const steps = getConversationSteps(itemId);
+    if (!steps.length) {
+      return null;
+    }
+    return steps[getCurrentStepIndex(itemId)] || null;
+  }
+
   function getLinesForItem(itemId) {
-    const lines = getItemEntry(itemId).lines;
-    return safeArray(lines);
+    const currentStep = getCurrentStep(itemId);
+    return safeArray(currentStep?.lines);
   }
 
   function getResponseExerciseForItem(itemId) {
-    return buildExercise(getItemEntry(itemId).responseExercise);
+    return getCurrentStep(itemId)?.responseExercise || null;
+  }
+
+  function getSelectedChoiceIdForStep(itemId, stepIndex) {
+    const itemChoiceMap = safeObject(selectedChoiceByItemStep[itemId]);
+    const selectedChoiceId = itemChoiceMap[String(stepIndex)];
+    return typeof selectedChoiceId === "string" && selectedChoiceId ? selectedChoiceId : null;
+  }
+
+  function hasNextStep(itemId) {
+    const steps = getConversationSteps(itemId);
+    if (!steps.length) {
+      return false;
+    }
+    return getCurrentStepIndex(itemId) < steps.length - 1;
+  }
+
+  function isCurrentStepResponseCompleted(itemId) {
+    const exercise = getResponseExerciseForItem(itemId);
+    if (!exercise) {
+      return true;
+    }
+
+    const stepIndex = getCurrentStepIndex(itemId);
+    return Boolean(getSelectedChoiceIdForStep(itemId, stepIndex));
+  }
+
+  function canContinueConversation(itemId) {
+    if (!hasNextStep(itemId)) {
+      return false;
+    }
+    return isCurrentStepResponseCompleted(itemId);
+  }
+
+  function isConversationCompleted(itemId) {
+    return completedResponseItemIds.includes(itemId);
+  }
+
+  function getConversationStateForItem(itemId) {
+    const steps = getConversationSteps(itemId);
+    const totalSteps = steps.length;
+    const currentStepIndex = getCurrentStepIndex(itemId);
+    const currentStep = steps[currentStepIndex] || null;
+    const nextStepAvailable = totalSteps > 0 && currentStepIndex < totalSteps - 1;
+    const currentStepResponseCompleted = !currentStep?.responseExercise
+      ? true
+      : Boolean(getSelectedChoiceIdForStep(itemId, currentStepIndex));
+
+    return {
+      currentStepIndex,
+      stepNumber: currentStepIndex + 1,
+      totalSteps,
+      hasNextStep: nextStepAvailable,
+      canContinue: nextStepAvailable && currentStepResponseCompleted,
+      isCurrentStepResponseCompleted: currentStepResponseCompleted,
+      isCompleted: isConversationCompleted(itemId)
+    };
+  }
+
+  function continueConversation(itemId) {
+    if (!itemId || !canContinueConversation(itemId)) {
+      return;
+    }
+
+    const currentStepIndex = getCurrentStepIndex(itemId);
+    const nextStepIndex = currentStepIndex + 1;
+    const steps = getConversationSteps(itemId);
+    const nextStep = steps[nextStepIndex];
+    const isFinalStep = nextStepIndex === steps.length - 1;
+    const finalStepHasNoResponse = isFinalStep && !nextStep?.responseExercise;
+
+    setConversationStepByItem((prev) => ({
+      ...prev,
+      [itemId]: nextStepIndex
+    }));
+
+    setConversationStep(itemId, nextStepIndex, sceneId);
+
+    if (finalStepHasNoResponse) {
+      setCompletedResponseItemIds((prev) => {
+        if (prev.includes(itemId)) {
+          return prev;
+        }
+        return [...prev, itemId];
+      });
+      markResponseCompleted(itemId, sceneId);
+    }
   }
 
   function getItemAudioTarget(itemId, selectedItem) {
@@ -143,20 +379,29 @@ export function useDialogue(sceneId) {
       return;
     }
 
-    setSelectedChoiceByItem((prev) => ({
+    const currentStepIndex = getCurrentStepIndex(itemId);
+    const hasNext = hasNextStep(itemId);
+
+    setSelectedChoiceByItemStep((prev) => ({
       ...prev,
-      [itemId]: choiceId
+      [itemId]: {
+        ...safeObject(prev[itemId]),
+        [String(currentStepIndex)]: choiceId
+      }
     }));
 
-    setCompletedResponseItemIds((prev) => {
-      if (prev.includes(itemId)) {
-        return prev;
-      }
-      return [...prev, itemId];
-    });
+    if (!hasNext) {
+      setCompletedResponseItemIds((prev) => {
+        if (prev.includes(itemId)) {
+          return prev;
+        }
+        return [...prev, itemId];
+      });
+      markResponseCompleted(itemId, sceneId);
+    }
 
+    setSelectedChoiceForStep(itemId, currentStepIndex, choiceId, sceneId);
     setSelectedChoice(itemId, choiceId, sceneId);
-    markResponseCompleted(itemId, sceneId);
   }
 
   function getSelectedChoiceForItem(itemId) {
@@ -165,7 +410,7 @@ export function useDialogue(sceneId) {
       return null;
     }
 
-    const selectedChoiceId = selectedChoiceByItem[itemId];
+    const selectedChoiceId = getSelectedChoiceIdForStep(itemId, getCurrentStepIndex(itemId));
     if (!selectedChoiceId) {
       return null;
     }
@@ -174,18 +419,20 @@ export function useDialogue(sceneId) {
   }
 
   function isResponseCompleted(itemId) {
-    return completedResponseItemIds.includes(itemId);
+    return isConversationCompleted(itemId);
   }
 
   function resetCurrentSceneProgress() {
     resetSceneProgress(sceneId);
-    setSelectedChoiceByItem({});
+    setSelectedChoiceByItemStep({});
+    setConversationStepByItem({});
     setCompletedResponseItemIds([]);
   }
 
   function resetProgress() {
     resetStoredModuleProgress();
-    setSelectedChoiceByItem({});
+    setSelectedChoiceByItemStep({});
+    setConversationStepByItem({});
     setCompletedResponseItemIds([]);
   }
 
@@ -195,6 +442,8 @@ export function useDialogue(sceneId) {
     getItemAudioTarget,
     getLineAudioTarget,
     chooseResponse,
+    continueConversation,
+    getConversationStateForItem,
     getSelectedChoiceForItem,
     isResponseCompleted,
     completedResponseItemIds,

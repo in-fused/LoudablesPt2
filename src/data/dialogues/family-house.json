@@ -5,45 +5,97 @@
   "itemDialogues": {
     "casa": {
       "audioKey": "scene.family-house.item.casa",
-      "lines": [
+      "steps": [
         {
-          "id": "casa-1",
-          "audioKey": "scene.family-house.line.casa-1",
-          "speaker": "Mamá",
-          "es": "Bienvenida a la casa.",
-          "en": "Welcome to the house."
+          "id": "casa-step-1",
+          "lines": [
+            {
+              "id": "casa-1",
+              "audioKey": "scene.family-house.line.casa-1",
+              "speaker": "Mamá",
+              "es": "Bienvenida a la casa.",
+              "en": "Welcome to the house."
+            }
+          ],
+          "responseExercise": {
+            "prompt": "Your host says: 'Bienvenida a la casa.' What is a good response?",
+            "choices": [
+              {
+                "id": "casa-choice-1",
+                "text": "Gracias, qué casa tan bonita.",
+                "rating": "appropriate",
+                "feedback": "Great fit. You responded politely and stayed on the arrival topic."
+              },
+              {
+                "id": "casa-choice-2",
+                "text": "Sí, quiero agua, por favor.",
+                "rating": "acceptable",
+                "feedback": "Understandable, but this shifts early to a request instead of greeting first."
+              },
+              {
+                "id": "casa-choice-3",
+                "text": "La silla está debajo de la mesa.",
+                "rating": "off_target",
+                "feedback": "Off-target for this welcome moment."
+              }
+            ]
+          }
         },
         {
-          "id": "casa-2",
-          "audioKey": "scene.family-house.line.casa-2",
-          "speaker": "Visitante",
-          "es": "Gracias, qué casa tan bonita.",
-          "en": "Thank you, what a lovely house."
-        }
-      ],
-      "responseExercise": {
-        "prompt": "Your host says: 'Bienvenida a la casa.' What is a good response?",
-        "choices": [
-          {
-            "id": "casa-choice-1",
-            "text": "Gracias, qué casa tan bonita.",
-            "rating": "appropriate",
-            "feedback": "Great fit. You responded politely and stayed on the arrival topic."
-          },
-          {
-            "id": "casa-choice-2",
-            "text": "Sí, quiero agua, por favor.",
-            "rating": "acceptable",
-            "feedback": "Understandable, but this shifts early to a request instead of greeting first."
-          },
-          {
-            "id": "casa-choice-3",
-            "text": "La silla está debajo de la mesa.",
-            "rating": "off_target",
-            "feedback": "Off-target for this welcome moment."
+          "id": "casa-step-2",
+          "lines": [
+            {
+              "id": "casa-2",
+              "audioKey": "scene.family-house.line.casa-2",
+              "speaker": "Visitante",
+              "es": "Gracias, qué casa tan bonita.",
+              "en": "Thank you, what a lovely house."
+            },
+            {
+              "id": "casa-3",
+              "audioKey": "scene.family-house.line.casa-3",
+              "speaker": "Mamá",
+              "es": "¿Quieres pasar a la sala?",
+              "en": "Do you want to come into the living room?"
+            }
+          ]
+        },
+        {
+          "id": "casa-step-3",
+          "lines": [
+            {
+              "id": "casa-4",
+              "audioKey": "scene.family-house.line.casa-4",
+              "speaker": "Visitante",
+              "es": "Sí, vamos a la sala.",
+              "en": "Yes, let's go to the living room."
+            }
+          ],
+          "responseExercise": {
+            "prompt": "Mamá asks: '¿Quieres pasar a la sala?' Choose a natural reply.",
+            "choices": [
+              {
+                "id": "casa-step3-choice-1",
+                "text": "Sí, vamos a la sala.",
+                "rating": "appropriate",
+                "feedback": "Great fit. You accepted naturally and stayed in context."
+              },
+              {
+                "id": "casa-step3-choice-2",
+                "text": "Prefiero salir de la casa ahora.",
+                "rating": "acceptable",
+                "feedback": "Understandable Spanish, but it shifts away from the welcoming flow."
+              },
+              {
+                "id": "casa-step3-choice-3",
+                "text": "La mesa tiene una puerta.",
+                "rating": "off_target",
+                "feedback": "Off-target for this follow-up moment."
+              }
+            ]
           }
-        ]
-      }
+        }
+      ]
     },
     "mama": {
       "audioKey": "scene.family-house.item.mama",

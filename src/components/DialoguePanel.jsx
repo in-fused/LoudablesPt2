@@ -1,6 +1,6 @@
 import AudioButton from "./AudioButton";
 
-function DialoguePanel({ lines, getLineAudioTarget, selectedItemId }) {
+function DialoguePanel({ lines, getLineAudioTarget, selectedItemId, stepNumber, totalSteps }) {
   const safeLines = Array.isArray(lines) && lines.length
     ? lines
     : [
@@ -15,6 +15,9 @@ function DialoguePanel({ lines, getLineAudioTarget, selectedItemId }) {
   return (
     <section className="dialogue-panel" aria-label="Dialogue panel">
       <p className="panel-label">Conversation</p>
+      {totalSteps > 1 ? (
+        <p className="response-guidance">Step {stepNumber} of {totalSteps}</p>
+      ) : null}
 
       <ul className="dialogue-list">
         {safeLines.map((line) => {
