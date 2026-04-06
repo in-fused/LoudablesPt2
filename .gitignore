@@ -1,6 +1,7 @@
 # Dependencies
 node_modules/
 
+
 # Build output
 dist/
 build/
@@ -32,3 +33,7 @@ Thumbs.db
 # Local temp / archives
 *.zip
 *.rar
+
+# Raw reference/source datasets
+_source_assets/
+/reference_data/openslr74/raw_audio/
