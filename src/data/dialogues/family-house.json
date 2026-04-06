@@ -98,6 +98,150 @@
         }
       ]
     },
+    "puerta": {
+      "itemId": "puerta",
+      "audioKey": "scene.family-house.item.puerta",
+      "steps": [
+        {
+          "id": "puerta-step-1",
+          "lines": [
+            {
+              "id": "puerta-1",
+              "audioKey": "scene.family-house.line.puerta-1",
+              "speaker": "Mamá",
+              "es": "La puerta está abierta, pasa con confianza.",
+              "en": "The door is open, come in with confidence."
+            },
+            {
+              "id": "puerta-2",
+              "audioKey": "scene.family-house.line.puerta-2",
+              "speaker": "Visitante",
+              "es": "Gracias, cierro la puerta después de entrar.",
+              "en": "Thanks, I will close the door after I come in."
+            }
+          ],
+          "responseExercise": {
+            "prompt": "Mamá says the door is open and invites you in. Choose a natural response.",
+            "choices": [
+              {
+                "id": "puerta-choice-1",
+                "text": "Gracias, cierro la puerta después de entrar.",
+                "rating": "appropriate",
+                "feedback": "Great fit. Polite and practical for arriving at a family home."
+              },
+              {
+                "id": "puerta-choice-2",
+                "text": "No entro, me quedo afuera.",
+                "rating": "acceptable",
+                "feedback": "Understandable Spanish, but it does not follow the welcoming flow."
+              },
+              {
+                "id": "puerta-choice-3",
+                "text": "La comida está debajo de la puerta.",
+                "rating": "off_target",
+                "feedback": "Off-target for this arrival moment."
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "mesa": {
+      "itemId": "mesa",
+      "audioKey": "scene.family-house.item.mesa",
+      "steps": [
+        {
+          "id": "mesa-step-1",
+          "lines": [
+            {
+              "id": "mesa-1",
+              "audioKey": "scene.family-house.line.mesa-1",
+              "speaker": "Mamá",
+              "es": "La mesa está lista para comer en familia.",
+              "en": "The table is ready for a family meal."
+            },
+            {
+              "id": "mesa-2",
+              "audioKey": "scene.family-house.line.mesa-2",
+              "speaker": "Visitante",
+              "es": "Qué bien, pongo los vasos en la mesa.",
+              "en": "Great, I will put the glasses on the table."
+            }
+          ],
+          "responseExercise": {
+            "prompt": "Mamá says the table is ready. How do you respond helpfully?",
+            "choices": [
+              {
+                "id": "mesa-choice-1",
+                "text": "Qué bien, pongo los vasos en la mesa.",
+                "rating": "appropriate",
+                "feedback": "Great fit. You offered practical help in a natural family context."
+              },
+              {
+                "id": "mesa-choice-2",
+                "text": "Prefiero comer en la cocina ahora.",
+                "rating": "acceptable",
+                "feedback": "Understandable, but less cooperative for this specific moment."
+              },
+              {
+                "id": "mesa-choice-3",
+                "text": "La silla bebe agua.",
+                "rating": "off_target",
+                "feedback": "Off-target for this mealtime setup."
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "silla": {
+      "itemId": "silla",
+      "audioKey": "scene.family-house.item.silla",
+      "steps": [
+        {
+          "id": "silla-step-1",
+          "lines": [
+            {
+              "id": "silla-1",
+              "audioKey": "scene.family-house.line.silla-1",
+              "speaker": "Mamá",
+              "es": "Siéntate en esta silla, por favor.",
+              "en": "Sit in this chair, please."
+            },
+            {
+              "id": "silla-2",
+              "audioKey": "scene.family-house.line.silla-2",
+              "speaker": "Visitante",
+              "es": "Gracias, esta silla está muy cómoda.",
+              "en": "Thanks, this chair is very comfortable."
+            }
+          ],
+          "responseExercise": {
+            "prompt": "Mamá offers you a chair. Choose a natural response.",
+            "choices": [
+              {
+                "id": "silla-choice-1",
+                "text": "Gracias, esta silla está muy cómoda.",
+                "rating": "appropriate",
+                "feedback": "Great fit. Warm, polite, and on topic."
+              },
+              {
+                "id": "silla-choice-2",
+                "text": "No, me quedo de pie toda la noche.",
+                "rating": "acceptable",
+                "feedback": "Understandable, but less natural in this friendly family context."
+              },
+              {
+                "id": "silla-choice-3",
+                "text": "La puerta está en la silla.",
+                "rating": "off_target",
+                "feedback": "Off-target for the chair invitation."
+              }
+            ]
+          }
+        }
+      ]
+    },
     "mama": {
       "itemId": "mama",
       "audioKey": "scene.family-house.item.mama",
@@ -236,6 +380,54 @@
                 "text": "La comida está en la puerta.",
                 "rating": "off_target",
                 "feedback": "Off-target for the prompt context."
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "nina": {
+      "itemId": "nina",
+      "audioKey": "scene.family-house.item.nina",
+      "steps": [
+        {
+          "id": "nina-step-1",
+          "lines": [
+            {
+              "id": "nina-1",
+              "audioKey": "scene.family-house.line.nina-1",
+              "speaker": "Niña",
+              "es": "Hola, soy Ana, la niña de la casa.",
+              "en": "Hi, I am Ana, the girl of the house."
+            },
+            {
+              "id": "nina-2",
+              "audioKey": "scene.family-house.line.nina-2",
+              "speaker": "Visitante",
+              "es": "Hola, Ana, mucho gusto.",
+              "en": "Hi, Ana, nice to meet you."
+            }
+          ],
+          "responseExercise": {
+            "prompt": "The girl of the house greets you. Pick a kind response.",
+            "choices": [
+              {
+                "id": "nina-choice-1",
+                "text": "Hola, Ana, mucho gusto.",
+                "rating": "appropriate",
+                "feedback": "Great fit. Friendly and natural when meeting a child at home."
+              },
+              {
+                "id": "nina-choice-2",
+                "text": "Sí, gracias.",
+                "rating": "acceptable",
+                "feedback": "Understandable, but less warm and specific than a direct greeting."
+              },
+              {
+                "id": "nina-choice-3",
+                "text": "La niña está en el pan.",
+                "rating": "off_target",
+                "feedback": "Off-target for this introduction moment."
               }
             ]
           }

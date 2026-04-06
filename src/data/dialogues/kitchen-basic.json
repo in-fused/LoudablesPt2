@@ -112,8 +112,38 @@
               "speaker": "Mamá",
               "es": "Pon el plato en la mesa.",
               "en": "Put the plate on the table."
+            },
+            {
+              "id": "plato-2",
+              "audioKey": "scene.kitchen-basic.line.plato-2",
+              "speaker": "Visitante",
+              "es": "Claro, pongo un plato para cada persona.",
+              "en": "Of course, I will set one plate for each person."
             }
-          ]
+          ],
+          "responseExercise": {
+            "prompt": "Mamá asks you to place the plate on the table. Choose a helpful reply.",
+            "choices": [
+              {
+                "id": "plato-choice-1",
+                "text": "Claro, pongo un plato para cada persona.",
+                "rating": "appropriate",
+                "feedback": "Great fit. Helpful and natural in a family mealtime setting."
+              },
+              {
+                "id": "plato-choice-2",
+                "text": "Ahora no, tal vez después.",
+                "rating": "acceptable",
+                "feedback": "Understandable Spanish, but less cooperative for this moment."
+              },
+              {
+                "id": "plato-choice-3",
+                "text": "El plato está debajo del vaso y canta.",
+                "rating": "off_target",
+                "feedback": "Off-target for this table setup prompt."
+              }
+            ]
+          }
         }
       ]
     },
@@ -130,8 +160,38 @@
               "speaker": "Visitante",
               "es": "Necesito un vaso de agua.",
               "en": "I need a glass of water."
+            },
+            {
+              "id": "vaso-2",
+              "audioKey": "scene.kitchen-basic.line.vaso-2",
+              "speaker": "Mamá",
+              "es": "Aquí tienes un vaso limpio.",
+              "en": "Here is a clean glass."
             }
-          ]
+          ],
+          "responseExercise": {
+            "prompt": "Mamá gives you a clean glass. What is a natural response?",
+            "choices": [
+              {
+                "id": "vaso-choice-1",
+                "text": "Gracias, ahora me sirvo agua.",
+                "rating": "appropriate",
+                "feedback": "Great fit. Polite and practical for this kitchen moment."
+              },
+              {
+                "id": "vaso-choice-2",
+                "text": "Sí, está bien.",
+                "rating": "acceptable",
+                "feedback": "Understandable, but less complete and warm than a fuller response."
+              },
+              {
+                "id": "vaso-choice-3",
+                "text": "La sal duerme en el vaso.",
+                "rating": "off_target",
+                "feedback": "Off-target for this exchange."
+              }
+            ]
+          }
         }
       ]
     },
@@ -148,8 +208,38 @@
               "speaker": "Mamá",
               "es": "La sal está al lado del pan.",
               "en": "The salt is next to the bread."
+            },
+            {
+              "id": "sal-2",
+              "audioKey": "scene.kitchen-basic.line.sal-2",
+              "speaker": "Visitante",
+              "es": "Perfecto, pásame la sal, por favor.",
+              "en": "Perfect, pass me the salt, please."
             }
-          ]
+          ],
+          "responseExercise": {
+            "prompt": "You want to season your food. Pick a natural sentence with 'sal'.",
+            "choices": [
+              {
+                "id": "sal-choice-1",
+                "text": "Perfecto, pásame la sal, por favor.",
+                "rating": "appropriate",
+                "feedback": "Great fit. Natural and polite at the table."
+              },
+              {
+                "id": "sal-choice-2",
+                "text": "No necesito nada.",
+                "rating": "acceptable",
+                "feedback": "Understandable, but it does not practice requesting salt."
+              },
+              {
+                "id": "sal-choice-3",
+                "text": "La cocina está dentro de la sal.",
+                "rating": "off_target",
+                "feedback": "Off-target for this mealtime request."
+              }
+            ]
+          }
         }
       ]
     }
