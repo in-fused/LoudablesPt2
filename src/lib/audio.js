@@ -37,39 +37,49 @@ function toPublicAudioUrl(path) {
 }
 
 // Static authoring structure for manual/local audio assets.
-// Future real imports should be added here by scene.
+// Curated OpenSLR 74 subset files are copied into /public/audio/<sceneId>/...
+// Keep this map small and explicit; missing keys should gracefully fall back.
 //
 // Item key shape:
-//   scene.<sceneId>.item.<itemId> -> /audio/<sceneId>/item-<itemId>.mp3
+//   scene.<sceneId>.item.<itemId> -> /audio/<sceneId>/item-<itemId>.<ext>
 //
 // Dialogue line key shape:
-//   scene.<sceneId>.line.<lineId> -> /audio/<sceneId>/line-<lineId>.mp3
+//   scene.<sceneId>.line.<lineId> -> /audio/<sceneId>/line-<lineId>.<ext>
 //
 // Example:
-//   items: { casa: "item-casa.mp3" }
-//   lines: { "casa-1": "line-casa-1.mp3" }
+//   items: { casa: "item-casa.wav" }
+//   lines: { "casa-1": "line-casa-1.wav" }
 //
-// Phase 27 tiny real-audio subset (drop files in /public/audio/...):
-// - scene.family-house.item.casa   -> /audio/family-house/item-casa.mp3
-// - scene.family-house.item.mama   -> /audio/family-house/item-mama.mp3
-// - scene.family-house.item.agua   -> /audio/family-house/item-agua.mp3
-// - scene.family-house.line.casa-1 -> /audio/family-house/line-casa-1.mp3
-// - scene.kitchen-basic.line.cocina-1 -> /audio/kitchen-basic/line-cocina-1.mp3
+// Phase 31 curated OpenSLR 74 subset:
+// - Family House (3 clips): item.casa, item.mama, line.casa-1
+// - Kitchen Basics (3 clips): item.cocina, item.pan, line.cocina-1
+// - Listening module starter (4 clips): line.* keys under scene.listening-module
 const AUDIO_ASSETS_BY_SCENE = {
   "family-house": {
     items: {
-      casa: "item-casa.mp3",
-      mama: "item-mama.mp3",
-      agua: "item-agua.mp3"
+      casa: "item-casa.wav",
+      mama: "item-mama.wav"
     },
     lines: {
-      "casa-1": "line-casa-1.mp3"
+      "casa-1": "line-casa-1.wav"
     }
   },
   "kitchen-basic": {
+    items: {
+      cocina: "item-cocina.wav",
+      pan: "item-pan.wav"
+    },
+    lines: {
+      "cocina-1": "line-cocina-1.wav"
+    }
+  },
+  "listening-module": {
     items: {},
     lines: {
-      "cocina-1": "line-cocina-1.mp3"
+      "hola-cristina": "hola-cristina.wav",
+      "nos-vemos-mas-tarde-gracias": "nos-vemos-mas-tarde-gracias.wav",
+      "perfecto-espero-la-informacion-gracias": "perfecto-espero-la-informacion-gracias.wav",
+      "por-favor-dame-la-informacion-completa": "por-favor-dame-la-informacion-completa.wav"
     }
   }
 };

@@ -1,0 +1,75 @@
+{
+  "dataset": "OpenSLR74",
+  "sourceIndex": "_source_assets/openslr74/line_index.tsv",
+  "sourceAudioDir": "_source_assets/openslr74/raw_audio",
+  "curatedAtPhase": "phase-31",
+  "notes": "Tiny curated Puerto Rican Spanish starter subset for scene audio mapping. Source files remain unchanged; curated copies live under public/audio/.",
+  "scenes": {
+    "family-house": [
+      {
+        "appAudioKey": "scene.family-house.item.casa",
+        "curatedFile": "public/audio/family-house/item-casa.wav",
+        "sourceId": "prf_02484_01191541121",
+        "sourceText": "¿En qué calle está la casa"
+      },
+      {
+        "appAudioKey": "scene.family-house.item.mama",
+        "curatedFile": "public/audio/family-house/item-mama.wav",
+        "sourceId": "prf_06136_00630485161",
+        "sourceText": "No se si invitar para el cumpleaños de mi mamá a la familia cercana o solo amigos"
+      },
+      {
+        "appAudioKey": "scene.family-house.line.casa-1",
+        "curatedFile": "public/audio/family-house/line-casa-1.wav",
+        "sourceId": "prf_04310_01120561662",
+        "sourceText": "Hola Mariana ¿ya conoces a mi familia"
+      }
+    ],
+    "kitchen-basic": [
+      {
+        "appAudioKey": "scene.kitchen-basic.line.cocina-1",
+        "curatedFile": "public/audio/kitchen-basic/line-cocina-1.wav",
+        "sourceId": "prf_04310_00154078863",
+        "sourceText": "Los sandwiches están fríos"
+      },
+      {
+        "appAudioKey": "scene.kitchen-basic.item.cocina",
+        "curatedFile": "public/audio/kitchen-basic/item-cocina.wav",
+        "sourceId": "prf_03397_01752508061",
+        "sourceText": "Para hacer esa receta necesitas tres tomates y caldo de pollo frío"
+      },
+      {
+        "appAudioKey": "scene.kitchen-basic.item.pan",
+        "curatedFile": "public/audio/kitchen-basic/item-pan.wav",
+        "sourceId": "prf_03397_00509376974",
+        "sourceText": "De postre voy a servir manzanas asadas sobre pan de nueces"
+      }
+    ],
+    "listening-module": [
+      {
+        "appAudioKey": "scene.listening-module.line.hola-cristina",
+        "curatedFile": "public/audio/listening-module/hola-cristina.wav",
+        "sourceId": "prf_05223_01784573880",
+        "sourceText": "Hola Cristina que bien que puedo hablar contigo"
+      },
+      {
+        "appAudioKey": "scene.listening-module.line.nos-vemos-mas-tarde-gracias",
+        "curatedFile": "public/audio/listening-module/nos-vemos-mas-tarde-gracias.wav",
+        "sourceId": "prf_05223_00855387415",
+        "sourceText": "Nos vemos más tarde gracias"
+      },
+      {
+        "appAudioKey": "scene.listening-module.line.perfecto-espero-la-informacion-gracias",
+        "curatedFile": "public/audio/listening-module/perfecto-espero-la-informacion-gracias.wav",
+        "sourceId": "prf_05223_00503731422",
+        "sourceText": "Perfecto espero la información gracias"
+      },
+      {
+        "appAudioKey": "scene.listening-module.line.por-favor-dame-la-informacion-completa",
+        "curatedFile": "public/audio/listening-module/por-favor-dame-la-informacion-completa.wav",
+        "sourceId": "prf_04310_01987519989",
+        "sourceText": "Por favor dame la información completa y los horarios"
+      }
+    ]
+  }
+}
