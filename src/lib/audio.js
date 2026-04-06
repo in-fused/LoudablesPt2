@@ -2,6 +2,40 @@ function toSafeString(value) {
   return typeof value === "string" ? value.trim() : "";
 }
 
+function getRuntimeBaseUrl() {
+  const baseFromEnv = typeof import.meta !== "undefined" && import.meta?.env?.BASE_URL
+    ? toSafeString(import.meta.env.BASE_URL)
+    : "/";
+
+  if (!baseFromEnv) {
+    return "/";
+  }
+
+  const leadingSlashBase = baseFromEnv.startsWith("/") ? baseFromEnv : `/${baseFromEnv}`;
+  return leadingSlashBase.endsWith("/") ? leadingSlashBase : `${leadingSlashBase}/`;
+}
+
+function toPublicAudioUrl(path) {
+  const safePath = toSafeString(path);
+  if (!safePath) {
+    return "";
+  }
+
+  if (/^https?:\/\//i.test(safePath)) {
+    return safePath;
+  }
+
+  const normalizedBaseUrl = getRuntimeBaseUrl();
+  if (safePath.startsWith("/")) {
+    if (normalizedBaseUrl === "/") {
+      return safePath;
+    }
+    return `${normalizedBaseUrl.replace(/\/$/, "")}${safePath}`;
+  }
+
+  return `${normalizedBaseUrl}${safePath}`;
+}
+
 // Static authoring structure for manual/local audio assets.
 // Future real imports should be added here by scene.
 //
@@ -131,10 +165,10 @@ function resolveAudioSource(key) {
   }
 
   if (/^(https?:\/\/|\/)/i.test(safeKey)) {
-    return safeKey;
+    return toPublicAudioUrl(safeKey);
   }
 
-  return AUDIO_SOURCE_MAP[safeKey] || "";
+  return toPublicAudioUrl(AUDIO_SOURCE_MAP[safeKey] || "");
 }
 
 function stopActiveAudio() {
@@ -156,6 +190,10 @@ function stopActiveAudio() {
 
 export function playAudioTarget(target) {
   const normalizedTarget = normalizeAudioTarget(target);
+  if (typeof window === "undefined" || typeof Audio !== "function") {
+    return normalizedTarget;
+  }
+
   const source = resolveAudioSource(normalizedTarget.key);
   if (!source) {
     return normalizedTarget;
