@@ -4,9 +4,8 @@ import GrammarHint from "./GrammarHint";
 import ResponseChoices from "./ResponseChoices";
 
 function BottomDrawer({ selectedItem, dialogueState, grammarHint }) {
-  const selectedItemLabel = selectedItem
-    ? `${selectedItem.spanish} (${selectedItem.english})`
-    : "No item selected yet";
+  const selectedItemLabel = selectedItem ? selectedItem.spanish : "No item selected yet";
+  const selectedItemSubLabel = selectedItem ? selectedItem.english : "Tap a highlighted word to begin";
 
   const itemId = selectedItem?.id;
 
@@ -114,9 +113,18 @@ function BottomDrawer({ selectedItem, dialogueState, grammarHint }) {
       <div className="drawer-header">
         <p className="drawer-label">Selected Item</p>
         <p className="drawer-value">{selectedItemLabel}</p>
+        <p className="drawer-subvalue">{selectedItemSubLabel}</p>
+        <div className="drawer-meta">
+          {selectedItem && conversationState.totalSteps > 0 ? (
+            <span className="drawer-chip">{`Step ${conversationState.stepNumber}/${conversationState.totalSteps}`}</span>
+          ) : null}
+          {totalResponseItems > 0 ? (
+            <span className="drawer-chip">{`Scene Progress ${completedResponseItems}/${totalResponseItems}`}</span>
+          ) : null}
+        </div>
       </div>
 
-      <div className="drawer-actions">
+      <div className="drawer-section-block drawer-actions">
         <AudioButton
           label={selectedItem ? `Play ${selectedItem.spanish} pronunciation` : "Play selected item audio"}
           audioTarget={selectedItemAudioTarget}
@@ -125,40 +133,49 @@ function BottomDrawer({ selectedItem, dialogueState, grammarHint }) {
 
       <p className="drawer-guidance" aria-live="polite">{combinedGuidance}</p>
 
-      <DialoguePanel
-        lines={dialogueLines}
-        selectedItemId={itemId}
-        getLineAudioTarget={dialogueState?.getLineAudioTarget}
-        stepNumber={conversationState.stepNumber}
-        totalSteps={conversationState.totalSteps}
-        isAutoAdvancePending={conversationState.isAutoAdvancePending}
-        isRecentlyCompleted={engagementState.isRecentlyCompleted}
-      />
+      <div className="drawer-section-block">
+        <p className="drawer-section-title">Conversation</p>
+        <DialoguePanel
+          lines={dialogueLines}
+          selectedItemId={itemId}
+          getLineAudioTarget={dialogueState?.getLineAudioTarget}
+          stepNumber={conversationState.stepNumber}
+          totalSteps={conversationState.totalSteps}
+          isAutoAdvancePending={conversationState.isAutoAdvancePending}
+          isRecentlyCompleted={engagementState.isRecentlyCompleted}
+        />
+      </div>
 
-      <ResponseChoices
-        exercise={responseExercise}
-        selectedChoice={selectedChoice}
-        onSelectChoice={(choiceId) => {
-          if (!itemId) {
-            return;
-          }
-          dialogueState?.chooseResponse?.(itemId, choiceId);
-        }}
-        isCompleted={responseCompleted}
-        isRecentlyCompleted={engagementState.isRecentlyCompleted}
-        suggestedNextLabel={suggestedNextLabel}
-        hasNextStep={conversationState.hasNextStep}
-        canContinue={conversationState.canContinue}
-        isAutoAdvancePending={conversationState.isAutoAdvancePending}
-        onContinue={() => {
-          if (!itemId) {
-            return;
-          }
-          dialogueState?.continueConversation?.(itemId);
-        }}
-      />
+      <div className="drawer-section-block">
+        <p className="drawer-section-title">Your Response</p>
+        <ResponseChoices
+          exercise={responseExercise}
+          selectedChoice={selectedChoice}
+          onSelectChoice={(choiceId) => {
+            if (!itemId) {
+              return;
+            }
+            dialogueState?.chooseResponse?.(itemId, choiceId);
+          }}
+          isCompleted={responseCompleted}
+          isRecentlyCompleted={engagementState.isRecentlyCompleted}
+          suggestedNextLabel={suggestedNextLabel}
+          hasNextStep={conversationState.hasNextStep}
+          canContinue={conversationState.canContinue}
+          isAutoAdvancePending={conversationState.isAutoAdvancePending}
+          onContinue={() => {
+            if (!itemId) {
+              return;
+            }
+            dialogueState?.continueConversation?.(itemId);
+          }}
+        />
+      </div>
 
-      <GrammarHint hint={grammarHint} />
+      <div className="drawer-section-block">
+        <p className="drawer-section-title">Grammar</p>
+        <GrammarHint hint={grammarHint} />
+      </div>
     </aside>
   );
 }

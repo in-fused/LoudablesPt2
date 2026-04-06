@@ -40,7 +40,7 @@ function ResponseChoices({
         {canContinue && typeof onContinue === "function" ? (
           <button
             type="button"
-            className="response-choice-button"
+            className="response-choice-button is-continue"
             onClick={onContinue}
           >
             Continue
@@ -84,7 +84,7 @@ function ResponseChoices({
               onClick={() => onSelectChoice?.(choice.id)}
               aria-pressed={isSelected}
             >
-              {choice.text}
+              <span className="response-choice-text">{choice.text}</span>
             </button>
           );
         })}
@@ -100,7 +100,7 @@ function ResponseChoices({
       {canContinue && typeof onContinue === "function" ? (
         <button
           type="button"
-          className="response-choice-button"
+          className="response-choice-button is-continue"
           onClick={onContinue}
         >
           Continue
