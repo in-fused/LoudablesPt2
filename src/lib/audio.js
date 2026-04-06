@@ -14,6 +14,13 @@ function toSafeString(value) {
 // Example:
 //   items: { casa: "item-casa.mp3" }
 //   lines: { "casa-1": "line-casa-1.mp3" }
+//
+// Phase 27 tiny real-audio subset (drop files in /public/audio/...):
+// - scene.family-house.item.casa   -> /audio/family-house/item-casa.mp3
+// - scene.family-house.item.mama   -> /audio/family-house/item-mama.mp3
+// - scene.family-house.item.agua   -> /audio/family-house/item-agua.mp3
+// - scene.family-house.line.casa-1 -> /audio/family-house/line-casa-1.mp3
+// - scene.kitchen-basic.line.cocina-1 -> /audio/kitchen-basic/line-cocina-1.mp3
 const AUDIO_ASSETS_BY_SCENE = {
   "family-house": {
     items: {
