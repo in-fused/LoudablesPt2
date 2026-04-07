@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { getDefaultSceneId, getSceneEntry, getSceneVocabularyById } from "../../data/scenes/registry";
 import {
   getProgress,
@@ -211,9 +211,17 @@ export function useDialogue(sceneId) {
     return storedLastCompletedItemId && itemDialogues[storedLastCompletedItemId] ? storedLastCompletedItemId : null;
   });
   const [pendingAutoAdvanceByItem, setPendingAutoAdvanceByItem] = useState({});
+  const [completionMomentumCount, setCompletionMomentumCount] = useState(0);
+  const [recentProgressMilestone, setRecentProgressMilestone] = useState("");
+  const completionMomentumRef = useRef({
+    previousCompletedCount: safeArray(initialProgress.completedResponseItemIds).filter((itemId) => exercisableItemIds.includes(itemId)).length,
+    lastCompletionTimestamp: 0,
+    currentMomentumCount: 0
+  });
 
   useEffect(() => {
     const sceneProgress = getProgress(sceneId);
+    const restoredCompletedIds = safeArray(sceneProgress.completedResponseItemIds).filter((itemId) => exercisableItemIds.includes(itemId));
     setSelectedChoiceByItemStep(
       restoreSelectedChoicesByStep(
         conversationStepsByItem,
@@ -222,12 +230,17 @@ export function useDialogue(sceneId) {
       )
     );
     setConversationStepByItem(restoreConversationSteps(conversationStepsByItem, sceneProgress.conversationStepByItem));
-    setCompletedResponseItemIds(
-      safeArray(sceneProgress.completedResponseItemIds).filter((itemId) => exercisableItemIds.includes(itemId))
-    );
+    setCompletedResponseItemIds(restoredCompletedIds);
     setLastCompletedItemId(sceneProgress.lastCompletedItemId && itemDialogues[sceneProgress.lastCompletedItemId]
       ? sceneProgress.lastCompletedItemId
       : null);
+    completionMomentumRef.current = {
+      previousCompletedCount: restoredCompletedIds.length,
+      lastCompletionTimestamp: 0,
+      currentMomentumCount: 0
+    };
+    setCompletionMomentumCount(0);
+    setRecentProgressMilestone("");
   }, [sceneId, conversationStepsByItem, exercisableItemIds]);
 
   useEffect(() => {
@@ -235,6 +248,41 @@ export function useDialogue(sceneId) {
       setPendingAutoAdvanceByItem({});
     };
   }, [sceneId]);
+
+  useEffect(() => {
+    const currentCompletedCount = completedResponseItemIds.length;
+    const previousCompletedCount = completionMomentumRef.current.previousCompletedCount;
+
+    if (currentCompletedCount <= previousCompletedCount) {
+      completionMomentumRef.current.previousCompletedCount = currentCompletedCount;
+      return;
+    }
+
+    const nowTimestamp = Date.now();
+    const elapsedSinceLastCompletion = nowTimestamp - completionMomentumRef.current.lastCompletionTimestamp;
+    const isMomentumWindow = completionMomentumRef.current.lastCompletionTimestamp > 0 && elapsedSinceLastCompletion <= 120000;
+    const nextMomentumCount = isMomentumWindow ? completionMomentumRef.current.currentMomentumCount + 1 : 1;
+    const completionRatio = exercisableItemIds.length > 0 ? currentCompletedCount / exercisableItemIds.length : 0;
+    const progressMilestone = completionRatio >= 1
+      ? "complete"
+      : completionRatio >= 0.9
+        ? "almost-done"
+        : completionRatio >= 0.75
+          ? "three-quarter"
+          : completionRatio >= 0.5
+            ? "halfway"
+            : completionRatio >= 0.25
+              ? "first-quarter"
+              : "";
+
+    completionMomentumRef.current = {
+      previousCompletedCount: currentCompletedCount,
+      lastCompletionTimestamp: nowTimestamp,
+      currentMomentumCount: nextMomentumCount
+    };
+    setCompletionMomentumCount(nextMomentumCount);
+    setRecentProgressMilestone(progressMilestone);
+  }, [completedResponseItemIds, exercisableItemIds]);
 
   useEffect(() => {
     if (typeof window === "undefined") {
@@ -393,18 +441,30 @@ export function useDialogue(sceneId) {
     const suggestedNextItemId = getSuggestedNextItemId(itemId);
 
     let encouragement = "";
-    if (isRecentlyCompleted && completedItems === 1) {
+    if (totalItems > 0 && completedItems >= totalItems) {
+      encouragement = "Scene complete. Strong finish.";
+    } else if (isRecentlyCompleted && completionMomentumCount >= 4) {
+      encouragement = "Excellent momentum. You're in a strong rhythm.";
+    } else if (isRecentlyCompleted && completionMomentumCount === 3) {
+      encouragement = "Great momentum. Three items in a row.";
+    } else if (isRecentlyCompleted && completionMomentumCount === 2) {
+      encouragement = "Nice momentum. Two items in a row.";
+    } else if (isRecentlyCompleted && recentProgressMilestone === "almost-done") {
+      encouragement = "You're very close to finishing this scene.";
+    } else if (isRecentlyCompleted && recentProgressMilestone === "three-quarter") {
+      encouragement = "Strong progress. You're in the final stretch.";
+    } else if (isRecentlyCompleted && recentProgressMilestone === "halfway") {
+      encouragement = "Great pace. You're halfway through this scene.";
+    } else if (isRecentlyCompleted && recentProgressMilestone === "first-quarter") {
+      encouragement = "Good start. You're building momentum.";
+    } else if (isRecentlyCompleted && completedItems === 1) {
       encouragement = "Nice work, first item complete.";
-    } else if (isRecentlyCompleted && completionRatio >= 0.8 && completedItems < totalItems) {
-      encouragement = "Great work. You're close to finishing this scene.";
     } else if (isRecentlyCompleted) {
       encouragement = "Nice work, this item is complete.";
     } else if (completedItems > 0 && completionRatio < 0.5) {
       encouragement = "Keep going, you're building momentum.";
     } else if (completedItems > 0 && completionRatio < 1) {
-      encouragement = "You're making great progress.";
-    } else if (totalItems > 0 && completedItems >= totalItems) {
-      encouragement = "Scene complete. Review or revisit any item.";
+      encouragement = "You're making steady progress.";
     }
 
     return {
@@ -618,6 +678,13 @@ export function useDialogue(sceneId) {
     setCompletedResponseItemIds([]);
     setLastCompletedItemId(null);
     setPendingAutoAdvanceByItem({});
+    setCompletionMomentumCount(0);
+    setRecentProgressMilestone("");
+    completionMomentumRef.current = {
+      previousCompletedCount: 0,
+      lastCompletionTimestamp: 0,
+      currentMomentumCount: 0
+    };
   }
 
   function resetProgress() {
@@ -627,6 +694,13 @@ export function useDialogue(sceneId) {
     setCompletedResponseItemIds([]);
     setLastCompletedItemId(null);
     setPendingAutoAdvanceByItem({});
+    setCompletionMomentumCount(0);
+    setRecentProgressMilestone("");
+    completionMomentumRef.current = {
+      previousCompletedCount: 0,
+      lastCompletionTimestamp: 0,
+      currentMomentumCount: 0
+    };
   }
 
   return {
