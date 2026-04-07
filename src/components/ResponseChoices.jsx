@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { playAudioTarget } from "../lib/audio";
 
 function ResponseChoices({
   exercise,
@@ -30,6 +31,8 @@ function ResponseChoices({
         ? "Off target for this moment."
         : "";
   const [recentlySelectedChoiceId, setRecentlySelectedChoiceId] = useState(null);
+  const [isContinueDelayActive, setIsContinueDelayActive] = useState(false);
+  const lastHandledChoiceIdRef = useRef(selectedChoice?.id || null);
 
   useEffect(() => {
     if (!selectedChoice?.id) {
@@ -40,6 +43,35 @@ function ResponseChoices({
     const timerId = window.setTimeout(() => {
       setRecentlySelectedChoiceId((currentId) => (currentId === selectedChoice.id ? null : currentId));
     }, 520);
+
+    return () => {
+      window.clearTimeout(timerId);
+    };
+  }, [selectedChoice?.id]);
+
+  useEffect(() => {
+    const currentChoiceId = selectedChoice?.id || null;
+    if (!currentChoiceId) {
+      setIsContinueDelayActive(false);
+      lastHandledChoiceIdRef.current = null;
+      return undefined;
+    }
+
+    if (currentChoiceId === lastHandledChoiceIdRef.current) {
+      return undefined;
+    }
+
+    lastHandledChoiceIdRef.current = currentChoiceId;
+
+    const responseAudioTarget = selectedChoice?.audioTarget || selectedChoice?.audioKey || null;
+    if (responseAudioTarget) {
+      playAudioTarget(responseAudioTarget);
+    }
+
+    setIsContinueDelayActive(true);
+    const timerId = window.setTimeout(() => {
+      setIsContinueDelayActive(false);
+    }, 500);
 
     return () => {
       window.clearTimeout(timerId);
@@ -66,6 +98,8 @@ function ResponseChoices({
             type="button"
             className="response-choice-button is-continue"
             onClick={onContinue}
+            disabled={isContinueDelayActive || isAutoAdvancePending}
+            aria-disabled={isContinueDelayActive || isAutoAdvancePending}
           >
             Continue
           </button>
@@ -114,6 +148,7 @@ function ResponseChoices({
               className={`response-choice-button ${isSelected ? "is-selected" : ""} ${isSelected && isCompleted ? "is-confirmed" : ""} ${isJustSelected ? "is-just-selected" : ""}`}
               onClick={() => onSelectChoice?.(choice.id)}
               aria-pressed={isSelected}
+              disabled={isContinueDelayActive || isAutoAdvancePending}
             >
               <span className="response-choice-text">{choice.text}</span>
             </button>
@@ -133,6 +168,8 @@ function ResponseChoices({
           type="button"
           className={`response-choice-button is-continue ${selectedChoice ? "is-prominent" : ""}`}
           onClick={onContinue}
+          disabled={isContinueDelayActive || isAutoAdvancePending}
+          aria-disabled={isContinueDelayActive || isAutoAdvancePending}
         >
           Continue
         </button>

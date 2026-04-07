@@ -1,7 +1,9 @@
+import { useEffect, useRef } from "react";
 import DialoguePanel from "./DialoguePanel";
 import AudioButton from "./AudioButton";
 import GrammarHint from "./GrammarHint";
 import ResponseChoices from "./ResponseChoices";
+import { playAudioTarget } from "../lib/audio";
 
 function BottomDrawer({ selectedItem, dialogueState, grammarHint }) {
   const selectedItemLabel = selectedItem ? selectedItem.spanish : "No item selected yet";
@@ -105,6 +107,45 @@ function BottomDrawer({ selectedItem, dialogueState, grammarHint }) {
   const combinedGuidance = [guidanceText, progressStateGuidance, milestoneText, engagementState.encouragement, continuityText]
     .filter((text, index, all) => text && all.indexOf(text) === index)
     .join(" ");
+  const lastAutoPlayedStepRef = useRef("");
+
+  useEffect(() => {
+    if (!itemId || !selectedItem || !conversationState?.stepNumber) {
+      return;
+    }
+
+    if (!Array.isArray(dialogueLines) || !dialogueLines.length) {
+      return;
+    }
+
+    if (typeof dialogueState?.getLineAudioTarget !== "function") {
+      return;
+    }
+
+    const stepPlaybackKey = `${itemId}:${conversationState.stepNumber}`;
+    if (lastAutoPlayedStepRef.current === stepPlaybackKey) {
+      return;
+    }
+
+    const currentStepIndex = conversationState?.currentStepIndex;
+    if (!Number.isInteger(currentStepIndex) || currentStepIndex < 0 || currentStepIndex >= dialogueLines.length) {
+      return;
+    }
+
+    const currentStepLine = dialogueLines[currentStepIndex];
+    if (!currentStepLine) {
+      return;
+    }
+
+    const lineAudioTarget = dialogueState.getLineAudioTarget(currentStepLine, itemId) || null;
+
+    if (!lineAudioTarget) {
+      return;
+    }
+
+    lastAutoPlayedStepRef.current = stepPlaybackKey;
+    playAudioTarget(lineAudioTarget);
+  }, [itemId, selectedItem, conversationState?.stepNumber, dialogueLines, dialogueState]);
 
   return (
     <aside
