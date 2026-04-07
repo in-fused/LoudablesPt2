@@ -23,6 +23,10 @@ function BottomDrawer({ selectedItem, dialogueState, grammarHint }) {
     ? dialogueState.getSelectedChoiceForItem(itemId)
     : null;
 
+  const chainContext = dialogueState?.getChainContextForItem
+    ? dialogueState.getChainContextForItem(itemId)
+    : null;
+
   const responseCompleted = dialogueState?.isResponseCompleted
     ? dialogueState.isResponseCompleted(itemId)
     : false;
@@ -183,6 +187,7 @@ function BottomDrawer({ selectedItem, dialogueState, grammarHint }) {
         <p className="drawer-section-title">Conversation</p>
         <DialoguePanel
           lines={dialogueLines}
+          chainContext={chainContext}
           selectedItemId={itemId}
           getLineAudioTarget={dialogueState?.getLineAudioTarget}
           currentStepIndex={conversationState.currentStepIndex}

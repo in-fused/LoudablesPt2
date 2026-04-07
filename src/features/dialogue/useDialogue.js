@@ -303,6 +303,11 @@ export function useDialogue(sceneId) {
     return getCurrentStep(itemId)?.responseExercise || null;
   }
 
+  function getResponseExerciseForStep(itemId, stepIndex) {
+    const steps = getConversationSteps(itemId);
+    return steps[stepIndex]?.responseExercise || null;
+  }
+
   function getSelectedChoiceIdForStep(itemId, stepIndex) {
     const itemChoiceMap = safeObject(selectedChoiceByItemStep[itemId]);
     const selectedChoiceId = itemChoiceMap[String(stepIndex)];
@@ -570,6 +575,38 @@ export function useDialogue(sceneId) {
     return exercise.choices.find((choice) => choice.id === selectedChoiceId) || null;
   }
 
+  function getChainContextForItem(itemId) {
+    if (!itemId) {
+      return null;
+    }
+
+    const currentStepIndex = getCurrentStepIndex(itemId);
+    if (!Number.isInteger(currentStepIndex) || currentStepIndex <= 0) {
+      return null;
+    }
+
+    const previousStepIndex = currentStepIndex - 1;
+    const previousStepExercise = getResponseExerciseForStep(itemId, previousStepIndex);
+    if (!previousStepExercise) {
+      return null;
+    }
+
+    const previousChoiceId = getSelectedChoiceIdForStep(itemId, previousStepIndex);
+    if (!previousChoiceId) {
+      return null;
+    }
+
+    const previousChoice = safeArray(previousStepExercise.choices).find((choice) => choice.id === previousChoiceId);
+    if (!previousChoice?.text) {
+      return null;
+    }
+
+    return {
+      stepNumber: previousStepIndex + 1,
+      text: previousChoice.text
+    };
+  }
+
   function isResponseCompleted(itemId) {
     return isConversationCompleted(itemId);
   }
@@ -602,6 +639,7 @@ export function useDialogue(sceneId) {
     continueConversation,
     getConversationStateForItem,
     getEngagementStateForItem,
+    getChainContextForItem,
     getSelectedChoiceForItem,
     isResponseCompleted,
     completedResponseItemIds,

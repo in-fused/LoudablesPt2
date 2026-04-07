@@ -1,6 +1,6 @@
 import AudioButton from "./AudioButton";
 
-function DialoguePanel({ lines, getLineAudioTarget, selectedItemId, currentStepIndex, stepNumber, totalSteps, isAutoAdvancePending, isRecentlyCompleted }) {
+function DialoguePanel({ lines, chainContext, getLineAudioTarget, selectedItemId, currentStepIndex, stepNumber, totalSteps, isAutoAdvancePending, isRecentlyCompleted }) {
   const normalizedLines = Array.isArray(lines)
     ? lines
       .filter((line) => line && typeof line === "object")
@@ -35,6 +35,11 @@ function DialoguePanel({ lines, getLineAudioTarget, selectedItemId, currentStepI
         </p>
       ) : null}
       {isRecentlyCompleted ? <p className="response-guidance">Nice work. Conversation complete for this word.</p> : null}
+      {chainContext?.text ? (
+        <p className="dialogue-chain-context">
+          <span className="dialogue-chain-label">You said:</span> {chainContext.text}
+        </p>
+      ) : null}
       <p className="dialogue-listen-cue">Listen, then follow along.</p>
 
       <ul className="dialogue-list">
