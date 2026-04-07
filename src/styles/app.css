@@ -363,6 +363,10 @@ button {
   box-shadow: 0 0 0 1px rgba(139, 168, 110, 0.22), 0 10px 24px rgba(57, 92, 35, 0.12);
 }
 
+.bottom-drawer.is-step-complete {
+  box-shadow: 0 0 0 1px rgba(139, 168, 110, 0.24), 0 12px 26px rgba(62, 98, 39, 0.13);
+}
+
 .drawer-header {
   display: flex;
   flex-direction: column;
@@ -414,6 +418,15 @@ button {
   letter-spacing: 0.04em;
   text-transform: uppercase;
   font-weight: 700;
+  transition: border-color 0.2s ease, background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease, transform 0.12s ease;
+}
+
+.drawer-chip.is-active-progress {
+  border-color: #9ebc80;
+  background: #f1f9e8;
+  color: #4d6e34;
+  box-shadow: 0 2px 10px rgba(96, 134, 69, 0.18);
+  transform: translateY(-1px);
 }
 
 .drawer-section-block {
@@ -656,6 +669,7 @@ button {
   border-radius: var(--radius-sm);
   padding: var(--space-2);
   background: rgba(214, 159, 92, 0.08);
+  animation: feedback-fade-in 220ms ease;
 }
 
 .response-feedback.is-appropriate {
@@ -678,6 +692,41 @@ button {
   background: linear-gradient(180deg, #fcfff9 0%, #f4fbe9 100%);
 }
 
+.response-reinforcement {
+  margin: var(--space-2) 0 0;
+  padding: var(--space-2);
+  border-radius: var(--radius-sm);
+  border: 1px solid #d5e7c0;
+  background: linear-gradient(180deg, #f9fff3 0%, #edf8e1 100%);
+  color: #42622e;
+  font-size: 0.86rem;
+  font-weight: 700;
+  line-height: 1.4;
+  box-shadow: 0 2px 10px rgba(87, 124, 58, 0.16);
+  animation: reinforcement-fade-in 220ms ease;
+}
+
+.response-reinforcement.is-acceptable {
+  border-color: #ecd4b6;
+  background: linear-gradient(180deg, #fff9f0 0%, #ffefda 100%);
+  color: #7c5b36;
+  box-shadow: 0 2px 10px rgba(163, 112, 56, 0.14);
+}
+
+.response-choice-button.is-just-selected {
+  animation: choice-pulse 420ms ease;
+}
+
+.response-choice-button.is-continue.is-prominent {
+  border-color: #bf8a52;
+  box-shadow: 0 0 0 2px rgba(214, 159, 92, 0.2), 0 5px 14px rgba(128, 78, 28, 0.18);
+  transform: translateY(-1px);
+}
+
+.response-choice-button.is-continue:active {
+  transform: translateY(1px);
+}
+
 @media (hover: hover) and (pointer: fine) {
   .scene-item-button:hover {
     border-color: #cfa57d;
@@ -691,6 +740,10 @@ button {
     transform: translateY(-1px);
   }
 
+  .response-choice-button.is-continue.is-prominent:hover {
+    box-shadow: 0 0 0 2px rgba(214, 159, 92, 0.24), 0 7px 16px rgba(128, 78, 28, 0.2);
+  }
+
   .audio-button:hover {
     filter: brightness(1.03);
     box-shadow: 0 4px 14px rgba(112, 64, 11, 0.22);
@@ -700,6 +753,40 @@ button {
   .response-panel:hover,
   .grammar-hint:hover {
     box-shadow: 0 6px 16px rgba(64, 44, 20, 0.1);
+  }
+}
+
+@keyframes choice-pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(214, 159, 92, 0.34);
+  }
+
+  100% {
+    box-shadow: 0 0 0 8px rgba(214, 159, 92, 0);
+  }
+}
+
+@keyframes feedback-fade-in {
+  0% {
+    opacity: 0;
+    transform: translateY(3px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes reinforcement-fade-in {
+  0% {
+    opacity: 0;
+    transform: translateY(2px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
@@ -732,5 +819,11 @@ button {
   .response-panel,
   .grammar-hint {
     transition: none;
+  }
+
+  .response-feedback,
+  .response-reinforcement,
+  .response-choice-button.is-just-selected {
+    animation: none;
   }
 }

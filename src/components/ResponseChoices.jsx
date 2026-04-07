@@ -1,3 +1,5 @@
+import { useEffect, useState } from "react";
+
 function ResponseChoices({
   exercise,
   selectedChoice,
@@ -27,6 +29,28 @@ function ResponseChoices({
       : feedbackTone === "off_target"
         ? "Off target for this moment."
         : "";
+  const [recentlySelectedChoiceId, setRecentlySelectedChoiceId] = useState(null);
+
+  useEffect(() => {
+    if (!selectedChoice?.id) {
+      return undefined;
+    }
+
+    setRecentlySelectedChoiceId(selectedChoice.id);
+    const timerId = window.setTimeout(() => {
+      setRecentlySelectedChoiceId((currentId) => (currentId === selectedChoice.id ? null : currentId));
+    }, 520);
+
+    return () => {
+      window.clearTimeout(timerId);
+    };
+  }, [selectedChoice?.id]);
+
+  const reinforcementMessage = feedbackTone === "appropriate"
+    ? "Nice. Great response."
+    : feedbackTone === "acceptable"
+      ? "That works. Good response."
+      : "";
 
   if (!safeExercise || !safeExercise.choices.length) {
     return (
@@ -72,15 +96,22 @@ function ResponseChoices({
         <p className="response-guidance">Choose a response to continue this conversation moment.</p>
       ) : null}
 
+      {reinforcementMessage ? (
+        <p className={`response-reinforcement ${feedbackTone ? `is-${feedbackTone}` : ""}`} role="status" aria-live="polite">
+          {reinforcementMessage}
+        </p>
+      ) : null}
+
       <div className="response-choices" role="group" aria-label="Response options">
         {safeExercise.choices.map((choice) => {
           const isSelected = selectedChoice?.id === choice.id;
+          const isJustSelected = recentlySelectedChoiceId === choice.id;
 
           return (
             <button
               key={choice.id}
               type="button"
-              className={`response-choice-button ${isSelected ? "is-selected" : ""} ${isSelected && isCompleted ? "is-confirmed" : ""}`}
+              className={`response-choice-button ${isSelected ? "is-selected" : ""} ${isSelected && isCompleted ? "is-confirmed" : ""} ${isJustSelected ? "is-just-selected" : ""}`}
               onClick={() => onSelectChoice?.(choice.id)}
               aria-pressed={isSelected}
             >
@@ -100,7 +131,7 @@ function ResponseChoices({
       {canContinue && typeof onContinue === "function" ? (
         <button
           type="button"
-          className="response-choice-button is-continue"
+          className={`response-choice-button is-continue ${selectedChoice ? "is-prominent" : ""}`}
           onClick={onContinue}
         >
           Continue

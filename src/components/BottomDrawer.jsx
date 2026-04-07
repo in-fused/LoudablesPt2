@@ -33,6 +33,7 @@ function BottomDrawer({ selectedItem, dialogueState, grammarHint }) {
     totalSteps: 1,
     hasNextStep: false,
     canContinue: false,
+    isCurrentStepResponseCompleted: false,
     isAutoAdvancePending: false
       };
 
@@ -107,7 +108,7 @@ function BottomDrawer({ selectedItem, dialogueState, grammarHint }) {
 
   return (
     <aside
-      className={`bottom-drawer ${conversationState.isAutoAdvancePending ? "is-auto-advancing" : ""} ${engagementState.isRecentlyCompleted ? "is-recently-completed" : ""}`}
+      className={`bottom-drawer ${conversationState.isAutoAdvancePending ? "is-auto-advancing" : ""} ${engagementState.isRecentlyCompleted ? "is-recently-completed" : ""} ${conversationState.isCurrentStepResponseCompleted ? "is-step-complete" : ""}`}
       aria-label="Conversation drawer"
     >
       <div className="drawer-header">
@@ -116,10 +117,14 @@ function BottomDrawer({ selectedItem, dialogueState, grammarHint }) {
         <p className="drawer-subvalue">{selectedItemSubLabel}</p>
         <div className="drawer-meta">
           {selectedItem && conversationState.totalSteps > 0 ? (
-            <span className="drawer-chip">{`Step ${conversationState.stepNumber}/${conversationState.totalSteps}`}</span>
+            <span className={`drawer-chip ${conversationState.isCurrentStepResponseCompleted ? "is-active-progress" : ""}`}>
+              {`Step ${conversationState.stepNumber}/${conversationState.totalSteps}`}
+            </span>
           ) : null}
           {totalResponseItems > 0 ? (
-            <span className="drawer-chip">{`Scene Progress ${completedResponseItems}/${totalResponseItems}`}</span>
+            <span className={`drawer-chip ${responseCompleted ? "is-active-progress" : ""}`}>
+              {`Scene Progress ${completedResponseItems}/${totalResponseItems}`}
+            </span>
           ) : null}
         </div>
       </div>
