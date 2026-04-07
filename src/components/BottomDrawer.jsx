@@ -185,6 +185,7 @@ function BottomDrawer({ selectedItem, dialogueState, grammarHint }) {
           lines={dialogueLines}
           selectedItemId={itemId}
           getLineAudioTarget={dialogueState?.getLineAudioTarget}
+          currentStepIndex={conversationState.currentStepIndex}
           stepNumber={conversationState.stepNumber}
           totalSteps={conversationState.totalSteps}
           isAutoAdvancePending={conversationState.isAutoAdvancePending}

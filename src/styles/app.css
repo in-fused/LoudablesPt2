@@ -549,6 +549,38 @@ button {
   padding-bottom: var(--space-2);
 }
 
+.dialogue-listen-cue {
+  margin: var(--space-2) 0 0;
+  font-size: 0.78rem;
+  color: #8a725a;
+  letter-spacing: 0.02em;
+}
+
+.dialogue-line.is-active-line {
+  border-color: #d9ba94;
+  background: #fff8ed;
+  box-shadow: inset 0 0 0 1px rgba(214, 159, 92, 0.14);
+}
+
+.dialogue-line.is-active-line .line-speaker {
+  color: #7f5f40;
+}
+
+.dialogue-replay-control .audio-button-inline {
+  min-height: 30px;
+  border: 1px solid #ddc1a1;
+  background: #fdf3e5;
+  color: #6f563d;
+  font-size: 0.72rem;
+  font-weight: 700;
+  box-shadow: none;
+}
+
+.dialogue-replay-control .audio-button-inline.is-playing {
+  background: #e9d2b6;
+  color: #5c442e;
+}
+
 .line-speaker,
 .line-es,
 .line-en,
