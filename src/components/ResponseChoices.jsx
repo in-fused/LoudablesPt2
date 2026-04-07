@@ -4,6 +4,7 @@ import { playAudioTarget } from "../lib/audio";
 function ResponseChoices({
   exercise,
   selectedChoice,
+  recommendedAction = "none",
   onSelectChoice,
   isCompleted,
   isRecentlyCompleted,
@@ -83,11 +84,19 @@ function ResponseChoices({
     : feedbackTone === "acceptable"
       ? "That works. Good response."
       : "";
+  const actionGuidanceText = recommendedAction === "respond"
+    ? "Next best action: choose a response."
+    : recommendedAction === "continue"
+      ? "Next best action: continue to the next line."
+      : recommendedAction === "next-item" && suggestedNextLabel
+        ? `Next best action: try ${suggestedNextLabel}.`
+        : "";
 
   if (!safeExercise || !safeExercise.choices.length) {
     return (
       <section className="response-panel" aria-label="Response exercise">
         <p className="panel-label">Your Response</p>
+        {actionGuidanceText ? <p className="response-next-action">{actionGuidanceText}</p> : null}
         {hasNextStep ? (
           <p className="response-guidance">No response needed here. Continue when ready.</p>
         ) : (
@@ -96,7 +105,7 @@ function ResponseChoices({
         {canContinue && typeof onContinue === "function" ? (
           <button
             type="button"
-            className="response-choice-button is-continue"
+            className={`response-choice-button is-continue ${recommendedAction === "continue" ? "is-primary-next" : ""}`}
             onClick={onContinue}
             disabled={isContinueDelayActive || isAutoAdvancePending}
             aria-disabled={isContinueDelayActive || isAutoAdvancePending}
@@ -110,10 +119,11 @@ function ResponseChoices({
 
   return (
     <section
-      className={`response-panel ${isCompleted ? "is-completed" : ""} ${isRecentlyCompleted ? "is-recently-completed" : ""}`}
+      className={`response-panel ${isCompleted ? "is-completed" : ""} ${isRecentlyCompleted ? "is-recently-completed" : ""} ${recommendedAction === "respond" ? "is-guidance-respond" : ""}`}
       aria-label="Response exercise"
     >
       <p className="panel-label">Your Response</p>
+      {actionGuidanceText ? <p className="response-next-action">{actionGuidanceText}</p> : null}
       <p className="response-prompt">{safeExercise.prompt || "Choose the best response."}</p>
 
       {isCompleted ? (
@@ -166,7 +176,7 @@ function ResponseChoices({
       {canContinue && typeof onContinue === "function" ? (
         <button
           type="button"
-          className={`response-choice-button is-continue ${selectedChoice ? "is-prominent" : ""}`}
+          className={`response-choice-button is-continue ${selectedChoice ? "is-prominent" : ""} ${recommendedAction === "continue" ? "is-primary-next" : ""}`}
           onClick={onContinue}
           disabled={isContinueDelayActive || isAutoAdvancePending}
           aria-disabled={isContinueDelayActive || isAutoAdvancePending}

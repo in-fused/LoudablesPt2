@@ -92,25 +92,48 @@ function BottomDrawer({ selectedItem, dialogueState, grammarHint }) {
     ? `Try next: ${suggestedNextLabel}.`
     : "";
 
+  const recommendedAction = !selectedItem
+    ? suggestedNextLabel
+      ? "select-item"
+      : "none"
+    : conversationState.isAutoAdvancePending
+      ? "none"
+      : conversationState.canContinue
+        ? "continue"
+        : responseExercise && !conversationState.isCurrentStepResponseCompleted
+          ? "respond"
+          : responseCompleted && suggestedNextLabel
+            ? "next-item"
+            : "none";
+
   const guidanceText = !selectedItem
-    ? totalResponseItems
-      ? "Start with the highlighted recommended word."
-      : "Tap any visible word to explore this scene."
+    ? suggestedNextLabel
+      ? `Start with: ${suggestedNextLabel}.`
+      : totalResponseItems
+        ? "Start with the highlighted recommended word."
+        : "Tap any visible word to explore this scene."
     : conversationState.isAutoAdvancePending
       ? "Nice response. Continuing to the next line..."
-    : conversationState.totalSteps > 1 && conversationState.hasNextStep && conversationState.canContinue
-      ? "Continue to the next line when you are ready."
-      : conversationState.totalSteps > 1 && conversationState.hasNextStep
-        ? "Respond to continue this short conversation."
-        : !responseExercise
-          ? "You can explore this word, then try a highlighted word next."
-      : !responseCompleted
-        ? "Try this next: choose a response to keep progressing through this scene."
-        : "You're progressing through this scene. You can revisit this word or explore another.";
+    : recommendedAction === "continue"
+      ? "Continue to the next line."
+    : recommendedAction === "respond"
+      ? "Choose a response to continue."
+    : recommendedAction === "next-item"
+      ? `Nice work. Try next: ${suggestedNextLabel}.`
+    : conversationState.totalSteps > 1 && conversationState.hasNextStep
+      ? "Respond to continue this short conversation."
+      : !responseExercise
+        ? "You can explore this word, then try a highlighted word next."
+        : !responseCompleted
+          ? "Try this next: choose a response to keep progressing through this scene."
+          : "You're progressing through this scene. You can revisit this word or explore another.";
 
-  const combinedGuidance = [guidanceText, progressStateGuidance, milestoneText, engagementState.encouragement, continuityText]
-    .filter((text, index, all) => text && all.indexOf(text) === index)
-    .join(" ");
+  const shouldUseActionOnlyGuidance = recommendedAction !== "none";
+  const combinedGuidance = shouldUseActionOnlyGuidance
+    ? guidanceText
+    : [guidanceText, progressStateGuidance, milestoneText, engagementState.encouragement, continuityText]
+      .filter((text, index, all) => text && all.indexOf(text) === index)
+      .join(" ");
   const lastAutoPlayedStepRef = useRef("");
 
   useEffect(() => {
@@ -203,6 +226,7 @@ function BottomDrawer({ selectedItem, dialogueState, grammarHint }) {
         <ResponseChoices
           exercise={responseExercise}
           selectedChoice={selectedChoice}
+          recommendedAction={recommendedAction}
           onSelectChoice={(choiceId) => {
             if (!itemId) {
               return;
