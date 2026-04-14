@@ -1,11 +1,13 @@
 import familyHouseSceneData from "./family-house.json";
 import kitchenBasicSceneData from "./kitchen-basic.json";
+import listeningModuleSceneData from "./listening-module.json";           // ← NEW
+
 import familyHouseDialogueData from "../dialogues/family-house.json";
 import kitchenBasicDialogueData from "../dialogues/kitchen-basic.json";
+import listeningModuleDialogueData from "../dialogues/listening-module.json";   // ← NEW
+
 import familyHouseVocabularyData from "../vocabulary/family-house.json";
 import kitchenBasicVocabularyData from "../vocabulary/kitchen-basic.json";
-import listeningModuleSceneData from "./listening-module.json";
-import listeningModuleDialogueData from "../dialogues/listening-module.json";
 
 const DEFAULT_SCENE_ID = "family-house";
 
@@ -108,14 +110,14 @@ const SCENE_REGISTRY = [
     scene: normalizeScene(kitchenBasicSceneData, kitchenBasicVocabularyData, "kitchen-basic", "Kitchen Basics"),
     dialogue: kitchenBasicDialogueData,
     vocabulary: normalizeVocabulary(kitchenBasicVocabularyData)
-  }
+  },
   {
     id: "listening-module",
     label: "Module 3 — Puerto Rican Real Talk",
     scene: normalizeScene(listeningModuleSceneData, null, "listening-module", "Puerto Rican Real Talk"),
     dialogue: listeningModuleDialogueData,
-    vocabulary: { list: [], byId: {} }   // listening module doesn't need vocab for now
-  },
+    vocabulary: { list: [], byId: {} }     // listening module uses audio + dialogues only
+  }
 ];
 
 const SCENE_REGISTRY_BY_ID = SCENE_REGISTRY.reduce((acc, entry) => {
