@@ -1,0 +1,104 @@
+{
+  "moduleId": "listening-module",
+  "title": "Puerto Rican Real Talk",
+  "description": "Listen to authentic back-and-forth conversations with native Puerto Ricans, then practice natural responses.",
+  "type": "listening",
+  "modules": [
+    {
+      "sceneId": "listening-module",
+      "itemDialogues": {
+        "hola-cristina": {
+          "audio": "/audio/listening-module/hola-cristina.wav",
+          "lines": [
+            {
+              "id": "hola-1",
+              "speaker": "Native",
+              "es": "¡Hola Cristina!",
+              "en": "Hi Cristina!"
+            }
+          ],
+          "responseExercise": {
+            "prompt": "Your Puerto Rican friend says: “¡Hola Cristina!” What’s a natural reply?",
+            "choices": [
+              { "id": "choice-1", "text": "¡Hola! ¿Qué tal?", "rating": "appropriate", "feedback": "Perfect — warm and very Puerto Rican." },
+              { "id": "choice-2", "text": "Hola, ¿cómo estás?", "rating": "acceptable", "feedback": "Good, but a bit more formal than most PR convos." }
+            ]
+          },
+          "conversationTips": [
+            "Puerto Ricans often use first names right away — it feels warm and familiar.",
+            "The rising tone on “¡Hola!” shows excitement to see someone."
+          ]
+        },
+
+        "nos-vemos": {
+          "audio": "/audio/listening-module/nos-vemos-mas-tarde-gracias.wav",
+          "lines": [
+            {
+              "id": "nos-1",
+              "speaker": "Native",
+              "es": "Nos vemos más tarde, gracias.",
+              "en": "See you later, thanks."
+            }
+          ],
+          "responseExercise": {
+            "prompt": "Your friend says they’ll see you later. Natural reply?",
+            "choices": [
+              { "id": "choice-1", "text": "¡Claro! Nos vemos.", "rating": "appropriate", "feedback": "Very natural Puerto Rican goodbye." },
+              { "id": "choice-2", "text": "Adiós.", "rating": "acceptable", "feedback": "Works, but “nos vemos” is more common in PR." }
+            ]
+          },
+          "conversationTips": [
+            "“Nos vemos” is the go-to casual goodbye on the island — way more common than “adiós”."
+          ]
+        },
+
+        "perfecto-espero": {
+          "audio": "/audio/listening-module/perfecto-espero-la-informacion-gracias.wav",
+          "lines": [
+            {
+              "id": "perf-1",
+              "speaker": "Native",
+              "es": "Perfecto, espero la información, gracias.",
+              "en": "Perfect, I’ll wait for the info, thanks."
+            }
+          ],
+          "responseExercise": {
+            "prompt": "They’re waiting for info. Natural reply?",
+            "choices": [
+              { "id": "choice-1", "text": "¡Claro! Te la mando ahora mismo.", "rating": "appropriate", "feedback": "Spot-on Puerto Rican politeness + immediacy." }
+            ]
+          },
+          "conversationTips": [
+            "Dropping the subject (“te la mando”) is very common and natural in spoken PR Spanish."
+          ]
+        },
+
+        "por-favor-dame": {
+          "audio": "/audio/listening-module/por-favor-dame-la-informacion-completa.wav",
+          "lines": [
+            {
+              "id": "info-1",
+              "speaker": "Native",
+              "es": "Por favor, dame la información completa.",
+              "en": "Please give me the full information."
+            }
+          ],
+          "responseExercise": {
+            "prompt": "They want the full details. Reply naturally.",
+            "choices": [
+              { "id": "choice-1", "text": "Aquí está todo, míralo.", "rating": "appropriate", "feedback": "Natural and direct — exactly how Puerto Ricans ask for and give info." }
+            ]
+          },
+          "conversationTips": [
+            "“Dame” + request is the everyday way Puerto Ricans ask for something without sounding rude."
+          ]
+        }
+      }
+    }
+  ],
+  "conversationTips": [
+    "These are real clips from Puerto Rican family/friend conversations — the rhythm and slang are 100% authentic.",
+    "Listen first, then repeat out loud (shadowing) — this is the fastest way to sound natural.",
+    "Puerto Ricans speak fast and drop syllables — that’s normal! The more you hear it, the more it feels like home."
+  ]
+}

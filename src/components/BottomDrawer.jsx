@@ -119,7 +119,7 @@ function BottomDrawer({ selectedItem, dialogueState, grammarHint }) {
     : recommendedAction === "respond"
       ? "Choose a response to continue."
     : recommendedAction === "next-item"
-      ? `Nice work. Try next: ${suggestedNextLabel}.`
+      ? `Try next: ${suggestedNextLabel}.`
     : conversationState.totalSteps > 1 && conversationState.hasNextStep
       ? "Respond to continue this short conversation."
       : !responseExercise

@@ -171,6 +171,134 @@ function restoreConversationSteps(conversationStepsByItem, storedStepMap) {
   }, {});
 }
 
+function pickEncouragementVariant(options, preferredIndex, lastShownText) {
+  const safeOptions = safeArray(options).filter((text) => typeof text === "string" && text.trim());
+  if (!safeOptions.length) {
+    return "";
+  }
+
+  const startIndex = Number.isInteger(preferredIndex) ? preferredIndex : 0;
+  const normalizedIndex = Math.abs(startIndex) % safeOptions.length;
+  const preferredText = safeOptions[normalizedIndex];
+  if (preferredText && preferredText !== lastShownText) {
+    return preferredText;
+  }
+
+  const fallbackText = safeOptions.find((text) => text !== lastShownText);
+  return fallbackText || "";
+}
+
+function buildAdaptiveEncouragement({
+  totalItems,
+  completedItems,
+  completionRatio,
+  momentumCount,
+  progressMilestone,
+  lastShownText
+}) {
+  if (!totalItems || completedItems <= 0) {
+    return { key: "", text: "" };
+  }
+
+  const preferredIndex = completedItems;
+
+  if (completedItems >= totalItems) {
+    return {
+      key: "scene-complete",
+      text: pickEncouragementVariant(
+        [
+          "Scene complete. Strong finish.",
+          "Scene complete. Clean completion."
+        ],
+        preferredIndex,
+        lastShownText
+      )
+    };
+  }
+
+  if (momentumCount >= 4) {
+    return {
+      key: "momentum-high",
+      text: pickEncouragementVariant(
+        [
+          "Excellent momentum. You're in a strong rhythm.",
+          "Strong rhythm. Keep this pace."
+        ],
+        preferredIndex,
+        lastShownText
+      )
+    };
+  }
+
+  if (momentumCount === 3) {
+    return {
+      key: "momentum-three",
+      text: pickEncouragementVariant(
+        [
+          "Great momentum. Three items in a row.",
+          "Nice run. Three in a row."
+        ],
+        preferredIndex,
+        lastShownText
+      )
+    };
+  }
+
+  if (momentumCount === 2) {
+    return {
+      key: "momentum-two",
+      text: pickEncouragementVariant(
+        [
+          "Nice momentum. Two items in a row.",
+          "Good rhythm. Two in a row."
+        ],
+        preferredIndex,
+        lastShownText
+      )
+    };
+  }
+
+  if (progressMilestone === "almost-done" || completionRatio >= 0.8) {
+    return {
+      key: "tone-late",
+      text: pickEncouragementVariant(
+        [
+          "You're very close to finishing this scene.",
+          "Final stretch. You're close to completion."
+        ],
+        preferredIndex,
+        lastShownText
+      )
+    };
+  }
+
+  if (completionRatio >= 0.4) {
+    return {
+      key: "tone-mid",
+      text: pickEncouragementVariant(
+        [
+          "Great pace. You're building momentum.",
+          "Strong pace. You're keeping a good rhythm."
+        ],
+        preferredIndex,
+        lastShownText
+      )
+    };
+  }
+
+  return {
+    key: "tone-early",
+    text: pickEncouragementVariant(
+      [
+        "Nice start. Keep going one step at a time.",
+        "Good start. You're settling into the flow."
+      ],
+      preferredIndex,
+      lastShownText
+    )
+  };
+}
+
 export function useDialogue(sceneId) {
   const vocabularyById = useMemo(() => getSceneVocabularyById(sceneId || getDefaultSceneId()), [sceneId]);
 
@@ -213,6 +341,15 @@ export function useDialogue(sceneId) {
   const [pendingAutoAdvanceByItem, setPendingAutoAdvanceByItem] = useState({});
   const [completionMomentumCount, setCompletionMomentumCount] = useState(0);
   const [recentProgressMilestone, setRecentProgressMilestone] = useState("");
+  const [recentEncouragementState, setRecentEncouragementState] = useState({
+    key: "",
+    text: "",
+    completedItems: 0
+  });
+  const [lastEncouragementState, setLastEncouragementState] = useState({
+    key: "",
+    text: ""
+  });
   const completionMomentumRef = useRef({
     previousCompletedCount: safeArray(initialProgress.completedResponseItemIds).filter((itemId) => exercisableItemIds.includes(itemId)).length,
     lastCompletionTimestamp: 0,
@@ -241,6 +378,15 @@ export function useDialogue(sceneId) {
     };
     setCompletionMomentumCount(0);
     setRecentProgressMilestone("");
+    setRecentEncouragementState({
+      key: "",
+      text: "",
+      completedItems: 0
+    });
+    setLastEncouragementState({
+      key: "",
+      text: ""
+    });
   }, [sceneId, conversationStepsByItem, exercisableItemIds]);
 
   useEffect(() => {
@@ -282,6 +428,38 @@ export function useDialogue(sceneId) {
     };
     setCompletionMomentumCount(nextMomentumCount);
     setRecentProgressMilestone(progressMilestone);
+
+    const adaptiveEncouragement = buildAdaptiveEncouragement({
+      totalItems: exercisableItemIds.length,
+      completedItems: currentCompletedCount,
+      completionRatio,
+      momentumCount: nextMomentumCount,
+      progressMilestone,
+      lastShownText: lastEncouragementState.text
+    });
+
+    const encouragementText = typeof adaptiveEncouragement.text === "string"
+      ? adaptiveEncouragement.text.trim()
+      : "";
+
+    if (!encouragementText) {
+      setRecentEncouragementState({
+        key: "",
+        text: "",
+        completedItems: currentCompletedCount
+      });
+      return;
+    }
+
+    setRecentEncouragementState({
+      key: adaptiveEncouragement.key || "",
+      text: encouragementText,
+      completedItems: currentCompletedCount
+    });
+    setLastEncouragementState({
+      key: adaptiveEncouragement.key || "",
+      text: encouragementText
+    });
   }, [completedResponseItemIds, exercisableItemIds]);
 
   useEffect(() => {
@@ -436,36 +614,14 @@ export function useDialogue(sceneId) {
   function getEngagementStateForItem(itemId) {
     const totalItems = exercisableItemIds.length;
     const completedItems = completedResponseItemIds.length;
-    const completionRatio = totalItems > 0 ? completedItems / totalItems : 0;
     const isRecentlyCompleted = Boolean(itemId && lastCompletedItemId && itemId === lastCompletedItemId);
     const suggestedNextItemId = getSuggestedNextItemId(itemId);
+    const shouldShowRecentEncouragement = isRecentlyCompleted
+      && completedItems === recentEncouragementState.completedItems
+      && typeof recentEncouragementState.text === "string"
+      && recentEncouragementState.text.trim().length > 0;
 
-    let encouragement = "";
-    if (totalItems > 0 && completedItems >= totalItems) {
-      encouragement = "Scene complete. Strong finish.";
-    } else if (isRecentlyCompleted && completionMomentumCount >= 4) {
-      encouragement = "Excellent momentum. You're in a strong rhythm.";
-    } else if (isRecentlyCompleted && completionMomentumCount === 3) {
-      encouragement = "Great momentum. Three items in a row.";
-    } else if (isRecentlyCompleted && completionMomentumCount === 2) {
-      encouragement = "Nice momentum. Two items in a row.";
-    } else if (isRecentlyCompleted && recentProgressMilestone === "almost-done") {
-      encouragement = "You're very close to finishing this scene.";
-    } else if (isRecentlyCompleted && recentProgressMilestone === "three-quarter") {
-      encouragement = "Strong progress. You're in the final stretch.";
-    } else if (isRecentlyCompleted && recentProgressMilestone === "halfway") {
-      encouragement = "Great pace. You're halfway through this scene.";
-    } else if (isRecentlyCompleted && recentProgressMilestone === "first-quarter") {
-      encouragement = "Good start. You're building momentum.";
-    } else if (isRecentlyCompleted && completedItems === 1) {
-      encouragement = "Nice work, first item complete.";
-    } else if (isRecentlyCompleted) {
-      encouragement = "Nice work, this item is complete.";
-    } else if (completedItems > 0 && completionRatio < 0.5) {
-      encouragement = "Keep going, you're building momentum.";
-    } else if (completedItems > 0 && completionRatio < 1) {
-      encouragement = "You're making steady progress.";
-    }
+    const encouragement = shouldShowRecentEncouragement ? recentEncouragementState.text : "";
 
     return {
       isRecentlyCompleted,
@@ -680,6 +836,15 @@ export function useDialogue(sceneId) {
     setPendingAutoAdvanceByItem({});
     setCompletionMomentumCount(0);
     setRecentProgressMilestone("");
+    setRecentEncouragementState({
+      key: "",
+      text: "",
+      completedItems: 0
+    });
+    setLastEncouragementState({
+      key: "",
+      text: ""
+    });
     completionMomentumRef.current = {
       previousCompletedCount: 0,
       lastCompletionTimestamp: 0,
@@ -696,6 +861,15 @@ export function useDialogue(sceneId) {
     setPendingAutoAdvanceByItem({});
     setCompletionMomentumCount(0);
     setRecentProgressMilestone("");
+    setRecentEncouragementState({
+      key: "",
+      text: "",
+      completedItems: 0
+    });
+    setLastEncouragementState({
+      key: "",
+      text: ""
+    });
     completionMomentumRef.current = {
       previousCompletedCount: 0,
       lastCompletionTimestamp: 0,

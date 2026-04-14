@@ -4,6 +4,8 @@ import familyHouseDialogueData from "../dialogues/family-house.json";
 import kitchenBasicDialogueData from "../dialogues/kitchen-basic.json";
 import familyHouseVocabularyData from "../vocabulary/family-house.json";
 import kitchenBasicVocabularyData from "../vocabulary/kitchen-basic.json";
+import listeningModuleSceneData from "./listening-module.json";
+import listeningModuleDialogueData from "../dialogues/listening-module.json";
 
 const DEFAULT_SCENE_ID = "family-house";
 
@@ -107,6 +109,13 @@ const SCENE_REGISTRY = [
     dialogue: kitchenBasicDialogueData,
     vocabulary: normalizeVocabulary(kitchenBasicVocabularyData)
   }
+  {
+    id: "listening-module",
+    label: "Module 3 — Puerto Rican Real Talk",
+    scene: normalizeScene(listeningModuleSceneData, null, "listening-module", "Puerto Rican Real Talk"),
+    dialogue: listeningModuleDialogueData,
+    vocabulary: { list: [], byId: {} }   // listening module doesn't need vocab for now
+  },
 ];
 
 const SCENE_REGISTRY_BY_ID = SCENE_REGISTRY.reduce((acc, entry) => {
