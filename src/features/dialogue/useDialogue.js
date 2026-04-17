@@ -4,6 +4,7 @@ import {
   getProgress,
   getRecommendedItemId,
   markResponseCompleted,
+  recordResponseRating,
   resetSceneProgress,
   resetModuleProgress as resetStoredModuleProgress,
   setSelectedChoice,
@@ -734,8 +735,8 @@ export function useDialogue(sceneId) {
     }
 
     const normalizedChoiceId = String(choiceId);
-    const isValidChoice = safeArray(exercise.choices).some((choice) => choice.id === normalizedChoiceId);
-    if (!isValidChoice) {
+    const selectedChoice = safeArray(exercise.choices).find((choice) => choice.id === normalizedChoiceId) || null;
+    if (!selectedChoice) {
       return;
     }
 
@@ -749,6 +750,7 @@ export function useDialogue(sceneId) {
         [String(currentStepIndex)]: normalizedChoiceId
       }
     }));
+    recordResponseRating(itemId, selectedChoice.rating, sceneId);
 
     if (!hasNext) {
       setCompletedResponseItemIds((prev) => {
