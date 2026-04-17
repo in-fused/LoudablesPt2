@@ -48,6 +48,48 @@
               }
             ]
           }
+        },
+        {
+          "id": "cocina-step-2",
+          "lines": [
+            {
+              "id": "cocina-3",
+              "audioKey": "scene.kitchen-basic.line.cocina-3",
+              "speaker": "Mamá",
+              "es": "En la cocina, todo tiene su lugar.",
+              "en": "In the kitchen, everything has its place."
+            },
+            {
+              "id": "cocina-4",
+              "audioKey": "scene.kitchen-basic.line.cocina-4",
+              "speaker": "Visitante",
+              "es": "Sí, así cocinamos más rápido.",
+              "en": "Yes, that way we cook faster."
+            }
+          ],
+          "responseExercise": {
+            "prompt": "Mamá talks about kitchen organization. Choose a natural reply.",
+            "choices": [
+              {
+                "id": "cocina-step2-choice-1",
+                "text": "Sí, así cocinamos más rápido.",
+                "rating": "appropriate",
+                "feedback": "Great fit. Practical and natural."
+              },
+              {
+                "id": "cocina-step2-choice-2",
+                "text": "No me importa el orden.",
+                "rating": "acceptable",
+                "feedback": "Understandable, but less cooperative in this context."
+              },
+              {
+                "id": "cocina-step2-choice-3",
+                "text": "La cocina está dentro del pan.",
+                "rating": "off_target",
+                "feedback": "Off-target for this conversation."
+              }
+            ]
+          }
         }
       ]
     },
@@ -93,6 +135,48 @@
                 "text": "El vaso está en la puerta.",
                 "rating": "off_target",
                 "feedback": "Off-target for the bread offer prompt."
+              }
+            ]
+          }
+        },
+        {
+          "id": "pan-step-2",
+          "lines": [
+            {
+              "id": "pan-3",
+              "audioKey": "scene.kitchen-basic.line.pan-3",
+              "speaker": "Mamá",
+              "es": "El pan está caliente, cuidado.",
+              "en": "The bread is hot, careful."
+            },
+            {
+              "id": "pan-4",
+              "audioKey": "scene.kitchen-basic.line.pan-4",
+              "speaker": "Visitante",
+              "es": "Perfecto, tomo un pedazo pequeño.",
+              "en": "Perfect, I will take a small piece."
+            }
+          ],
+          "responseExercise": {
+            "prompt": "Mamá warns that the bread is hot. Choose a natural response.",
+            "choices": [
+              {
+                "id": "pan-step2-choice-1",
+                "text": "Perfecto, tomo un pedazo pequeño.",
+                "rating": "appropriate",
+                "feedback": "Great fit. Natural and safe reaction."
+              },
+              {
+                "id": "pan-step2-choice-2",
+                "text": "No importa, lo tomo rápido.",
+                "rating": "acceptable",
+                "feedback": "Understandable Spanish, but less careful for this moment."
+              },
+              {
+                "id": "pan-step2-choice-3",
+                "text": "El pan está en la sal y canta.",
+                "rating": "off_target",
+                "feedback": "Off-target for this warning."
               }
             ]
           }
@@ -144,6 +228,48 @@
               }
             ]
           }
+        },
+        {
+          "id": "plato-step-2",
+          "lines": [
+            {
+              "id": "plato-3",
+              "audioKey": "scene.kitchen-basic.line.plato-3",
+              "speaker": "Mamá",
+              "es": "Falta un plato para Ana.",
+              "en": "One plate for Ana is missing."
+            },
+            {
+              "id": "plato-4",
+              "audioKey": "scene.kitchen-basic.line.plato-4",
+              "speaker": "Visitante",
+              "es": "Ahora mismo pongo otro plato.",
+              "en": "I will put another plate right now."
+            }
+          ],
+          "responseExercise": {
+            "prompt": "Mamá says Ana still needs a plate. Pick a natural response.",
+            "choices": [
+              {
+                "id": "plato-step2-choice-1",
+                "text": "Ahora mismo pongo otro plato.",
+                "rating": "appropriate",
+                "feedback": "Great fit. Quick and helpful."
+              },
+              {
+                "id": "plato-step2-choice-2",
+                "text": "Que coma sin plato hoy.",
+                "rating": "acceptable",
+                "feedback": "Understandable Spanish, but not appropriate in this family setting."
+              },
+              {
+                "id": "plato-step2-choice-3",
+                "text": "El plato está en la puerta del vaso.",
+                "rating": "off_target",
+                "feedback": "Off-target for this request."
+              }
+            ]
+          }
         }
       ]
     },
@@ -192,6 +318,48 @@
               }
             ]
           }
+        },
+        {
+          "id": "vaso-step-2",
+          "lines": [
+            {
+              "id": "vaso-3",
+              "audioKey": "scene.kitchen-basic.line.vaso-3",
+              "speaker": "Mamá",
+              "es": "El vaso está al lado del plato.",
+              "en": "The glass is next to the plate."
+            },
+            {
+              "id": "vaso-4",
+              "audioKey": "scene.kitchen-basic.line.vaso-4",
+              "speaker": "Visitante",
+              "es": "Gracias, lo pongo en mi lugar.",
+              "en": "Thanks, I will place it in my spot."
+            }
+          ],
+          "responseExercise": {
+            "prompt": "Mamá points out where the glass is. Choose a natural reply.",
+            "choices": [
+              {
+                "id": "vaso-step2-choice-1",
+                "text": "Gracias, lo pongo en mi lugar.",
+                "rating": "appropriate",
+                "feedback": "Great fit. Practical and polite."
+              },
+              {
+                "id": "vaso-step2-choice-2",
+                "text": "No necesito el vaso ahora.",
+                "rating": "acceptable",
+                "feedback": "Understandable, but less aligned with the setup moment."
+              },
+              {
+                "id": "vaso-step2-choice-3",
+                "text": "El vaso está dentro del pan.",
+                "rating": "off_target",
+                "feedback": "Off-target for this table setup."
+              }
+            ]
+          }
         }
       ]
     },
@@ -237,6 +405,48 @@
                 "text": "La cocina está dentro de la sal.",
                 "rating": "off_target",
                 "feedback": "Off-target for this mealtime request."
+              }
+            ]
+          }
+        },
+        {
+          "id": "sal-step-2",
+          "lines": [
+            {
+              "id": "sal-3",
+              "audioKey": "scene.kitchen-basic.line.sal-3",
+              "speaker": "Mamá",
+              "es": "Pon solo un poco de sal.",
+              "en": "Add only a little salt."
+            },
+            {
+              "id": "sal-4",
+              "audioKey": "scene.kitchen-basic.line.sal-4",
+              "speaker": "Visitante",
+              "es": "Sí, solo un poco de sal.",
+              "en": "Yes, only a little salt."
+            }
+          ],
+          "responseExercise": {
+            "prompt": "Mamá tells you to use only a little salt. Pick a natural reply.",
+            "choices": [
+              {
+                "id": "sal-step2-choice-1",
+                "text": "Sí, solo un poco de sal.",
+                "rating": "appropriate",
+                "feedback": "Great fit. Natural and clear."
+              },
+              {
+                "id": "sal-step2-choice-2",
+                "text": "Prefiero mucha sal.",
+                "rating": "acceptable",
+                "feedback": "Understandable, but less aligned with the suggestion."
+              },
+              {
+                "id": "sal-step2-choice-3",
+                "text": "La sal cocina el plato y canta.",
+                "rating": "off_target",
+                "feedback": "Off-target for this cooking tip."
               }
             ]
           }

@@ -10,5 +10,71 @@
     "itemId": "mama",
     "topic": "Accent mark",
     "text": "Write mamá with an accent on the final 'a' when referring to mom."
+  },
+  {
+    "id": "casa-en-casa",
+    "itemId": "casa",
+    "topic": "Common location phrase",
+    "text": "Use 'en casa' to say someone is at home: 'Estoy en casa'."
+  },
+  {
+    "id": "puerta-feminine-article",
+    "itemId": "puerta",
+    "topic": "Gender and article",
+    "text": "Puerta is feminine, so use 'la puerta' in singular."
+  },
+  {
+    "id": "mesa-location",
+    "itemId": "mesa",
+    "topic": "Location with en",
+    "text": "Use 'en la mesa' for location: 'El pan está en la mesa'."
+  },
+  {
+    "id": "silla-demonstrative",
+    "itemId": "silla",
+    "topic": "Demonstrative adjective",
+    "text": "Use 'esta silla' for this chair near you, and 'esa silla' for one farther away."
+  },
+  {
+    "id": "comida-hambre",
+    "itemId": "comida",
+    "topic": "Idiomatic expression",
+    "text": "Say 'tengo hambre' for 'I am hungry' (literally, 'I have hunger')."
+  },
+  {
+    "id": "nina-tilde",
+    "itemId": "nina",
+    "topic": "Letter ñ",
+    "text": "Niña uses ñ, which is a separate letter from n in Spanish."
+  },
+  {
+    "id": "cocina-feminine",
+    "itemId": "cocina",
+    "topic": "Gender and article",
+    "text": "Cocina is feminine, so use 'la cocina'."
+  },
+  {
+    "id": "plato-singular-count",
+    "itemId": "plato",
+    "topic": "Countable noun",
+    "text": "After 'un' use singular: 'un plato', 'otro plato'."
+  },
+  {
+    "id": "vaso-de-agua",
+    "itemId": "vaso",
+    "topic": "Noun connector de",
+    "text": "Use 'vaso de agua' to say 'glass of water'."
+  },
+  {
+    "id": "pan-generic-article",
+    "itemId": "pan",
+    "topic": "Generic noun usage",
+    "text": "For food in general, Spanish often drops the article: '¿Quieres pan?'."
+  },
+  {
+    "id": "sal-un-poco-de",
+    "itemId": "sal",
+    "topic": "Quantity phrase",
+    "text": "Use 'un poco de sal' to ask for or describe a small amount of salt."
   }
 ]

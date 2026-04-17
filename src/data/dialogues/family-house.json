@@ -143,6 +143,48 @@
               }
             ]
           }
+        },
+        {
+          "id": "puerta-step-2",
+          "lines": [
+            {
+              "id": "puerta-3",
+              "audioKey": "scene.family-house.line.puerta-3",
+              "speaker": "Mamá",
+              "es": "Si hace frío, cerramos la puerta.",
+              "en": "If it is cold, we close the door."
+            },
+            {
+              "id": "puerta-4",
+              "audioKey": "scene.family-house.line.puerta-4",
+              "speaker": "Visitante",
+              "es": "Sí, cierro la puerta ahora mismo.",
+              "en": "Yes, I will close the door right now."
+            }
+          ],
+          "responseExercise": {
+            "prompt": "It's cold and Mamá mentions the door. Pick the best reply.",
+            "choices": [
+              {
+                "id": "puerta-step2-choice-1",
+                "text": "Sí, cierro la puerta ahora mismo.",
+                "rating": "appropriate",
+                "feedback": "Great fit. You react quickly and naturally."
+              },
+              {
+                "id": "puerta-step2-choice-2",
+                "text": "Prefiero dejar la puerta abierta.",
+                "rating": "acceptable",
+                "feedback": "Understandable Spanish, but less cooperative in this context."
+              },
+              {
+                "id": "puerta-step2-choice-3",
+                "text": "La puerta come pan.",
+                "rating": "off_target",
+                "feedback": "Off-target for this household request."
+              }
+            ]
+          }
         }
       ]
     },
@@ -188,6 +230,48 @@
                 "text": "La silla bebe agua.",
                 "rating": "off_target",
                 "feedback": "Off-target for this mealtime setup."
+              }
+            ]
+          }
+        },
+        {
+          "id": "mesa-step-2",
+          "lines": [
+            {
+              "id": "mesa-3",
+              "audioKey": "scene.family-house.line.mesa-3",
+              "speaker": "Mamá",
+              "es": "Pon también las servilletas en la mesa.",
+              "en": "Also put the napkins on the table."
+            },
+            {
+              "id": "mesa-4",
+              "audioKey": "scene.family-house.line.mesa-4",
+              "speaker": "Visitante",
+              "es": "Claro, preparo la mesa completa.",
+              "en": "Of course, I will finish setting the table."
+            }
+          ],
+          "responseExercise": {
+            "prompt": "Mamá asks for napkins on the table. Choose a natural response.",
+            "choices": [
+              {
+                "id": "mesa-step2-choice-1",
+                "text": "Claro, preparo la mesa completa.",
+                "rating": "appropriate",
+                "feedback": "Great fit. Clear and helpful."
+              },
+              {
+                "id": "mesa-step2-choice-2",
+                "text": "No, mejor después.",
+                "rating": "acceptable",
+                "feedback": "Understandable, but not very cooperative for this moment."
+              },
+              {
+                "id": "mesa-step2-choice-3",
+                "text": "La mesa está dentro del vaso.",
+                "rating": "off_target",
+                "feedback": "Off-target for this table task."
               }
             ]
           }
@@ -239,6 +323,48 @@
               }
             ]
           }
+        },
+        {
+          "id": "silla-step-2",
+          "lines": [
+            {
+              "id": "silla-3",
+              "audioKey": "scene.family-house.line.silla-3",
+              "speaker": "Mamá",
+              "es": "¿Esta silla te queda bien?",
+              "en": "Does this chair work well for you?"
+            },
+            {
+              "id": "silla-4",
+              "audioKey": "scene.family-house.line.silla-4",
+              "speaker": "Visitante",
+              "es": "Sí, esta silla está perfecta, gracias.",
+              "en": "Yes, this chair is perfect, thank you."
+            }
+          ],
+          "responseExercise": {
+            "prompt": "Mamá checks if the chair is fine. Pick the best response.",
+            "choices": [
+              {
+                "id": "silla-step2-choice-1",
+                "text": "Sí, esta silla está perfecta, gracias.",
+                "rating": "appropriate",
+                "feedback": "Great fit. Natural and appreciative."
+              },
+              {
+                "id": "silla-step2-choice-2",
+                "text": "No sé, quizá mañana.",
+                "rating": "acceptable",
+                "feedback": "Understandable Spanish, but unclear for this immediate question."
+              },
+              {
+                "id": "silla-step2-choice-3",
+                "text": "La silla tiene hambre.",
+                "rating": "off_target",
+                "feedback": "Off-target for this comfort check."
+              }
+            ]
+          }
         }
       ]
     },
@@ -284,6 +410,48 @@
                 "text": "El agua es una silla.",
                 "rating": "off_target",
                 "feedback": "Off-target for the greeting prompt."
+              }
+            ]
+          }
+        },
+        {
+          "id": "mama-step-2",
+          "lines": [
+            {
+              "id": "mama-3",
+              "audioKey": "scene.family-house.line.mama-3",
+              "speaker": "Mamá",
+              "es": "¿Cómo estuvo tu viaje?",
+              "en": "How was your trip?"
+            },
+            {
+              "id": "mama-4",
+              "audioKey": "scene.family-house.line.mama-4",
+              "speaker": "Visitante",
+              "es": "Muy bien, gracias. El viaje fue tranquilo.",
+              "en": "Very good, thanks. The trip was calm."
+            }
+          ],
+          "responseExercise": {
+            "prompt": "Mamá asks about your trip. Choose a natural answer.",
+            "choices": [
+              {
+                "id": "mama-step2-choice-1",
+                "text": "Muy bien, gracias. El viaje fue tranquilo.",
+                "rating": "appropriate",
+                "feedback": "Great fit. Friendly and natural."
+              },
+              {
+                "id": "mama-step2-choice-2",
+                "text": "No hablo del viaje ahora.",
+                "rating": "acceptable",
+                "feedback": "Understandable, but abrupt for this warm conversation."
+              },
+              {
+                "id": "mama-step2-choice-3",
+                "text": "Mi viaje es una mesa.",
+                "rating": "off_target",
+                "feedback": "Off-target for this question."
               }
             ]
           }
@@ -335,6 +503,48 @@
               }
             ]
           }
+        },
+        {
+          "id": "agua-step-2",
+          "lines": [
+            {
+              "id": "agua-3",
+              "audioKey": "scene.family-house.line.agua-3",
+              "speaker": "Mamá",
+              "es": "¿Quieres más agua?",
+              "en": "Do you want more water?"
+            },
+            {
+              "id": "agua-4",
+              "audioKey": "scene.family-house.line.agua-4",
+              "speaker": "Visitante",
+              "es": "Sí, un poco más de agua, por favor.",
+              "en": "Yes, a little more water, please."
+            }
+          ],
+          "responseExercise": {
+            "prompt": "Mamá offers you more water. Pick a polite response.",
+            "choices": [
+              {
+                "id": "agua-step2-choice-1",
+                "text": "Sí, un poco más de agua, por favor.",
+                "rating": "appropriate",
+                "feedback": "Great fit. Polite and specific."
+              },
+              {
+                "id": "agua-step2-choice-2",
+                "text": "No, suficiente.",
+                "rating": "acceptable",
+                "feedback": "Understandable and valid, but it does not practice accepting the offer."
+              },
+              {
+                "id": "agua-step2-choice-3",
+                "text": "El agua está en la silla.",
+                "rating": "off_target",
+                "feedback": "Off-target for this offer."
+              }
+            ]
+          }
         }
       ]
     },
@@ -383,6 +593,48 @@
               }
             ]
           }
+        },
+        {
+          "id": "comida-step-2",
+          "lines": [
+            {
+              "id": "comida-3",
+              "audioKey": "scene.family-house.line.comida-3",
+              "speaker": "Mamá",
+              "es": "Prueba la comida, está recién hecha.",
+              "en": "Try the food, it was just made."
+            },
+            {
+              "id": "comida-4",
+              "audioKey": "scene.family-house.line.comida-4",
+              "speaker": "Visitante",
+              "es": "Qué rica, gracias por la comida.",
+              "en": "So delicious, thanks for the food."
+            }
+          ],
+          "responseExercise": {
+            "prompt": "Mamá invites you to taste the meal. Choose a natural reply.",
+            "choices": [
+              {
+                "id": "comida-step2-choice-1",
+                "text": "Qué rica, gracias por la comida.",
+                "rating": "appropriate",
+                "feedback": "Great fit. Warm and natural at the table."
+              },
+              {
+                "id": "comida-step2-choice-2",
+                "text": "No tengo tiempo para comer.",
+                "rating": "acceptable",
+                "feedback": "Understandable, but less aligned with this family meal moment."
+              },
+              {
+                "id": "comida-step2-choice-3",
+                "text": "La comida abre la puerta.",
+                "rating": "off_target",
+                "feedback": "Off-target for this mealtime exchange."
+              }
+            ]
+          }
         }
       ]
     },
@@ -428,6 +680,48 @@
                 "text": "La niña está en el pan.",
                 "rating": "off_target",
                 "feedback": "Off-target for this introduction moment."
+              }
+            ]
+          }
+        },
+        {
+          "id": "nina-step-2",
+          "lines": [
+            {
+              "id": "nina-3",
+              "audioKey": "scene.family-house.line.nina-3",
+              "speaker": "Niña",
+              "es": "¿Quieres jugar después de comer?",
+              "en": "Do you want to play after eating?"
+            },
+            {
+              "id": "nina-4",
+              "audioKey": "scene.family-house.line.nina-4",
+              "speaker": "Visitante",
+              "es": "Sí, jugamos después de comer.",
+              "en": "Yes, we can play after eating."
+            }
+          ],
+          "responseExercise": {
+            "prompt": "Ana asks if you want to play later. Choose a natural reply.",
+            "choices": [
+              {
+                "id": "nina-step2-choice-1",
+                "text": "Sí, jugamos después de comer.",
+                "rating": "appropriate",
+                "feedback": "Great fit. Friendly and clear."
+              },
+              {
+                "id": "nina-step2-choice-2",
+                "text": "Ahora no puedo, tal vez más tarde.",
+                "rating": "acceptable",
+                "feedback": "Understandable and polite, but less aligned with agreeing to play."
+              },
+              {
+                "id": "nina-step2-choice-3",
+                "text": "El juego está en la sal.",
+                "rating": "off_target",
+                "feedback": "Off-target for this invitation."
               }
             ]
           }
