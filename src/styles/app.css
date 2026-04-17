@@ -627,6 +627,21 @@ button {
   color: #8a7662;
 }
 
+.dialogue-panel.is-listening-emphasis-mode .line-es,
+.dialogue-panel.is-listening-emphasis-mode .line-en {
+  transition: opacity 220ms ease, color 220ms ease;
+}
+
+.dialogue-panel.is-listening-emphasis-mode .line-es.is-soft-emphasis {
+  opacity: 0.74;
+  color: #5a4939;
+}
+
+.dialogue-panel.is-listening-emphasis-mode .line-en.is-soft-emphasis {
+  opacity: 0.68;
+  color: #967f69;
+}
+
 .grammar-text {
   margin-top: var(--space-2);
   font-size: 0.92rem;

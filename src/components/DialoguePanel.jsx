@@ -1,6 +1,21 @@
+import { useEffect, useState } from "react";
 import AudioButton from "./AudioButton";
 
-function DialoguePanel({ lines, chainContext, getLineAudioTarget, selectedItemId, currentStepIndex, stepNumber, totalSteps, isAutoAdvancePending, isRecentlyCompleted }) {
+function DialoguePanel({
+  lines,
+  chainContext,
+  getLineAudioTarget,
+  selectedItemId,
+  sceneId,
+  currentStepIndex,
+  stepNumber,
+  totalSteps,
+  isAutoAdvancePending,
+  isRecentlyCompleted
+}) {
+  const isPuertoRicoListening = sceneId === "puerto-rico-listening";
+  const [isActiveLineTextEmphasized, setIsActiveLineTextEmphasized] = useState(!isPuertoRicoListening);
+
   const normalizedLines = Array.isArray(lines)
     ? lines
       .filter((line) => line && typeof line === "object")
@@ -26,8 +41,36 @@ function DialoguePanel({ lines, chainContext, getLineAudioTarget, selectedItemId
     ? currentStepIndex
     : -1;
 
+  useEffect(() => {
+    if (!isPuertoRicoListening || activeLineIndex < 0) {
+      setIsActiveLineTextEmphasized(true);
+      return undefined;
+    }
+
+    setIsActiveLineTextEmphasized(false);
+    const timerId = window.setTimeout(() => {
+      setIsActiveLineTextEmphasized(true);
+    }, 850);
+
+    return () => {
+      window.clearTimeout(timerId);
+    };
+  }, [isPuertoRicoListening, selectedItemId, stepNumber, activeLineIndex]);
+
+  function emphasizeTextNow() {
+    if (!isPuertoRicoListening || isActiveLineTextEmphasized) {
+      return;
+    }
+    setIsActiveLineTextEmphasized(true);
+  }
+
   return (
-    <section className={`dialogue-panel ${isRecentlyCompleted ? "is-recently-completed" : ""}`} aria-label="Dialogue panel">
+    <section
+      className={`dialogue-panel ${isRecentlyCompleted ? "is-recently-completed" : ""} ${isPuertoRicoListening ? "is-listening-emphasis-mode" : ""}`}
+      aria-label="Dialogue panel"
+      onPointerDownCapture={emphasizeTextNow}
+      onTouchStartCapture={emphasizeTextNow}
+    >
       <p className="panel-label">Conversation</p>
       {totalSteps > 1 && stepNumber > 0 ? (
         <p className="response-guidance">
@@ -61,8 +104,8 @@ function DialoguePanel({ lines, chainContext, getLineAudioTarget, selectedItemId
                   </div>
                 ) : null}
               </div>
-              <p className="line-es">{line.es}</p>
-              <p className="line-en">{line.en}</p>
+              <p className={`line-es ${isPuertoRicoListening && isActiveLine && !isActiveLineTextEmphasized ? "is-soft-emphasis" : ""}`}>{line.es}</p>
+              <p className={`line-en ${isPuertoRicoListening && isActiveLine && !isActiveLineTextEmphasized ? "is-soft-emphasis" : ""}`}>{line.en}</p>
             </li>
           );
         })}

@@ -129,6 +129,7 @@ function AppLayout({ sceneState, dialogueState }) {
             selectedItem={sceneState.selectedItem}
             dialogueState={dialogueState}
             grammarHint={sceneState.grammarHint}
+            sceneId={sceneState.sceneId}
           />
         </section>
       </main>

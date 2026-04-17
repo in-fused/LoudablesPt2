@@ -5,7 +5,7 @@ import GrammarHint from "./GrammarHint";
 import ResponseChoices from "./ResponseChoices";
 import { playAudioTarget } from "../lib/audio";
 
-function BottomDrawer({ selectedItem, dialogueState, grammarHint }) {
+function BottomDrawer({ selectedItem, dialogueState, grammarHint, sceneId }) {
   const selectedItemLabel = selectedItem ? selectedItem.spanish : "No item selected yet";
   const selectedItemSubLabel = selectedItem ? selectedItem.english : "Tap a highlighted word to begin";
 
@@ -212,6 +212,7 @@ function BottomDrawer({ selectedItem, dialogueState, grammarHint }) {
           lines={dialogueLines}
           chainContext={chainContext}
           selectedItemId={itemId}
+          sceneId={sceneId}
           getLineAudioTarget={dialogueState?.getLineAudioTarget}
           currentStepIndex={conversationState.currentStepIndex}
           stepNumber={conversationState.stepNumber}
