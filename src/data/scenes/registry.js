@@ -31,6 +31,10 @@ function safeArray(value) {
   return Array.isArray(value) ? value : [];
 }
 
+function safeObject(value) {
+  return value && typeof value === "object" ? value : {};
+}
+
 function normalizeVocabularyItem(item) {
   if (!item || typeof item !== "object" || !item.id) {
     return null;
@@ -70,7 +74,8 @@ function normalizeScene(sceneData, vocabularyData, fallbackId, fallbackLabel) {
   if (!sceneData || typeof sceneData !== "object") {
     return {
       ...FALLBACK_SCENE,
-      id: fallbackId || FALLBACK_SCENE.id
+      id: fallbackId || FALLBACK_SCENE.id,
+      label: fallbackLabel || FALLBACK_SCENE.title
     };
   }
 
@@ -99,36 +104,97 @@ function normalizeScene(sceneData, vocabularyData, fallbackId, fallbackLabel) {
   };
 }
 
-const SCENE_REGISTRY = [
+function normalizeDialogue(dialogueData, fallbackSceneId, fallbackTitle) {
+  const safeDialogue = safeObject(dialogueData);
+  const itemDialogues = safeObject(safeDialogue.itemDialogues);
+
+  return {
+    moduleId: safeDialogue.moduleId || null,
+    sceneId: safeDialogue.sceneId || fallbackSceneId,
+    title: safeDialogue.title || fallbackTitle || "Scene Dialogue",
+    itemDialogues
+  };
+}
+
+function normalizeMetadata({ difficulty, category }) {
+  const safeDifficulty = typeof difficulty === "string" && difficulty.trim() ? difficulty.trim() : null;
+  const safeCategory = typeof category === "string" && category.trim() ? category.trim() : null;
+
+  if (!safeDifficulty && !safeCategory) {
+    return {};
+  }
+
+  return {
+    ...(safeDifficulty ? { difficulty: safeDifficulty } : {}),
+    ...(safeCategory ? { category: safeCategory } : {})
+  };
+}
+
+const MODULE_DEFINITIONS = [
   {
     id: "family-house",
     label: "Family House",
-    scene: normalizeScene(familyHouseSceneData, familyHouseVocabularyData, "family-house", "Family House"),
-    dialogue: familyHouseDialogueData,
-    vocabulary: normalizeVocabulary(familyHouseVocabularyData)
+    sceneData: familyHouseSceneData,
+    dialogueData: familyHouseDialogueData,
+    vocabularyData: familyHouseVocabularyData,
+    difficulty: "beginner",
+    category: "home"
   },
   {
     id: "kitchen-basic",
     label: "Kitchen Basics",
-    scene: normalizeScene(kitchenBasicSceneData, kitchenBasicVocabularyData, "kitchen-basic", "Kitchen Basics"),
-    dialogue: kitchenBasicDialogueData,
-    vocabulary: normalizeVocabulary(kitchenBasicVocabularyData)
+    sceneData: kitchenBasicSceneData,
+    dialogueData: kitchenBasicDialogueData,
+    vocabularyData: kitchenBasicVocabularyData,
+    difficulty: "beginner",
+    category: "home"
   },
   {
     id: "puerto-rico-listening",
     label: "Module 3 — Puerto Rican Audio Conversations",
-    scene: normalizeScene(puertoRicoListeningSceneData, null, "puerto-rico-listening", "Puerto Rican Audio Conversations"),
-    dialogue: puertoRicoListeningDialogueData,
-    vocabulary: { list: [], byId: {} }
+    sceneData: puertoRicoListeningSceneData,
+    dialogueData: puertoRicoListeningDialogueData,
+    vocabularyData: null,
+    difficulty: "listening",
+    category: "social"
   },
   {
     id: "city-transit",
     label: "Getting Around Town",
-    scene: normalizeScene(cityTransitSceneData, cityTransitVocabularyData, "city-transit", "Getting Around Town"),
-    dialogue: cityTransitDialogueData,
-    vocabulary: normalizeVocabulary(cityTransitVocabularyData)
+    sceneData: cityTransitSceneData,
+    dialogueData: cityTransitDialogueData,
+    vocabularyData: cityTransitVocabularyData,
+    difficulty: "beginner",
+    category: "transit"
   }
 ];
+
+function buildSceneRegistryEntry(definition) {
+  if (!definition || !definition.id) {
+    return null;
+  }
+
+  const scene = normalizeScene(definition.sceneData, definition.vocabularyData, definition.id, definition.label);
+  const dialogue = normalizeDialogue(definition.dialogueData, scene.id, scene.title);
+  const vocabulary = normalizeVocabulary(definition.vocabularyData);
+  const metadata = normalizeMetadata({
+    difficulty: definition.difficulty ?? definition.sceneData?.difficulty,
+    category: definition.category ?? definition.sceneData?.category
+  });
+
+  return {
+    id: definition.id,
+    label: definition.label || scene.title,
+    scene,
+    dialogue,
+    vocabulary,
+    ...metadata
+  };
+}
+
+const SCENE_REGISTRY = MODULE_DEFINITIONS
+  .map((definition) => buildSceneRegistryEntry(definition))
+  .filter(Boolean);
 
 const SCENE_REGISTRY_BY_ID = SCENE_REGISTRY.reduce((acc, entry) => {
   if (entry?.id) {
