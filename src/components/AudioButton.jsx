@@ -30,7 +30,7 @@ function AudioButton({ label, audioKey, audioTarget, variant = "primary" }) {
         if (isPlayingThisKey) {
           return;
         }
-        playAudioTarget(resolvedAudioKey);
+        playAudioTarget(resolvedTarget);
       }}
       aria-label={buttonLabel}
       aria-pressed={isPlayingThisKey}

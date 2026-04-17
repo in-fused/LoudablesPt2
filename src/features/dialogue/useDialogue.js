@@ -694,7 +694,8 @@ export function useDialogue(sceneId) {
 
     return {
       key,
-      label: `Play ${spokenLabel} audio`
+      label: `Play ${spokenLabel} audio`,
+      ttsText: selectedItem?.spanish || vocabularyById[itemId]?.spanish || ""
     };
   }
 
@@ -710,7 +711,8 @@ export function useDialogue(sceneId) {
 
     return {
       key: line.audioKey || buildAudioKey(sceneId, "line", lineId),
-      label: `Play ${line.speaker || "dialogue"} line`
+      label: `Play ${line.speaker || "dialogue"} line`,
+      ttsText: typeof line.es === "string" ? line.es : ""
     };
   }
 

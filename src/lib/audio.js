@@ -113,6 +113,7 @@ const AUDIO_SOURCE_MAP = buildAudioSourceMap(AUDIO_ASSETS_BY_SCENE);
 
 let activeAudio = null;
 let activeRequestId = 0;
+let activeSpeechUtterance = null;
 let playbackState = {
   isPlaying: false,
   activeKey: null
@@ -148,23 +149,27 @@ export function normalizeAudioTarget(target) {
     const key = toSafeString(target);
     return {
       key: key || "placeholder",
-      label: "Play audio"
+      label: "Play audio",
+      ttsText: ""
     };
   }
 
   if (target && typeof target === "object") {
     const key = toSafeString(target.key);
     const label = toSafeString(target.label);
+    const ttsText = toSafeString(target.ttsText || target.es);
     return {
       ...target,
       key: key || "placeholder",
-      label: label || "Play audio"
+      label: label || "Play audio",
+      ttsText
     };
   }
 
   return {
     key: "placeholder",
-    label: "Play audio"
+    label: "Play audio",
+    ttsText: ""
   };
 }
 
@@ -182,30 +187,115 @@ function resolveAudioSource(key) {
 }
 
 function stopActiveAudio() {
+  const speechSynthesisApi = typeof window !== "undefined" ? window.speechSynthesis : null;
+
   if (!activeAudio) {
-    setPlaybackState({ isPlaying: false, activeKey: null });
-    return;
+    if (!activeSpeechUtterance) {
+      setPlaybackState({ isPlaying: false, activeKey: null });
+      return;
+    }
+  }
+
+  if (activeAudio) {
+    try {
+      activeAudio.pause();
+      activeAudio.currentTime = 0;
+    } catch {
+      // Silently ignore browser/audio-state errors.
+    }
+
+    activeAudio = null;
   }
 
   try {
-    activeAudio.pause();
-    activeAudio.currentTime = 0;
+    if (speechSynthesisApi && typeof speechSynthesisApi.cancel === "function") {
+      speechSynthesisApi.cancel();
+    }
   } catch {
-    // Silently ignore browser/audio-state errors.
+    // Silently ignore speech synthesis errors.
   }
 
-  activeAudio = null;
+  activeSpeechUtterance = null;
   setPlaybackState({ isPlaying: false, activeKey: null });
+}
+
+function resolveSpanishVoice() {
+  if (typeof window === "undefined" || !window.speechSynthesis || typeof window.speechSynthesis.getVoices !== "function") {
+    return null;
+  }
+
+  const voices = window.speechSynthesis.getVoices();
+  if (!Array.isArray(voices) || !voices.length) {
+    return null;
+  }
+
+  return (
+    voices.find((voice) => toSafeString(voice?.lang).toLowerCase() === "es-es")
+    || voices.find((voice) => toSafeString(voice?.lang).toLowerCase().startsWith("es"))
+    || null
+  );
+}
+
+function playTtsFallback(target, requestId) {
+  const normalizedTarget = normalizeAudioTarget(target);
+  const ttsText = toSafeString(normalizedTarget.ttsText);
+
+  if (!ttsText) {
+    return false;
+  }
+
+  if (
+    typeof window === "undefined"
+    || !window.speechSynthesis
+    || typeof SpeechSynthesisUtterance !== "function"
+  ) {
+    return false;
+  }
+
+  try {
+    const utterance = new SpeechSynthesisUtterance(ttsText);
+    utterance.lang = "es-ES";
+    const spanishVoice = resolveSpanishVoice();
+    if (spanishVoice) {
+      utterance.voice = spanishVoice;
+      utterance.lang = spanishVoice.lang || "es-ES";
+    }
+
+    setPlaybackState({ isPlaying: true, activeKey: normalizedTarget.key });
+    activeSpeechUtterance = utterance;
+
+    utterance.onend = () => {
+      if (activeRequestId !== requestId || activeSpeechUtterance !== utterance) {
+        return;
+      }
+
+      activeSpeechUtterance = null;
+      setPlaybackState({ isPlaying: false, activeKey: null });
+    };
+
+    utterance.onerror = () => {
+      if (activeRequestId !== requestId || activeSpeechUtterance !== utterance) {
+        return;
+      }
+
+      activeSpeechUtterance = null;
+      setPlaybackState({ isPlaying: false, activeKey: null });
+    };
+
+    window.speechSynthesis.speak(utterance);
+    return true;
+  } catch {
+    if (activeRequestId === requestId) {
+      activeSpeechUtterance = null;
+      setPlaybackState({ isPlaying: false, activeKey: null });
+    }
+    return false;
+  }
 }
 
 export function playAudioTarget(target) {
   const normalizedTarget = normalizeAudioTarget(target);
-  if (typeof window === "undefined" || typeof Audio !== "function") {
-    return normalizedTarget;
-  }
-
-  const source = resolveAudioSource(normalizedTarget.key);
-  if (!source) {
+  if (typeof window === "undefined") {
     return normalizedTarget;
   }
 
@@ -213,6 +303,12 @@ export function playAudioTarget(target) {
   const requestId = activeRequestId;
 
   stopActiveAudio();
+
+  const source = resolveAudioSource(normalizedTarget.key);
+  if (!source || typeof Audio !== "function") {
+    playTtsFallback(normalizedTarget, requestId);
+    return normalizedTarget;
+  }
 
   const audio = new Audio(source);
   activeAudio = audio;
@@ -226,8 +322,12 @@ export function playAudioTarget(target) {
   });
 
   audio.addEventListener("error", () => {
-    if (activeAudio === audio) {
-      activeAudio = null;
+    if (activeRequestId !== requestId || activeAudio !== audio) {
+      return;
+    }
+
+    activeAudio = null;
+    if (!playTtsFallback(normalizedTarget, requestId)) {
       setPlaybackState({ isPlaying: false, activeKey: null });
     }
   });
@@ -235,8 +335,12 @@ export function playAudioTarget(target) {
   const playPromise = audio.play();
   if (playPromise && typeof playPromise.catch === "function") {
     playPromise.catch(() => {
-      if (activeRequestId === requestId && activeAudio === audio) {
-        activeAudio = null;
+      if (activeRequestId !== requestId || activeAudio !== audio) {
+        return;
+      }
+
+      activeAudio = null;
+      if (!playTtsFallback(normalizedTarget, requestId)) {
         setPlaybackState({ isPlaying: false, activeKey: null });
       }
     });
