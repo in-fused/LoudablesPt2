@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import AudioButton from "./AudioButton";
 
 function DialoguePanel({
@@ -14,7 +14,8 @@ function DialoguePanel({
   isRecentlyCompleted
 }) {
   const isPuertoRicoListening = sceneId === "puerto-rico-listening";
-  const [isActiveLineTextEmphasized, setIsActiveLineTextEmphasized] = useState(!isPuertoRicoListening);
+  const [softEmphasisLineKey, setSoftEmphasisLineKey] = useState("");
+  const previousActiveLineKeyRef = useRef("");
 
   const normalizedLines = Array.isArray(lines)
     ? lines
@@ -40,28 +41,38 @@ function DialoguePanel({
   const activeLineIndex = Number.isInteger(currentStepIndex) && currentStepIndex >= 0 && currentStepIndex < safeLines.length
     ? currentStepIndex
     : -1;
+  const activeLine = activeLineIndex >= 0 ? safeLines[activeLineIndex] : null;
+  const activeLineKey = activeLine?.id
+    ? `${selectedItemId || "item"}:${activeLine.id}:${stepNumber || 0}`
+    : "";
 
   useEffect(() => {
-    if (!isPuertoRicoListening || activeLineIndex < 0) {
-      setIsActiveLineTextEmphasized(true);
+    if (!isPuertoRicoListening || !activeLineKey) {
+      setSoftEmphasisLineKey("");
+      previousActiveLineKeyRef.current = "";
       return undefined;
     }
 
-    setIsActiveLineTextEmphasized(false);
+    if (previousActiveLineKeyRef.current === activeLineKey) {
+      return undefined;
+    }
+
+    previousActiveLineKeyRef.current = activeLineKey;
+    setSoftEmphasisLineKey(activeLineKey);
     const timerId = window.setTimeout(() => {
-      setIsActiveLineTextEmphasized(true);
-    }, 850);
+      setSoftEmphasisLineKey((currentKey) => (currentKey === activeLineKey ? "" : currentKey));
+    }, 780);
 
     return () => {
       window.clearTimeout(timerId);
     };
-  }, [isPuertoRicoListening, selectedItemId, stepNumber, activeLineIndex]);
+  }, [isPuertoRicoListening, activeLineKey]);
 
   function emphasizeTextNow() {
-    if (!isPuertoRicoListening || isActiveLineTextEmphasized) {
+    if (!isPuertoRicoListening || !softEmphasisLineKey) {
       return;
     }
-    setIsActiveLineTextEmphasized(true);
+    setSoftEmphasisLineKey("");
   }
 
   return (
@@ -88,6 +99,10 @@ function DialoguePanel({
       <ul className="dialogue-list">
         {safeLines.map((line, index) => {
           const isActiveLine = index === activeLineIndex;
+          const lineKey = line?.id
+            ? `${selectedItemId || "item"}:${line.id}:${stepNumber || 0}`
+            : "";
+          const isSoftEmphasisActive = isPuertoRicoListening && isActiveLine && softEmphasisLineKey === lineKey;
           const lineAudioTarget = isActiveLine ? getLineAudioTarget?.(line, selectedItemId) : null;
 
           return (
@@ -104,8 +119,8 @@ function DialoguePanel({
                   </div>
                 ) : null}
               </div>
-              <p className={`line-es ${isPuertoRicoListening && isActiveLine && !isActiveLineTextEmphasized ? "is-soft-emphasis" : ""}`}>{line.es}</p>
-              <p className={`line-en ${isPuertoRicoListening && isActiveLine && !isActiveLineTextEmphasized ? "is-soft-emphasis" : ""}`}>{line.en}</p>
+              <p className={`line-es ${isSoftEmphasisActive ? "is-soft-emphasis" : ""}`}>{line.es}</p>
+              <p className={`line-en ${isSoftEmphasisActive ? "is-soft-emphasis" : ""}`}>{line.en}</p>
             </li>
           );
         })}
