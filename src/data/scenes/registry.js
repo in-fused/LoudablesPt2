@@ -1,10 +1,10 @@
 import familyHouseSceneData from "./family-house.json";
 import kitchenBasicSceneData from "./kitchen-basic.json";
-import listeningModuleSceneData from "./listening-module.json";           // ← NEW
+import puertoRicoListeningSceneData from "./puerto-rico-listening.json";
 
 import familyHouseDialogueData from "../dialogues/family-house.json";
 import kitchenBasicDialogueData from "../dialogues/kitchen-basic.json";
-import listeningModuleDialogueData from "../dialogues/listening-module.json";   // ← NEW
+import puertoRicoListeningDialogueData from "../dialogues/puerto-rico-listening.json";
 
 import familyHouseVocabularyData from "../vocabulary/family-house.json";
 import kitchenBasicVocabularyData from "../vocabulary/kitchen-basic.json";
@@ -112,11 +112,11 @@ const SCENE_REGISTRY = [
     vocabulary: normalizeVocabulary(kitchenBasicVocabularyData)
   },
   {
-    id: "listening-module",
-    label: "Module 3 — Puerto Rican Real Talk",
-    scene: normalizeScene(listeningModuleSceneData, null, "listening-module", "Puerto Rican Real Talk"),
-    dialogue: listeningModuleDialogueData,
-    vocabulary: { list: [], byId: {} }     // listening module uses audio + dialogues only
+    id: "puerto-rico-listening",
+    label: "Module 3 — Puerto Rican Audio Conversations",
+    scene: normalizeScene(puertoRicoListeningSceneData, null, "puerto-rico-listening", "Puerto Rican Audio Conversations"),
+    dialogue: puertoRicoListeningDialogueData,
+    vocabulary: { list: [], byId: {} }
   }
 ];
 

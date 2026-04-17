@@ -1,0 +1,37 @@
+{
+  "id": "puerto-rico-listening",
+  "title": "Puerto Rican Real Talk",
+  "description": "Practice short everyday Puerto Rican exchanges with authentic island audio clips.",
+  "itemIds": [
+    "saludo-barrio",
+    "cierre-amistoso",
+    "espera-info",
+    "pedir-detalles"
+  ],
+  "items": [
+    {
+      "id": "saludo-barrio",
+      "spanish": "saludo",
+      "english": "greeting",
+      "audioKey": "scene.listening-module.line.hola-cristina"
+    },
+    {
+      "id": "cierre-amistoso",
+      "spanish": "despedida",
+      "english": "friendly goodbye",
+      "audioKey": "scene.listening-module.line.nos-vemos-mas-tarde-gracias"
+    },
+    {
+      "id": "espera-info",
+      "spanish": "confirmar información",
+      "english": "confirming info",
+      "audioKey": "scene.listening-module.line.perfecto-espero-la-informacion-gracias"
+    },
+    {
+      "id": "pedir-detalles",
+      "spanish": "pedir detalles",
+      "english": "asking for details",
+      "audioKey": "scene.listening-module.line.por-favor-dame-la-informacion-completa"
+    }
+  ]
+}

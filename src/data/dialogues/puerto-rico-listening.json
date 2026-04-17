@@ -1,0 +1,339 @@
+{
+  "moduleId": "module3",
+  "sceneId": "puerto-rico-listening",
+  "title": "Puerto Rican Real Talk",
+  "itemDialogues": {
+    "saludo-barrio": {
+      "itemId": "saludo-barrio",
+      "audioKey": "scene.listening-module.line.hola-cristina",
+      "steps": [
+        {
+          "id": "saludo-barrio-step-1",
+          "lines": [
+            {
+              "id": "saludo-barrio-1",
+              "audioKey": "scene.listening-module.line.hola-cristina",
+              "speaker": "Amiga",
+              "es": "¡Hola, Cristina! Qué bueno verte.",
+              "en": "Hi, Cristina! Great to see you."
+            }
+          ],
+          "responseExercise": {
+            "prompt": "Your friend greets you warmly. What is a natural response?",
+            "choices": [
+              {
+                "id": "saludo-barrio-step1-choice-1",
+                "text": "¡Hola! Todo bien, ¿y tú?",
+                "rating": "appropriate",
+                "feedback": "Perfect. Warm and very natural for a casual PR greeting."
+              },
+              {
+                "id": "saludo-barrio-step1-choice-2",
+                "text": "Buenos días, señora.",
+                "rating": "acceptable",
+                "feedback": "Correct Spanish, but it sounds too formal for this moment."
+              },
+              {
+                "id": "saludo-barrio-step1-choice-3",
+                "text": "La casa está abierta.",
+                "rating": "off_target",
+                "feedback": "Off-target for a greeting exchange."
+              }
+            ]
+          }
+        },
+        {
+          "id": "saludo-barrio-step-2",
+          "lines": [
+            {
+              "id": "saludo-barrio-2",
+              "audioKey": "scene.listening-module.line.hola-cristina",
+              "speaker": "Tú",
+              "es": "¡Hola! Todo bien, ¿y tú?",
+              "en": "Hi! I'm good, and you?"
+            },
+            {
+              "id": "saludo-barrio-3",
+              "audioKey": "scene.listening-module.line.hola-cristina",
+              "speaker": "Amiga",
+              "es": "Todo tranquilo, gracias.",
+              "en": "All good, thanks."
+            }
+          ],
+          "responseExercise": {
+            "prompt": "She says everything is fine. Choose a friendly follow-up.",
+            "choices": [
+              {
+                "id": "saludo-barrio-step2-choice-1",
+                "text": "Qué bueno, me alegro.",
+                "rating": "appropriate",
+                "feedback": "Great fit. Short, warm, and natural."
+              },
+              {
+                "id": "saludo-barrio-step2-choice-2",
+                "text": "Necesito la información completa.",
+                "rating": "acceptable",
+                "feedback": "Understandable, but it changes topic too quickly."
+              },
+              {
+                "id": "saludo-barrio-step2-choice-3",
+                "text": "La puerta está en la mesa.",
+                "rating": "off_target",
+                "feedback": "Off-target for this conversation."
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "cierre-amistoso": {
+      "itemId": "cierre-amistoso",
+      "audioKey": "scene.listening-module.line.nos-vemos-mas-tarde-gracias",
+      "steps": [
+        {
+          "id": "cierre-amistoso-step-1",
+          "lines": [
+            {
+              "id": "cierre-amistoso-1",
+              "audioKey": "scene.listening-module.line.nos-vemos-mas-tarde-gracias",
+              "speaker": "Amigo",
+              "es": "Nos vemos más tarde, gracias.",
+              "en": "See you later, thanks."
+            }
+          ],
+          "responseExercise": {
+            "prompt": "Your friend says goodbye for now. What's a natural reply?",
+            "choices": [
+              {
+                "id": "cierre-amistoso-step1-choice-1",
+                "text": "¡Dale, nos vemos!",
+                "rating": "appropriate",
+                "feedback": "Excellent. Very natural in Puerto Rican casual speech."
+              },
+              {
+                "id": "cierre-amistoso-step1-choice-2",
+                "text": "Adiós, hasta nunca.",
+                "rating": "acceptable",
+                "feedback": "Grammatically fine, but the tone is too distant."
+              },
+              {
+                "id": "cierre-amistoso-step1-choice-3",
+                "text": "La niña quiere pan.",
+                "rating": "off_target",
+                "feedback": "Off-target for this goodbye moment."
+              }
+            ]
+          }
+        },
+        {
+          "id": "cierre-amistoso-step-2",
+          "lines": [
+            {
+              "id": "cierre-amistoso-2",
+              "audioKey": "scene.listening-module.line.nos-vemos-mas-tarde-gracias",
+              "speaker": "Tú",
+              "es": "¡Dale, nos vemos!",
+              "en": "Sounds good, see you!"
+            },
+            {
+              "id": "cierre-amistoso-3",
+              "audioKey": "scene.listening-module.line.nos-vemos-mas-tarde-gracias",
+              "speaker": "Amigo",
+              "es": "Cuídate mucho.",
+              "en": "Take care."
+            }
+          ],
+          "responseExercise": {
+            "prompt": "They add 'Cuídate mucho.' Choose a fitting response.",
+            "choices": [
+              {
+                "id": "cierre-amistoso-step2-choice-1",
+                "text": "Igual, cuídate.",
+                "rating": "appropriate",
+                "feedback": "Perfect close. Natural and friendly."
+              },
+              {
+                "id": "cierre-amistoso-step2-choice-2",
+                "text": "No me cuido.",
+                "rating": "acceptable",
+                "feedback": "Understandable, but it sounds odd in this context."
+              },
+              {
+                "id": "cierre-amistoso-step2-choice-3",
+                "text": "El vaso está caliente.",
+                "rating": "off_target",
+                "feedback": "Off-target for this farewell."
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "espera-info": {
+      "itemId": "espera-info",
+      "audioKey": "scene.listening-module.line.perfecto-espero-la-informacion-gracias",
+      "steps": [
+        {
+          "id": "espera-info-step-1",
+          "lines": [
+            {
+              "id": "espera-info-1",
+              "audioKey": "scene.listening-module.line.perfecto-espero-la-informacion-gracias",
+              "speaker": "Cliente",
+              "es": "Perfecto, espero la información, gracias.",
+              "en": "Perfect, I'll wait for the information, thanks."
+            }
+          ],
+          "responseExercise": {
+            "prompt": "Someone says they'll wait for the info. Pick a natural response.",
+            "choices": [
+              {
+                "id": "espera-info-step1-choice-1",
+                "text": "Claro, te la envío ahora mismo.",
+                "rating": "appropriate",
+                "feedback": "Great fit. Clear and polite."
+              },
+              {
+                "id": "espera-info-step1-choice-2",
+                "text": "Después vemos eso.",
+                "rating": "acceptable",
+                "feedback": "Understandable, but less helpful for this request."
+              },
+              {
+                "id": "espera-info-step1-choice-3",
+                "text": "La silla está en la cocina.",
+                "rating": "off_target",
+                "feedback": "Off-target for this exchange."
+              }
+            ]
+          }
+        },
+        {
+          "id": "espera-info-step-2",
+          "lines": [
+            {
+              "id": "espera-info-2",
+              "audioKey": "scene.listening-module.line.perfecto-espero-la-informacion-gracias",
+              "speaker": "Tú",
+              "es": "Claro, te la envío ahora mismo.",
+              "en": "Of course, I'll send it right now."
+            },
+            {
+              "id": "espera-info-3",
+              "audioKey": "scene.listening-module.line.perfecto-espero-la-informacion-gracias",
+              "speaker": "Cliente",
+              "es": "Gracias, quedo pendiente.",
+              "en": "Thanks, I'll stay tuned."
+            }
+          ],
+          "responseExercise": {
+            "prompt": "They say 'Gracias, quedo pendiente.' What sounds natural?",
+            "choices": [
+              {
+                "id": "espera-info-step2-choice-1",
+                "text": "Con gusto, te escribo ya.",
+                "rating": "appropriate",
+                "feedback": "Excellent. Natural and responsive."
+              },
+              {
+                "id": "espera-info-step2-choice-2",
+                "text": "No tengo nada.",
+                "rating": "acceptable",
+                "feedback": "Understandable, but doesn't match the polite flow."
+              },
+              {
+                "id": "espera-info-step2-choice-3",
+                "text": "La comida está fría.",
+                "rating": "off_target",
+                "feedback": "Off-target for this context."
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "pedir-detalles": {
+      "itemId": "pedir-detalles",
+      "audioKey": "scene.listening-module.line.por-favor-dame-la-informacion-completa",
+      "steps": [
+        {
+          "id": "pedir-detalles-step-1",
+          "lines": [
+            {
+              "id": "pedir-detalles-1",
+              "audioKey": "scene.listening-module.line.por-favor-dame-la-informacion-completa",
+              "speaker": "Compañera",
+              "es": "Por favor, dame la información completa.",
+              "en": "Please give me the full information."
+            }
+          ],
+          "responseExercise": {
+            "prompt": "They ask for complete details. Which reply is best?",
+            "choices": [
+              {
+                "id": "pedir-detalles-step1-choice-1",
+                "text": "Sí, te envío todo ahora.",
+                "rating": "appropriate",
+                "feedback": "Great response. Direct and helpful."
+              },
+              {
+                "id": "pedir-detalles-step1-choice-2",
+                "text": "Solo te doy una parte.",
+                "rating": "acceptable",
+                "feedback": "Understandable, but not aligned with the request."
+              },
+              {
+                "id": "pedir-detalles-step1-choice-3",
+                "text": "La puerta necesita sal.",
+                "rating": "off_target",
+                "feedback": "Off-target for this request."
+              }
+            ]
+          }
+        },
+        {
+          "id": "pedir-detalles-step-2",
+          "lines": [
+            {
+              "id": "pedir-detalles-2",
+              "audioKey": "scene.listening-module.line.por-favor-dame-la-informacion-completa",
+              "speaker": "Tú",
+              "es": "Sí, te envío todo ahora.",
+              "en": "Yes, I'll send everything now."
+            },
+            {
+              "id": "pedir-detalles-3",
+              "audioKey": "scene.listening-module.line.por-favor-dame-la-informacion-completa",
+              "speaker": "Compañera",
+              "es": "Perfecto, gracias por ayudarme.",
+              "en": "Perfect, thanks for helping me."
+            }
+          ],
+          "responseExercise": {
+            "prompt": "They thank you for helping. Pick a natural final reply.",
+            "choices": [
+              {
+                "id": "pedir-detalles-step2-choice-1",
+                "text": "A la orden, para eso estamos.",
+                "rating": "appropriate",
+                "feedback": "Excellent closing. Warm and very natural."
+              },
+              {
+                "id": "pedir-detalles-step2-choice-2",
+                "text": "Bueno, adiós.",
+                "rating": "acceptable",
+                "feedback": "It works, but sounds abrupt here."
+              },
+              {
+                "id": "pedir-detalles-step2-choice-3",
+                "text": "El pan está en la sala.",
+                "rating": "off_target",
+                "feedback": "Off-target for this closing."
+              }
+            ]
+          }
+        }
+      ]
+    }
+  }
+}
