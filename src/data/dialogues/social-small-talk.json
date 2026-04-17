@@ -1,0 +1,547 @@
+{
+  "moduleId": "module6",
+  "sceneId": "social-small-talk",
+  "title": "Social Small Talk",
+  "itemDialogues": {
+    "introduccion": {
+      "itemId": "introduccion",
+      "audioKey": "scene.social-small-talk.item.introduccion",
+      "steps": [
+        {
+          "id": "introduccion-step-1",
+          "lines": [
+            {
+              "id": "introduccion-1",
+              "audioKey": "scene.social-small-talk.line.introduccion-1",
+              "speaker": "Persona A",
+              "es": "Hola, mucho gusto.",
+              "en": "Hi, nice to meet you."
+            },
+            {
+              "id": "introduccion-2",
+              "audioKey": "scene.social-small-talk.line.introduccion-2",
+              "speaker": "Persona B",
+              "es": "Igualmente, encantado de conocerte.",
+              "en": "Likewise, pleased to meet you."
+            }
+          ],
+          "responseExercise": {
+            "prompt": "Someone says: 'Hola, mucho gusto.' Choose a natural social response.",
+            "choices": [
+              {
+                "id": "introduccion-step1-choice-1",
+                "text": "Igualmente, encantado de conocerte.",
+                "rating": "appropriate",
+                "feedback": "Great fit. Polite and common in first meetings."
+              },
+              {
+                "id": "introduccion-step1-choice-2",
+                "text": "Si, gracias.",
+                "rating": "acceptable",
+                "feedback": "Understandable, but less warm and specific."
+              },
+              {
+                "id": "introduccion-step1-choice-3",
+                "text": "La introduccion toma cafe.",
+                "rating": "off_target",
+                "feedback": "Off-target for this greeting."
+              }
+            ]
+          }
+        },
+        {
+          "id": "introduccion-step-2",
+          "lines": [
+            {
+              "id": "introduccion-3",
+              "audioKey": "scene.social-small-talk.line.introduccion-3",
+              "speaker": "Persona A",
+              "es": "Es tu primera vez en este evento?",
+              "en": "Is this your first time at this event?"
+            },
+            {
+              "id": "introduccion-4",
+              "audioKey": "scene.social-small-talk.line.introduccion-4",
+              "speaker": "Persona B",
+              "es": "Si, es mi primera vez aqui.",
+              "en": "Yes, it is my first time here."
+            }
+          ],
+          "responseExercise": {
+            "prompt": "You are asked if this is your first time at the event. Pick the best answer.",
+            "choices": [
+              {
+                "id": "introduccion-step2-choice-1",
+                "text": "Si, es mi primera vez aqui.",
+                "rating": "appropriate",
+                "feedback": "Great fit. Clear and natural."
+              },
+              {
+                "id": "introduccion-step2-choice-2",
+                "text": "No estoy seguro.",
+                "rating": "acceptable",
+                "feedback": "Understandable, but less informative."
+              },
+              {
+                "id": "introduccion-step2-choice-3",
+                "text": "El evento vive en la cocina.",
+                "rating": "off_target",
+                "feedback": "Off-target for this question."
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "nombre": {
+      "itemId": "nombre",
+      "audioKey": "scene.social-small-talk.item.nombre",
+      "steps": [
+        {
+          "id": "nombre-step-1",
+          "lines": [
+            {
+              "id": "nombre-1",
+              "audioKey": "scene.social-small-talk.line.nombre-1",
+              "speaker": "Persona A",
+              "es": "Como te llamas?",
+              "en": "What is your name?"
+            },
+            {
+              "id": "nombre-2",
+              "audioKey": "scene.social-small-talk.line.nombre-2",
+              "speaker": "Persona B",
+              "es": "Me llamo Sofia. Y tu?",
+              "en": "My name is Sofia. And you?"
+            }
+          ],
+          "responseExercise": {
+            "prompt": "Someone asks your name. Choose a natural response.",
+            "choices": [
+              {
+                "id": "nombre-step1-choice-1",
+                "text": "Me llamo Daniel. Mucho gusto.",
+                "rating": "appropriate",
+                "feedback": "Great fit. Clear and friendly."
+              },
+              {
+                "id": "nombre-step1-choice-2",
+                "text": "No quiero decir mi nombre.",
+                "rating": "acceptable",
+                "feedback": "Understandable, but less social for small talk."
+              },
+              {
+                "id": "nombre-step1-choice-3",
+                "text": "Mi nombre es una mesa.",
+                "rating": "off_target",
+                "feedback": "Off-target for this introduction."
+              }
+            ]
+          }
+        },
+        {
+          "id": "nombre-step-2",
+          "lines": [
+            {
+              "id": "nombre-3",
+              "audioKey": "scene.social-small-talk.line.nombre-3",
+              "speaker": "Persona A",
+              "es": "Que gusto, Sofia.",
+              "en": "Nice to meet you, Sofia."
+            },
+            {
+              "id": "nombre-4",
+              "audioKey": "scene.social-small-talk.line.nombre-4",
+              "speaker": "Persona B",
+              "es": "Igualmente, gracias.",
+              "en": "Likewise, thank you."
+            }
+          ],
+          "responseExercise": {
+            "prompt": "They say: 'Que gusto, Sofia.' Pick a polite response.",
+            "choices": [
+              {
+                "id": "nombre-step2-choice-1",
+                "text": "Igualmente, gracias.",
+                "rating": "appropriate",
+                "feedback": "Great fit. Brief and polite."
+              },
+              {
+                "id": "nombre-step2-choice-2",
+                "text": "Si.",
+                "rating": "acceptable",
+                "feedback": "Understandable, but less natural socially."
+              },
+              {
+                "id": "nombre-step2-choice-3",
+                "text": "El gusto tiene boleto.",
+                "rating": "off_target",
+                "feedback": "Off-target for this exchange."
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "origen": {
+      "itemId": "origen",
+      "audioKey": "scene.social-small-talk.item.origen",
+      "steps": [
+        {
+          "id": "origen-step-1",
+          "lines": [
+            {
+              "id": "origen-1",
+              "audioKey": "scene.social-small-talk.line.origen-1",
+              "speaker": "Persona A",
+              "es": "De donde eres?",
+              "en": "Where are you from?"
+            },
+            {
+              "id": "origen-2",
+              "audioKey": "scene.social-small-talk.line.origen-2",
+              "speaker": "Persona B",
+              "es": "Soy de Miami, y tu?",
+              "en": "I am from Miami, and you?"
+            }
+          ],
+          "responseExercise": {
+            "prompt": "Someone asks where you are from. Choose a strong reply.",
+            "choices": [
+              {
+                "id": "origen-step1-choice-1",
+                "text": "Soy de Boston.",
+                "rating": "appropriate",
+                "feedback": "Great fit. Direct and natural."
+              },
+              {
+                "id": "origen-step1-choice-2",
+                "text": "Vivo aqui ahora.",
+                "rating": "acceptable",
+                "feedback": "Understandable, but it does not fully answer origin."
+              },
+              {
+                "id": "origen-step1-choice-3",
+                "text": "Soy del autobus.",
+                "rating": "off_target",
+                "feedback": "Off-target for this social question."
+              }
+            ]
+          }
+        },
+        {
+          "id": "origen-step-2",
+          "lines": [
+            {
+              "id": "origen-3",
+              "audioKey": "scene.social-small-talk.line.origen-3",
+              "speaker": "Persona A",
+              "es": "Que bien. Te gusta vivir aqui?",
+              "en": "Nice. Do you like living here?"
+            },
+            {
+              "id": "origen-4",
+              "audioKey": "scene.social-small-talk.line.origen-4",
+              "speaker": "Persona B",
+              "es": "Si, me gusta mucho la ciudad.",
+              "en": "Yes, I really like the city."
+            }
+          ],
+          "responseExercise": {
+            "prompt": "You are asked if you like living here. Pick the most natural response.",
+            "choices": [
+              {
+                "id": "origen-step2-choice-1",
+                "text": "Si, me gusta mucho la ciudad.",
+                "rating": "appropriate",
+                "feedback": "Great fit. Natural positive follow-up."
+              },
+              {
+                "id": "origen-step2-choice-2",
+                "text": "Mas o menos.",
+                "rating": "acceptable",
+                "feedback": "Understandable and valid, but less detailed."
+              },
+              {
+                "id": "origen-step2-choice-3",
+                "text": "La ciudad come menu.",
+                "rating": "off_target",
+                "feedback": "Off-target for this conversation."
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "trabajo": {
+      "itemId": "trabajo",
+      "audioKey": "scene.social-small-talk.item.trabajo",
+      "steps": [
+        {
+          "id": "trabajo-step-1",
+          "lines": [
+            {
+              "id": "trabajo-1",
+              "audioKey": "scene.social-small-talk.line.trabajo-1",
+              "speaker": "Persona A",
+              "es": "A que te dedicas?",
+              "en": "What do you do for work?"
+            },
+            {
+              "id": "trabajo-2",
+              "audioKey": "scene.social-small-talk.line.trabajo-2",
+              "speaker": "Persona B",
+              "es": "Trabajo en una oficina de tecnologia.",
+              "en": "I work in a technology office."
+            }
+          ],
+          "responseExercise": {
+            "prompt": "Someone asks what you do for work. Choose a practical beginner response.",
+            "choices": [
+              {
+                "id": "trabajo-step1-choice-1",
+                "text": "Trabajo en una escuela.",
+                "rating": "appropriate",
+                "feedback": "Great fit. Clear and easy to say."
+              },
+              {
+                "id": "trabajo-step1-choice-2",
+                "text": "Estoy buscando trabajo.",
+                "rating": "acceptable",
+                "feedback": "Understandable and honest, still social."
+              },
+              {
+                "id": "trabajo-step1-choice-3",
+                "text": "Mi trabajo es una puerta.",
+                "rating": "off_target",
+                "feedback": "Off-target for this topic."
+              }
+            ]
+          }
+        },
+        {
+          "id": "trabajo-step-2",
+          "lines": [
+            {
+              "id": "trabajo-3",
+              "audioKey": "scene.social-small-talk.line.trabajo-3",
+              "speaker": "Persona A",
+              "es": "Interesante. Te gusta tu trabajo?",
+              "en": "Interesting. Do you like your job?"
+            },
+            {
+              "id": "trabajo-4",
+              "audioKey": "scene.social-small-talk.line.trabajo-4",
+              "speaker": "Persona B",
+              "es": "Si, me gusta porque aprendo mucho.",
+              "en": "Yes, I like it because I learn a lot."
+            }
+          ],
+          "responseExercise": {
+            "prompt": "You are asked if you like your job. Choose a natural answer.",
+            "choices": [
+              {
+                "id": "trabajo-step2-choice-1",
+                "text": "Si, me gusta porque aprendo mucho.",
+                "rating": "appropriate",
+                "feedback": "Great fit. Positive and natural."
+              },
+              {
+                "id": "trabajo-step2-choice-2",
+                "text": "No mucho.",
+                "rating": "acceptable",
+                "feedback": "Understandable, just brief."
+              },
+              {
+                "id": "trabajo-step2-choice-3",
+                "text": "El trabajo toma sopa.",
+                "rating": "off_target",
+                "feedback": "Off-target for this question."
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "rutina": {
+      "itemId": "rutina",
+      "audioKey": "scene.social-small-talk.item.rutina",
+      "steps": [
+        {
+          "id": "rutina-step-1",
+          "lines": [
+            {
+              "id": "rutina-1",
+              "audioKey": "scene.social-small-talk.line.rutina-1",
+              "speaker": "Persona A",
+              "es": "Que haces en tu tiempo libre?",
+              "en": "What do you do in your free time?"
+            },
+            {
+              "id": "rutina-2",
+              "audioKey": "scene.social-small-talk.line.rutina-2",
+              "speaker": "Persona B",
+              "es": "Normalmente camino y escucho musica.",
+              "en": "I usually walk and listen to music."
+            }
+          ],
+          "responseExercise": {
+            "prompt": "You are asked what you do in your free time. Pick a natural response.",
+            "choices": [
+              {
+                "id": "rutina-step1-choice-1",
+                "text": "Leo y hago ejercicio.",
+                "rating": "appropriate",
+                "feedback": "Great fit. Common and natural."
+              },
+              {
+                "id": "rutina-step1-choice-2",
+                "text": "No mucho.",
+                "rating": "acceptable",
+                "feedback": "Understandable, but less engaging for small talk."
+              },
+              {
+                "id": "rutina-step1-choice-3",
+                "text": "Mi tiempo libre paga la cuenta.",
+                "rating": "off_target",
+                "feedback": "Off-target for this social prompt."
+              }
+            ]
+          }
+        },
+        {
+          "id": "rutina-step-2",
+          "lines": [
+            {
+              "id": "rutina-3",
+              "audioKey": "scene.social-small-talk.line.rutina-3",
+              "speaker": "Persona A",
+              "es": "Que bien. Tambien te gusta el cafe?",
+              "en": "Nice. Do you also like coffee?"
+            },
+            {
+              "id": "rutina-4",
+              "audioKey": "scene.social-small-talk.line.rutina-4",
+              "speaker": "Persona B",
+              "es": "Si, tomo cafe por la manana.",
+              "en": "Yes, I drink coffee in the morning."
+            }
+          ],
+          "responseExercise": {
+            "prompt": "They ask if you like coffee too. Choose a practical response.",
+            "choices": [
+              {
+                "id": "rutina-step2-choice-1",
+                "text": "Si, tomo cafe por la manana.",
+                "rating": "appropriate",
+                "feedback": "Great fit. Simple and realistic."
+              },
+              {
+                "id": "rutina-step2-choice-2",
+                "text": "A veces.",
+                "rating": "acceptable",
+                "feedback": "Understandable and natural, but less specific."
+              },
+              {
+                "id": "rutina-step2-choice-3",
+                "text": "El cafe espera el autobus.",
+                "rating": "off_target",
+                "feedback": "Off-target for this follow-up."
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "despedida": {
+      "itemId": "despedida",
+      "audioKey": "scene.social-small-talk.item.despedida",
+      "steps": [
+        {
+          "id": "despedida-step-1",
+          "lines": [
+            {
+              "id": "despedida-1",
+              "audioKey": "scene.social-small-talk.line.despedida-1",
+              "speaker": "Persona A",
+              "es": "Fue un placer hablar contigo.",
+              "en": "It was a pleasure talking with you."
+            },
+            {
+              "id": "despedida-2",
+              "audioKey": "scene.social-small-talk.line.despedida-2",
+              "speaker": "Persona B",
+              "es": "Igualmente, me cayo muy bien.",
+              "en": "Likewise, I really enjoyed meeting you."
+            }
+          ],
+          "responseExercise": {
+            "prompt": "You hear: 'Fue un placer hablar contigo.' Choose a polite reply.",
+            "choices": [
+              {
+                "id": "despedida-step1-choice-1",
+                "text": "Igualmente, me cayo muy bien.",
+                "rating": "appropriate",
+                "feedback": "Great fit. Warm and social."
+              },
+              {
+                "id": "despedida-step1-choice-2",
+                "text": "Gracias por todo.",
+                "rating": "acceptable",
+                "feedback": "Understandable and polite, but less conversational."
+              },
+              {
+                "id": "despedida-step1-choice-3",
+                "text": "La despedida vive en el metro.",
+                "rating": "off_target",
+                "feedback": "Off-target for this closing exchange."
+              }
+            ]
+          }
+        },
+        {
+          "id": "despedida-step-2",
+          "lines": [
+            {
+              "id": "despedida-3",
+              "audioKey": "scene.social-small-talk.line.despedida-3",
+              "speaker": "Persona A",
+              "es": "Nos vemos pronto?",
+              "en": "Will we see each other soon?"
+            },
+            {
+              "id": "despedida-4",
+              "audioKey": "scene.social-small-talk.line.despedida-4",
+              "speaker": "Persona B",
+              "es": "Si, claro. Hasta luego.",
+              "en": "Yes, of course. See you later."
+            }
+          ],
+          "responseExercise": {
+            "prompt": "Someone asks if you'll see each other soon. Pick the best response.",
+            "choices": [
+              {
+                "id": "despedida-step2-choice-1",
+                "text": "Si, claro. Hasta luego.",
+                "rating": "appropriate",
+                "feedback": "Great fit. Friendly closing response."
+              },
+              {
+                "id": "despedida-step2-choice-2",
+                "text": "Tal vez.",
+                "rating": "acceptable",
+                "feedback": "Understandable, but less warm."
+              },
+              {
+                "id": "despedida-step2-choice-3",
+                "text": "Hasta la cuenta.",
+                "rating": "off_target",
+                "feedback": "Off-target for social farewell."
+              }
+            ]
+          }
+        }
+      ]
+    }
+  }
+}

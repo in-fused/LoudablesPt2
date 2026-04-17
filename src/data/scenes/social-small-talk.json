@@ -1,0 +1,13 @@
+{
+  "id": "social-small-talk",
+  "title": "Social Small Talk",
+  "description": "You practice beginner Spanish for introductions, where people are from, work, and friendly follow-up questions.",
+  "itemIds": [
+    "introduccion",
+    "nombre",
+    "origen",
+    "trabajo",
+    "rutina",
+    "despedida"
+  ]
+}

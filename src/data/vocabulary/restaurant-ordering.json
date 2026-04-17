@@ -1,0 +1,41 @@
+{
+  "sceneId": "restaurant-ordering",
+  "list": [
+    {
+      "id": "mesa",
+      "spanish": "mesa",
+      "english": "table",
+      "audioKey": "vocab.mesa"
+    },
+    {
+      "id": "menu",
+      "spanish": "menu",
+      "english": "menu",
+      "audioKey": "vocab.menu"
+    },
+    {
+      "id": "bebida",
+      "spanish": "bebida",
+      "english": "drink",
+      "audioKey": "vocab.bebida"
+    },
+    {
+      "id": "plato",
+      "spanish": "plato",
+      "english": "dish",
+      "audioKey": "vocab.plato"
+    },
+    {
+      "id": "aclaracion",
+      "spanish": "aclaracion",
+      "english": "clarification",
+      "audioKey": "vocab.aclaracion"
+    },
+    {
+      "id": "cuenta",
+      "spanish": "cuenta",
+      "english": "bill",
+      "audioKey": "vocab.cuenta"
+    }
+  ]
+}

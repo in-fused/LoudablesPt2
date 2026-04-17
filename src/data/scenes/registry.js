@@ -2,15 +2,21 @@ import familyHouseSceneData from "./family-house.json";
 import kitchenBasicSceneData from "./kitchen-basic.json";
 import puertoRicoListeningSceneData from "./puerto-rico-listening.json";
 import cityTransitSceneData from "./city-transit.json";
+import restaurantOrderingSceneData from "./restaurant-ordering.json";
+import socialSmallTalkSceneData from "./social-small-talk.json";
 
 import familyHouseDialogueData from "../dialogues/family-house.json";
 import kitchenBasicDialogueData from "../dialogues/kitchen-basic.json";
 import puertoRicoListeningDialogueData from "../dialogues/puerto-rico-listening.json";
 import cityTransitDialogueData from "../dialogues/city-transit.json";
+import restaurantOrderingDialogueData from "../dialogues/restaurant-ordering.json";
+import socialSmallTalkDialogueData from "../dialogues/social-small-talk.json";
 
 import familyHouseVocabularyData from "../vocabulary/family-house.json";
 import kitchenBasicVocabularyData from "../vocabulary/kitchen-basic.json";
 import cityTransitVocabularyData from "../vocabulary/city-transit.json";
+import restaurantOrderingVocabularyData from "../vocabulary/restaurant-ordering.json";
+import socialSmallTalkVocabularyData from "../vocabulary/social-small-talk.json";
 
 const DEFAULT_SCENE_ID = "family-house";
 
@@ -166,6 +172,24 @@ const MODULE_DEFINITIONS = [
     vocabularyData: cityTransitVocabularyData,
     difficulty: "beginner",
     category: "transit"
+  },
+  {
+    id: "restaurant-ordering",
+    label: "Restaurant Ordering",
+    sceneData: restaurantOrderingSceneData,
+    dialogueData: restaurantOrderingDialogueData,
+    vocabularyData: restaurantOrderingVocabularyData,
+    difficulty: "beginner",
+    category: "food"
+  },
+  {
+    id: "social-small-talk",
+    label: "Social Small Talk",
+    sceneData: socialSmallTalkSceneData,
+    dialogueData: socialSmallTalkDialogueData,
+    vocabularyData: socialSmallTalkVocabularyData,
+    difficulty: "beginner",
+    category: "social"
   }
 ];
 

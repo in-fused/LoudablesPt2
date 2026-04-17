@@ -1,0 +1,41 @@
+{
+  "sceneId": "social-small-talk",
+  "list": [
+    {
+      "id": "introduccion",
+      "spanish": "introduccion",
+      "english": "introduction",
+      "audioKey": "vocab.introduccion"
+    },
+    {
+      "id": "nombre",
+      "spanish": "nombre",
+      "english": "name",
+      "audioKey": "vocab.nombre"
+    },
+    {
+      "id": "origen",
+      "spanish": "origen",
+      "english": "origin",
+      "audioKey": "vocab.origen"
+    },
+    {
+      "id": "trabajo",
+      "spanish": "trabajo",
+      "english": "work",
+      "audioKey": "vocab.trabajo"
+    },
+    {
+      "id": "rutina",
+      "spanish": "rutina",
+      "english": "routine",
+      "audioKey": "vocab.rutina"
+    },
+    {
+      "id": "despedida",
+      "spanish": "despedida",
+      "english": "farewell",
+      "audioKey": "vocab.despedida"
+    }
+  ]
+}

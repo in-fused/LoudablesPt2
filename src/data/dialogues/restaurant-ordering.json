@@ -1,0 +1,547 @@
+{
+  "moduleId": "module5",
+  "sceneId": "restaurant-ordering",
+  "title": "Restaurant Ordering",
+  "itemDialogues": {
+    "mesa": {
+      "itemId": "mesa",
+      "audioKey": "scene.restaurant-ordering.item.mesa",
+      "steps": [
+        {
+          "id": "mesa-step-1",
+          "lines": [
+            {
+              "id": "mesa-1",
+              "audioKey": "scene.restaurant-ordering.line.mesa-1",
+              "speaker": "Cliente",
+              "es": "Buenas tardes, tiene una mesa para dos?",
+              "en": "Good afternoon, do you have a table for two?"
+            },
+            {
+              "id": "mesa-2",
+              "audioKey": "scene.restaurant-ordering.line.mesa-2",
+              "speaker": "Anfitrion",
+              "es": "Si, claro. Prefieren adentro o afuera?",
+              "en": "Yes, of course. Do you prefer inside or outside?"
+            }
+          ],
+          "responseExercise": {
+            "prompt": "The host asks if you prefer inside or outside. Choose a natural answer.",
+            "choices": [
+              {
+                "id": "mesa-step1-choice-1",
+                "text": "Adentro, por favor.",
+                "rating": "appropriate",
+                "feedback": "Great fit. Clear and polite for seating."
+              },
+              {
+                "id": "mesa-step1-choice-2",
+                "text": "No se, cualquier cosa.",
+                "rating": "acceptable",
+                "feedback": "Understandable, but less clear than choosing directly."
+              },
+              {
+                "id": "mesa-step1-choice-3",
+                "text": "La mesa bebe agua.",
+                "rating": "off_target",
+                "feedback": "Off-target for this seating question."
+              }
+            ]
+          }
+        },
+        {
+          "id": "mesa-step-2",
+          "lines": [
+            {
+              "id": "mesa-3",
+              "audioKey": "scene.restaurant-ordering.line.mesa-3",
+              "speaker": "Cliente",
+              "es": "Adentro, por favor.",
+              "en": "Inside, please."
+            },
+            {
+              "id": "mesa-4",
+              "audioKey": "scene.restaurant-ordering.line.mesa-4",
+              "speaker": "Anfitrion",
+              "es": "Perfecto, siganme. Esta mesa esta libre.",
+              "en": "Perfect, follow me. This table is available."
+            }
+          ],
+          "responseExercise": {
+            "prompt": "The host says your table is ready. Pick a polite response.",
+            "choices": [
+              {
+                "id": "mesa-step2-choice-1",
+                "text": "Gracias, aqui esta perfecto.",
+                "rating": "appropriate",
+                "feedback": "Great fit. Natural and polite."
+              },
+              {
+                "id": "mesa-step2-choice-2",
+                "text": "Prefiero esperar otra mesa.",
+                "rating": "acceptable",
+                "feedback": "Understandable, but less cooperative in this flow."
+              },
+              {
+                "id": "mesa-step2-choice-3",
+                "text": "La silla llega en autobus.",
+                "rating": "off_target",
+                "feedback": "Off-target for this moment."
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "menu": {
+      "itemId": "menu",
+      "audioKey": "scene.restaurant-ordering.item.menu",
+      "steps": [
+        {
+          "id": "menu-step-1",
+          "lines": [
+            {
+              "id": "menu-1",
+              "audioKey": "scene.restaurant-ordering.line.menu-1",
+              "speaker": "Cliente",
+              "es": "Nos puede traer el menu, por favor?",
+              "en": "Can you bring us the menu, please?"
+            },
+            {
+              "id": "menu-2",
+              "audioKey": "scene.restaurant-ordering.line.menu-2",
+              "speaker": "Mesero",
+              "es": "Claro. Aqui tienen el menu del dia.",
+              "en": "Of course. Here is today's menu."
+            }
+          ],
+          "responseExercise": {
+            "prompt": "The server brings the menu. Choose a practical follow-up.",
+            "choices": [
+              {
+                "id": "menu-step1-choice-1",
+                "text": "Gracias. Que recomienda hoy?",
+                "rating": "appropriate",
+                "feedback": "Great fit. Common and useful restaurant follow-up."
+              },
+              {
+                "id": "menu-step1-choice-2",
+                "text": "No quiero ver el menu.",
+                "rating": "acceptable",
+                "feedback": "Understandable, but it blocks ordering."
+              },
+              {
+                "id": "menu-step1-choice-3",
+                "text": "El menu esta en la puerta.",
+                "rating": "off_target",
+                "feedback": "Off-target for this exchange."
+              }
+            ]
+          }
+        },
+        {
+          "id": "menu-step-2",
+          "lines": [
+            {
+              "id": "menu-3",
+              "audioKey": "scene.restaurant-ordering.line.menu-3",
+              "speaker": "Mesero",
+              "es": "La sopa y el pollo son muy populares.",
+              "en": "The soup and chicken are very popular."
+            },
+            {
+              "id": "menu-4",
+              "audioKey": "scene.restaurant-ordering.line.menu-4",
+              "speaker": "Cliente",
+              "es": "Perfecto, voy a pedir el pollo.",
+              "en": "Perfect, I am going to order the chicken."
+            }
+          ],
+          "responseExercise": {
+            "prompt": "You hear the recommendations. Pick the best beginner reply.",
+            "choices": [
+              {
+                "id": "menu-step2-choice-1",
+                "text": "Perfecto, voy a pedir el pollo.",
+                "rating": "appropriate",
+                "feedback": "Great fit. Clear decision and natural language."
+              },
+              {
+                "id": "menu-step2-choice-2",
+                "text": "Todavia no se que quiero.",
+                "rating": "acceptable",
+                "feedback": "Understandable, but less decisive."
+              },
+              {
+                "id": "menu-step2-choice-3",
+                "text": "La sopa corre al metro.",
+                "rating": "off_target",
+                "feedback": "Off-target for ordering."
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "bebida": {
+      "itemId": "bebida",
+      "audioKey": "scene.restaurant-ordering.item.bebida",
+      "steps": [
+        {
+          "id": "bebida-step-1",
+          "lines": [
+            {
+              "id": "bebida-1",
+              "audioKey": "scene.restaurant-ordering.line.bebida-1",
+              "speaker": "Mesero",
+              "es": "Que desea tomar?",
+              "en": "What would you like to drink?"
+            },
+            {
+              "id": "bebida-2",
+              "audioKey": "scene.restaurant-ordering.line.bebida-2",
+              "speaker": "Cliente",
+              "es": "Una limonada sin azucar, por favor.",
+              "en": "A lemonade without sugar, please."
+            }
+          ],
+          "responseExercise": {
+            "prompt": "The server asks what you want to drink. Choose a clear response.",
+            "choices": [
+              {
+                "id": "bebida-step1-choice-1",
+                "text": "Una limonada sin azucar, por favor.",
+                "rating": "appropriate",
+                "feedback": "Great fit. Specific and polite."
+              },
+              {
+                "id": "bebida-step1-choice-2",
+                "text": "Algo para tomar.",
+                "rating": "acceptable",
+                "feedback": "Understandable, but too vague."
+              },
+              {
+                "id": "bebida-step1-choice-3",
+                "text": "La bebida es una silla.",
+                "rating": "off_target",
+                "feedback": "Off-target for drink ordering."
+              }
+            ]
+          }
+        },
+        {
+          "id": "bebida-step-2",
+          "lines": [
+            {
+              "id": "bebida-3",
+              "audioKey": "scene.restaurant-ordering.line.bebida-3",
+              "speaker": "Mesero",
+              "es": "Muy bien. La quiere con hielo?",
+              "en": "Very good. Do you want it with ice?"
+            },
+            {
+              "id": "bebida-4",
+              "audioKey": "scene.restaurant-ordering.line.bebida-4",
+              "speaker": "Cliente",
+              "es": "Si, con poco hielo.",
+              "en": "Yes, with little ice."
+            }
+          ],
+          "responseExercise": {
+            "prompt": "You are asked if you want ice. Pick the most natural answer.",
+            "choices": [
+              {
+                "id": "bebida-step2-choice-1",
+                "text": "Si, con poco hielo.",
+                "rating": "appropriate",
+                "feedback": "Great fit. Natural clarification."
+              },
+              {
+                "id": "bebida-step2-choice-2",
+                "text": "No importa.",
+                "rating": "acceptable",
+                "feedback": "Understandable, but less specific."
+              },
+              {
+                "id": "bebida-step2-choice-3",
+                "text": "El hielo paga la cuenta.",
+                "rating": "off_target",
+                "feedback": "Off-target for this question."
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "plato": {
+      "itemId": "plato",
+      "audioKey": "scene.restaurant-ordering.item.plato",
+      "steps": [
+        {
+          "id": "plato-step-1",
+          "lines": [
+            {
+              "id": "plato-1",
+              "audioKey": "scene.restaurant-ordering.line.plato-1",
+              "speaker": "Mesero",
+              "es": "Ya estan listos para ordenar?",
+              "en": "Are you ready to order?"
+            },
+            {
+              "id": "plato-2",
+              "audioKey": "scene.restaurant-ordering.line.plato-2",
+              "speaker": "Cliente",
+              "es": "Si, para mi el pollo con arroz.",
+              "en": "Yes, for me the chicken with rice."
+            }
+          ],
+          "responseExercise": {
+            "prompt": "The server asks if you're ready to order. Choose a natural reply.",
+            "choices": [
+              {
+                "id": "plato-step1-choice-1",
+                "text": "Si, para mi el pollo con arroz.",
+                "rating": "appropriate",
+                "feedback": "Great fit. Direct and useful."
+              },
+              {
+                "id": "plato-step1-choice-2",
+                "text": "Necesito un minuto mas.",
+                "rating": "acceptable",
+                "feedback": "Understandable and valid, but delays ordering."
+              },
+              {
+                "id": "plato-step1-choice-3",
+                "text": "El arroz habla ingles.",
+                "rating": "off_target",
+                "feedback": "Off-target for ordering food."
+              }
+            ]
+          }
+        },
+        {
+          "id": "plato-step-2",
+          "lines": [
+            {
+              "id": "plato-3",
+              "audioKey": "scene.restaurant-ordering.line.plato-3",
+              "speaker": "Mesero",
+              "es": "Excelente eleccion. Algo mas para compartir?",
+              "en": "Excellent choice. Anything else to share?"
+            },
+            {
+              "id": "plato-4",
+              "audioKey": "scene.restaurant-ordering.line.plato-4",
+              "speaker": "Cliente",
+              "es": "Si, una ensalada para la mesa.",
+              "en": "Yes, a salad for the table."
+            }
+          ],
+          "responseExercise": {
+            "prompt": "The server asks if you want anything else. Pick a practical response.",
+            "choices": [
+              {
+                "id": "plato-step2-choice-1",
+                "text": "Si, una ensalada para la mesa.",
+                "rating": "appropriate",
+                "feedback": "Great fit. Natural add-on order."
+              },
+              {
+                "id": "plato-step2-choice-2",
+                "text": "No, solo eso.",
+                "rating": "acceptable",
+                "feedback": "Understandable and valid, just less expansive."
+              },
+              {
+                "id": "plato-step2-choice-3",
+                "text": "La ensalada toma el autobus.",
+                "rating": "off_target",
+                "feedback": "Off-target for this context."
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "aclaracion": {
+      "itemId": "aclaracion",
+      "audioKey": "scene.restaurant-ordering.item.aclaracion",
+      "steps": [
+        {
+          "id": "aclaracion-step-1",
+          "lines": [
+            {
+              "id": "aclaracion-1",
+              "audioKey": "scene.restaurant-ordering.line.aclaracion-1",
+              "speaker": "Cliente",
+              "es": "Perdon, mi plato viene sin cebolla?",
+              "en": "Excuse me, does my dish come without onion?"
+            },
+            {
+              "id": "aclaracion-2",
+              "audioKey": "scene.restaurant-ordering.line.aclaracion-2",
+              "speaker": "Mesero",
+              "es": "Si, podemos prepararlo sin cebolla.",
+              "en": "Yes, we can prepare it without onion."
+            }
+          ],
+          "responseExercise": {
+            "prompt": "The server confirms they can prepare it without onion. Choose the best response.",
+            "choices": [
+              {
+                "id": "aclaracion-step1-choice-1",
+                "text": "Perfecto, muchas gracias.",
+                "rating": "appropriate",
+                "feedback": "Great fit. Polite confirmation."
+              },
+              {
+                "id": "aclaracion-step1-choice-2",
+                "text": "Entonces no quiero nada.",
+                "rating": "acceptable",
+                "feedback": "Understandable, but it stops the order unexpectedly."
+              },
+              {
+                "id": "aclaracion-step1-choice-3",
+                "text": "La cebolla pide la cuenta.",
+                "rating": "off_target",
+                "feedback": "Off-target for this clarification."
+              }
+            ]
+          }
+        },
+        {
+          "id": "aclaracion-step-2",
+          "lines": [
+            {
+              "id": "aclaracion-3",
+              "audioKey": "scene.restaurant-ordering.line.aclaracion-3",
+              "speaker": "Mesero",
+              "es": "Tambien tenemos opcion vegetariana.",
+              "en": "We also have a vegetarian option."
+            },
+            {
+              "id": "aclaracion-4",
+              "audioKey": "scene.restaurant-ordering.line.aclaracion-4",
+              "speaker": "Cliente",
+              "es": "Gracias, hoy prefiero el pollo.",
+              "en": "Thanks, today I prefer the chicken."
+            }
+          ],
+          "responseExercise": {
+            "prompt": "You are offered a vegetarian option. Pick a polite, clear response.",
+            "choices": [
+              {
+                "id": "aclaracion-step2-choice-1",
+                "text": "Gracias, hoy prefiero el pollo.",
+                "rating": "appropriate",
+                "feedback": "Great fit. Polite and specific."
+              },
+              {
+                "id": "aclaracion-step2-choice-2",
+                "text": "No se todavia.",
+                "rating": "acceptable",
+                "feedback": "Understandable, but less clear."
+              },
+              {
+                "id": "aclaracion-step2-choice-3",
+                "text": "La opcion camina al banco.",
+                "rating": "off_target",
+                "feedback": "Off-target for this food choice."
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "cuenta": {
+      "itemId": "cuenta",
+      "audioKey": "scene.restaurant-ordering.item.cuenta",
+      "steps": [
+        {
+          "id": "cuenta-step-1",
+          "lines": [
+            {
+              "id": "cuenta-1",
+              "audioKey": "scene.restaurant-ordering.line.cuenta-1",
+              "speaker": "Cliente",
+              "es": "Disculpe, nos trae la cuenta, por favor?",
+              "en": "Excuse me, can you bring us the bill, please?"
+            },
+            {
+              "id": "cuenta-2",
+              "audioKey": "scene.restaurant-ordering.line.cuenta-2",
+              "speaker": "Mesero",
+              "es": "Claro, ahora mismo se la traigo.",
+              "en": "Of course, I'll bring it right away."
+            }
+          ],
+          "responseExercise": {
+            "prompt": "The server says they will bring the bill now. Choose a natural response.",
+            "choices": [
+              {
+                "id": "cuenta-step1-choice-1",
+                "text": "Muchas gracias.",
+                "rating": "appropriate",
+                "feedback": "Great fit. Simple and polite."
+              },
+              {
+                "id": "cuenta-step1-choice-2",
+                "text": "Todavia quiero ordenar.",
+                "rating": "acceptable",
+                "feedback": "Understandable, but it changes your request."
+              },
+              {
+                "id": "cuenta-step1-choice-3",
+                "text": "La cuenta cocina sopa.",
+                "rating": "off_target",
+                "feedback": "Off-target for this billing step."
+              }
+            ]
+          }
+        },
+        {
+          "id": "cuenta-step-2",
+          "lines": [
+            {
+              "id": "cuenta-3",
+              "audioKey": "scene.restaurant-ordering.line.cuenta-3",
+              "speaker": "Mesero",
+              "es": "Aqui esta. Pagan juntos o separado?",
+              "en": "Here it is. Are you paying together or separately?"
+            },
+            {
+              "id": "cuenta-4",
+              "audioKey": "scene.restaurant-ordering.line.cuenta-4",
+              "speaker": "Cliente",
+              "es": "Juntos, con tarjeta.",
+              "en": "Together, by card."
+            }
+          ],
+          "responseExercise": {
+            "prompt": "You are asked if payment is together or separate. Pick the best reply.",
+            "choices": [
+              {
+                "id": "cuenta-step2-choice-1",
+                "text": "Juntos, con tarjeta.",
+                "rating": "appropriate",
+                "feedback": "Great fit. Practical and concise."
+              },
+              {
+                "id": "cuenta-step2-choice-2",
+                "text": "No tengo decision.",
+                "rating": "acceptable",
+                "feedback": "Understandable, but unhelpful for payment."
+              },
+              {
+                "id": "cuenta-step2-choice-3",
+                "text": "La tarjeta esta en el menu.",
+                "rating": "off_target",
+                "feedback": "Off-target for paying the bill."
+              }
+            ]
+          }
+        }
+      ]
+    }
+  }
+}

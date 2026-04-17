@@ -1,0 +1,13 @@
+{
+  "id": "restaurant-ordering",
+  "title": "Restaurant Ordering",
+  "description": "You practice practical Spanish for getting a table, ordering, clarifying your meal, and paying the bill.",
+  "itemIds": [
+    "mesa",
+    "menu",
+    "bebida",
+    "plato",
+    "aclaracion",
+    "cuenta"
+  ]
+}
