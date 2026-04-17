@@ -300,6 +300,13 @@ function buildAdaptiveEncouragement({
   };
 }
 
+function normalizeResponseRating(rating) {
+  if (rating === "appropriate" || rating === "acceptable" || rating === "off_target") {
+    return rating;
+  }
+  return "";
+}
+
 export function useDialogue(sceneId) {
   const vocabularyById = useMemo(() => getSceneVocabularyById(sceneId || getDefaultSceneId()), [sceneId]);
 
@@ -823,7 +830,8 @@ export function useDialogue(sceneId) {
 
     return {
       stepNumber: previousStepIndex + 1,
-      text: previousChoice.text
+      text: previousChoice.text,
+      rating: normalizeResponseRating(previousChoice.rating)
     };
   }
 

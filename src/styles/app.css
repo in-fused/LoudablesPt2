@@ -613,6 +613,25 @@ button {
   letter-spacing: 0.02em;
 }
 
+.dialogue-flow-cue {
+  margin: 6px 0 0;
+  font-size: 0.76rem;
+  color: #8a725a;
+  line-height: 1.35;
+}
+
+.dialogue-flow-cue.is-appropriate {
+  color: #4d6e34;
+}
+
+.dialogue-flow-cue.is-acceptable {
+  color: #7c5b36;
+}
+
+.dialogue-flow-cue.is-off_target {
+  color: #84533f;
+}
+
 .dialogue-english-delay-cue {
   margin: 6px 0 0;
   font-size: 0.74rem;

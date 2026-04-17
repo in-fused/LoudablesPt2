@@ -1,6 +1,22 @@
 import { useEffect, useRef, useState } from "react";
 import AudioButton from "./AudioButton";
 
+function getFlowCueText(rating) {
+  if (rating === "appropriate") {
+    return "Nice fit. The exchange keeps moving naturally.";
+  }
+
+  if (rating === "acceptable") {
+    return "That works. Keep the conversation going.";
+  }
+
+  if (rating === "off_target") {
+    return "No problem. Listen for the next cue and respond again.";
+  }
+
+  return "";
+}
+
 function DialoguePanel({
   lines,
   chainContext,
@@ -46,6 +62,8 @@ function DialoguePanel({
       ];
   const normalizedChainText = typeof chainContext?.text === "string" ? chainContext.text.trim() : "";
   const normalizedSelectedResponseText = typeof selectedChoice?.text === "string" ? selectedChoice.text.trim() : "";
+  const responseAwareRating = chainContext?.rating || selectedChoice?.rating || "";
+  const flowCueText = getFlowCueText(responseAwareRating);
   const hasChainContextLine = Boolean(normalizedChainText);
 
   const conversationLines = [
@@ -148,6 +166,7 @@ function DialoguePanel({
       ) : null}
       {isRecentlyCompleted ? <p className="response-guidance">Nice work. Conversation complete for this word.</p> : null}
       <p className="dialogue-listen-cue">Listen, then follow along.</p>
+      {flowCueText ? <p className={`dialogue-flow-cue is-${responseAwareRating}`}>{flowCueText}</p> : null}
       {isListeningFocusedModule && !isEnglishSupportRevealed ? (
         <p className="dialogue-english-delay-cue">English support appears shortly. Tap to reveal now.</p>
       ) : null}
