@@ -19,7 +19,7 @@
             }
           ],
           "responseExercise": {
-            "prompt": "Your friend greets you warmly. What is a natural response?",
+            "prompt": "Listen first: what did you hear in this greeting, and what response fits that meaning?",
             "choices": [
               {
                 "id": "saludo-barrio-step1-choice-1",
@@ -61,7 +61,7 @@
             }
           ],
           "responseExercise": {
-            "prompt": "She says everything is fine. Choose a friendly follow-up.",
+            "prompt": "Listen again: what does she mean, and which friendly follow-up fits the moment?",
             "choices": [
               {
                 "id": "saludo-barrio-step2-choice-1",
@@ -102,7 +102,7 @@
             }
           ],
           "responseExercise": {
-            "prompt": "Your friend says goodbye for now. What's a natural reply?",
+            "prompt": "Listen first: what goodbye did you hear, and what is the best natural reply?",
             "choices": [
               {
                 "id": "cierre-amistoso-step1-choice-1",
@@ -144,7 +144,7 @@
             }
           ],
           "responseExercise": {
-            "prompt": "They add 'Cuídate mucho.' Choose a fitting response.",
+            "prompt": "After listening, what intent do you hear in 'Cuídate mucho,' and how do you reply naturally?",
             "choices": [
               {
                 "id": "cierre-amistoso-step2-choice-1",
@@ -185,7 +185,7 @@
             }
           ],
           "responseExercise": {
-            "prompt": "Someone says they'll wait for the info. Pick a natural response.",
+            "prompt": "Listen first: what is the speaker asking for here, and which response matches that meaning?",
             "choices": [
               {
                 "id": "espera-info-step1-choice-1",
@@ -227,7 +227,7 @@
             }
           ],
           "responseExercise": {
-            "prompt": "They say 'Gracias, quedo pendiente.' What sounds natural?",
+            "prompt": "After listening, what does 'Gracias, quedo pendiente' mean in context, and what reply fits?",
             "choices": [
               {
                 "id": "espera-info-step2-choice-1",
@@ -268,7 +268,7 @@
             }
           ],
           "responseExercise": {
-            "prompt": "They ask for complete details. Which reply is best?",
+            "prompt": "Listen first: what request did you hear, and which response best answers that request?",
             "choices": [
               {
                 "id": "pedir-detalles-step1-choice-1",
@@ -310,7 +310,7 @@
             }
           ],
           "responseExercise": {
-            "prompt": "They thank you for helping. Pick a natural final reply.",
+            "prompt": "After listening, what is their intention in this thank-you, and what final reply sounds natural?",
             "choices": [
               {
                 "id": "pedir-detalles-step2-choice-1",
