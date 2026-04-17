@@ -281,11 +281,12 @@ function BottomDrawer({ selectedItem, dialogueState, grammarHint, sceneId }) {
 
       <p className="drawer-guidance" aria-live="polite">{combinedGuidance}</p>
 
-      <div className="drawer-section-block">
+      <div className="drawer-section-block is-conversation-primary">
         <p className="drawer-section-title">Conversation</p>
         <DialoguePanel
           lines={dialogueLines}
           chainContext={chainContext}
+          selectedChoice={selectedChoice}
           selectedItemId={itemId}
           sceneId={sceneId}
           getLineAudioTarget={dialogueState?.getLineAudioTarget}
@@ -297,7 +298,7 @@ function BottomDrawer({ selectedItem, dialogueState, grammarHint, sceneId }) {
         />
       </div>
 
-      <div className="drawer-section-block">
+      <div className="drawer-section-block is-response-secondary">
         <p className="drawer-section-title">Your Response</p>
         <ResponseChoices
           exercise={responseExercise}
