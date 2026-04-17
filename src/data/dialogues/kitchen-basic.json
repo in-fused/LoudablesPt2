@@ -36,13 +36,13 @@
               },
               {
                 "id": "cocina-choice-2",
-                "text": "Sí, quiero sentarme en la silla.",
+                "text": "Sí, ¿empiezo por la mesa primero?",
                 "rating": "acceptable",
                 "feedback": "Understandable Spanish, but it shifts away from the kitchen setup."
               },
               {
                 "id": "cocina-choice-3",
-                "text": "No, la casa está debajo del pan.",
+                "text": "Voy un momento a la sala y vuelvo para cocinar.",
                 "rating": "off_target",
                 "feedback": "Off-target for this kitchen prompt."
               }
@@ -78,13 +78,13 @@
               },
               {
                 "id": "cocina-step2-choice-2",
-                "text": "No me importa el orden.",
+                "text": "A mí me gusta cocinar aunque esté todo mezclado.",
                 "rating": "acceptable",
                 "feedback": "Understandable, but less cooperative in this context."
               },
               {
                 "id": "cocina-step2-choice-3",
-                "text": "La cocina está dentro del pan.",
+                "text": "Puede ser, pero hoy cocino rápido y ya.",
                 "rating": "off_target",
                 "feedback": "Off-target for this conversation."
               }
@@ -126,13 +126,13 @@
               },
               {
                 "id": "pan-choice-2",
-                "text": "No, gracias.",
+                "text": "No, gracias, con la comida estoy bien.",
                 "rating": "acceptable",
                 "feedback": "Understandable and polite, but less aligned with accepting the offer."
               },
               {
                 "id": "pan-choice-3",
-                "text": "El vaso está en la puerta.",
+                "text": "Gracias, primero voy a probar el plato y luego veo.",
                 "rating": "off_target",
                 "feedback": "Off-target for the bread offer prompt."
               }
@@ -168,13 +168,13 @@
               },
               {
                 "id": "pan-step2-choice-2",
-                "text": "No importa, lo tomo rápido.",
+                "text": "Uf, entonces espero un poco.",
                 "rating": "acceptable",
                 "feedback": "Understandable Spanish, but less careful for this moment."
               },
               {
                 "id": "pan-step2-choice-3",
-                "text": "El pan está en la sal y canta.",
+                "text": "No pasa nada, me lo llevo así mismo.",
                 "rating": "off_target",
                 "feedback": "Off-target for this warning."
               }
@@ -216,13 +216,13 @@
               },
               {
                 "id": "plato-choice-2",
-                "text": "Ahora no, tal vez después.",
+                "text": "Enseguida, termino de servir el agua.",
                 "rating": "acceptable",
                 "feedback": "Understandable Spanish, but less cooperative for this moment."
               },
               {
                 "id": "plato-choice-3",
-                "text": "El plato está debajo del vaso y canta.",
+                "text": "Si falta uno, usamos este entre dos.",
                 "rating": "off_target",
                 "feedback": "Off-target for this table setup prompt."
               }
@@ -258,13 +258,13 @@
               },
               {
                 "id": "plato-step2-choice-2",
-                "text": "Que coma sin plato hoy.",
+                "text": "Ahora voy, dame un segundo.",
                 "rating": "acceptable",
                 "feedback": "Understandable Spanish, but not appropriate in this family setting."
               },
               {
                 "id": "plato-step2-choice-3",
-                "text": "El plato está en la puerta del vaso.",
+                "text": "Que use mi plato mientras termino.",
                 "rating": "off_target",
                 "feedback": "Off-target for this request."
               }
@@ -306,13 +306,13 @@
               },
               {
                 "id": "vaso-choice-2",
-                "text": "Sí, está bien.",
+                "text": "Gracias, con eso me arreglo.",
                 "rating": "acceptable",
                 "feedback": "Understandable, but less complete and warm than a fuller response."
               },
               {
                 "id": "vaso-choice-3",
-                "text": "La sal duerme en el vaso.",
+                "text": "Gracias, luego pido uno con hielo.",
                 "rating": "off_target",
                 "feedback": "Off-target for this exchange."
               }
@@ -348,13 +348,13 @@
               },
               {
                 "id": "vaso-step2-choice-2",
-                "text": "No necesito el vaso ahora.",
+                "text": "Perfecto, lo dejo ahí por ahora.",
                 "rating": "acceptable",
                 "feedback": "Understandable, but less aligned with the setup moment."
               },
               {
                 "id": "vaso-step2-choice-3",
-                "text": "El vaso está dentro del pan.",
+                "text": "Lo muevo después cuando ya estemos comiendo.",
                 "rating": "off_target",
                 "feedback": "Off-target for this table setup."
               }
@@ -396,13 +396,13 @@
               },
               {
                 "id": "sal-choice-2",
-                "text": "No necesito nada.",
+                "text": "Por ahora está bien, gracias.",
                 "rating": "acceptable",
                 "feedback": "Understandable, but it does not practice requesting salt."
               },
               {
                 "id": "sal-choice-3",
-                "text": "La cocina está dentro de la sal.",
+                "text": "Échame un poco tú, yo no alcanzo.",
                 "rating": "off_target",
                 "feedback": "Off-target for this mealtime request."
               }
@@ -438,13 +438,13 @@
               },
               {
                 "id": "sal-step2-choice-2",
-                "text": "Prefiero mucha sal.",
+                "text": "Está bien, pero me gusta un poco más salado.",
                 "rating": "acceptable",
                 "feedback": "Understandable, but less aligned with the suggestion."
               },
               {
                 "id": "sal-step2-choice-3",
-                "text": "La sal cocina el plato y canta.",
+                "text": "Tranquila, yo siempre le pongo bastante.",
                 "rating": "off_target",
                 "feedback": "Off-target for this cooking tip."
               }

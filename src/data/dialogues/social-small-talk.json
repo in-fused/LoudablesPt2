@@ -36,13 +36,13 @@
               },
               {
                 "id": "introduccion-step1-choice-2",
-                "text": "Si, gracias.",
+                "text": "Mucho gusto, es un placer conocerle.",
                 "rating": "acceptable",
                 "feedback": "Understandable, but less warm and specific."
               },
               {
                 "id": "introduccion-step1-choice-3",
-                "text": "La introduccion toma cafe.",
+                "text": "Hola, justo estaba buscando a mis amigos.",
                 "rating": "off_target",
                 "feedback": "Off-target for this greeting."
               }
@@ -78,13 +78,13 @@
               },
               {
                 "id": "introduccion-step2-choice-2",
-                "text": "No estoy seguro.",
+                "text": "Creo que sí, aunque no estoy seguro.",
                 "rating": "acceptable",
                 "feedback": "Understandable, but less informative."
               },
               {
                 "id": "introduccion-step2-choice-3",
-                "text": "El evento vive en la cocina.",
+                "text": "No, vine con un amigo y casi no conozco a nadie.",
                 "rating": "off_target",
                 "feedback": "Off-target for this question."
               }
@@ -126,13 +126,13 @@
               },
               {
                 "id": "nombre-step1-choice-2",
-                "text": "No quiero decir mi nombre.",
+                "text": "Prefiero decirlo después, si no te molesta.",
                 "rating": "acceptable",
                 "feedback": "Understandable, but less social for small talk."
               },
               {
                 "id": "nombre-step1-choice-3",
-                "text": "Mi nombre es una mesa.",
+                "text": "Depende, en el trabajo me llaman diferente.",
                 "rating": "off_target",
                 "feedback": "Off-target for this introduction."
               }
@@ -168,13 +168,13 @@
               },
               {
                 "id": "nombre-step2-choice-2",
-                "text": "Si.",
+                "text": "Gracias, qué amable.",
                 "rating": "acceptable",
                 "feedback": "Understandable, but less natural socially."
               },
               {
                 "id": "nombre-step2-choice-3",
-                "text": "El gusto tiene boleto.",
+                "text": "Perdón, ¿ya empezó la charla?",
                 "rating": "off_target",
                 "feedback": "Off-target for this exchange."
               }
@@ -216,13 +216,13 @@
               },
               {
                 "id": "origen-step1-choice-2",
-                "text": "Vivo aqui ahora.",
+                "text": "Ahora vivo aquí, aunque soy de otra ciudad.",
                 "rating": "acceptable",
                 "feedback": "Understandable, but it does not fully answer origin."
               },
               {
                 "id": "origen-step1-choice-3",
-                "text": "Soy del autobus.",
+                "text": "Llegué hace poco, el tráfico estuvo pesado.",
                 "rating": "off_target",
                 "feedback": "Off-target for this social question."
               }
@@ -258,13 +258,13 @@
               },
               {
                 "id": "origen-step2-choice-2",
-                "text": "Mas o menos.",
+                "text": "Sí, aunque todavía me estoy adaptando.",
                 "rating": "acceptable",
                 "feedback": "Understandable and valid, but less detailed."
               },
               {
                 "id": "origen-step2-choice-3",
-                "text": "La ciudad come menu.",
+                "text": "Depende del alquiler, por eso sigo buscando.",
                 "rating": "off_target",
                 "feedback": "Off-target for this conversation."
               }
@@ -306,13 +306,13 @@
               },
               {
                 "id": "trabajo-step1-choice-2",
-                "text": "Estoy buscando trabajo.",
+                "text": "Ahora estoy entre proyectos.",
                 "rating": "acceptable",
                 "feedback": "Understandable and honest, still social."
               },
               {
                 "id": "trabajo-step1-choice-3",
-                "text": "Mi trabajo es una puerta.",
+                "text": "Últimamente trabajo mucho, casi no salgo.",
                 "rating": "off_target",
                 "feedback": "Off-target for this topic."
               }
@@ -348,13 +348,13 @@
               },
               {
                 "id": "trabajo-step2-choice-2",
-                "text": "No mucho.",
+                "text": "Tiene días buenos y días pesados.",
                 "rating": "acceptable",
                 "feedback": "Understandable, just brief."
               },
               {
                 "id": "trabajo-step2-choice-3",
-                "text": "El trabajo toma sopa.",
+                "text": "Entro temprano y salgo tarde casi siempre.",
                 "rating": "off_target",
                 "feedback": "Off-target for this question."
               }
@@ -396,13 +396,13 @@
               },
               {
                 "id": "rutina-step1-choice-2",
-                "text": "No mucho.",
+                "text": "Cuando puedo, descanso en casa.",
                 "rating": "acceptable",
                 "feedback": "Understandable, but less engaging for small talk."
               },
               {
                 "id": "rutina-step1-choice-3",
-                "text": "Mi tiempo libre paga la cuenta.",
+                "text": "Casi siempre estoy ocupado con pendientes del trabajo.",
                 "rating": "off_target",
                 "feedback": "Off-target for this social prompt."
               }
@@ -438,13 +438,13 @@
               },
               {
                 "id": "rutina-step2-choice-2",
-                "text": "A veces.",
+                "text": "Sí, pero solo de vez en cuando.",
                 "rating": "acceptable",
                 "feedback": "Understandable and natural, but less specific."
               },
               {
                 "id": "rutina-step2-choice-3",
-                "text": "El cafe espera el autobus.",
+                "text": "Depende, a veces ni desayuno.",
                 "rating": "off_target",
                 "feedback": "Off-target for this follow-up."
               }
@@ -486,13 +486,13 @@
               },
               {
                 "id": "despedida-step1-choice-2",
-                "text": "Gracias por todo.",
+                "text": "Gracias, que tenga buena noche.",
                 "rating": "acceptable",
                 "feedback": "Understandable and polite, but less conversational."
               },
               {
                 "id": "despedida-step1-choice-3",
-                "text": "La despedida vive en el metro.",
+                "text": "Me encantó hablar, pero ya me están esperando.",
                 "rating": "off_target",
                 "feedback": "Off-target for this closing exchange."
               }
@@ -528,13 +528,13 @@
               },
               {
                 "id": "despedida-step2-choice-2",
-                "text": "Tal vez.",
+                "text": "Puede ser, te escribo y coordinamos.",
                 "rating": "acceptable",
                 "feedback": "Understandable, but less warm."
               },
               {
                 "id": "despedida-step2-choice-3",
-                "text": "Hasta la cuenta.",
+                "text": "Si no estoy de viaje, quizá coincidimos.",
                 "rating": "off_target",
                 "feedback": "Off-target for social farewell."
               }

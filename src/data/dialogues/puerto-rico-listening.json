@@ -35,7 +35,7 @@
               },
               {
                 "id": "saludo-barrio-step1-choice-3",
-                "text": "La casa está abierta.",
+                "text": "Buenas tardes, vengo por una cita.",
                 "rating": "off_target",
                 "feedback": "Off-target for a greeting exchange."
               }
@@ -71,13 +71,13 @@
               },
               {
                 "id": "saludo-barrio-step2-choice-2",
-                "text": "Necesito la información completa.",
+                "text": "Qué bueno, estamos en contacto entonces.",
                 "rating": "acceptable",
                 "feedback": "Understandable, but it changes topic too quickly."
               },
               {
                 "id": "saludo-barrio-step2-choice-3",
-                "text": "La puerta está en la mesa.",
+                "text": "Perfecto, avísame cuando llegues al trabajo.",
                 "rating": "off_target",
                 "feedback": "Off-target for this conversation."
               }
@@ -112,13 +112,13 @@
               },
               {
                 "id": "cierre-amistoso-step1-choice-2",
-                "text": "Adiós, hasta nunca.",
+                "text": "Está bien, hablamos luego.",
                 "rating": "acceptable",
                 "feedback": "Grammatically fine, but the tone is too distant."
               },
               {
                 "id": "cierre-amistoso-step1-choice-3",
-                "text": "La niña quiere pan.",
+                "text": "Dale, te escribo cuando llegue a casa.",
                 "rating": "off_target",
                 "feedback": "Off-target for this goodbye moment."
               }
@@ -154,13 +154,13 @@
               },
               {
                 "id": "cierre-amistoso-step2-choice-2",
-                "text": "No me cuido.",
+                "text": "Muchas gracias, que tenga buena tarde.",
                 "rating": "acceptable",
                 "feedback": "Understandable, but it sounds odd in this context."
               },
               {
                 "id": "cierre-amistoso-step2-choice-3",
-                "text": "El vaso está caliente.",
+                "text": "Sí, después te mando los documentos.",
                 "rating": "off_target",
                 "feedback": "Off-target for this farewell."
               }
@@ -195,13 +195,13 @@
               },
               {
                 "id": "espera-info-step1-choice-2",
-                "text": "Después vemos eso.",
+                "text": "Te la paso en cuanto pueda.",
                 "rating": "acceptable",
                 "feedback": "Understandable, but less helpful for this request."
               },
               {
                 "id": "espera-info-step1-choice-3",
-                "text": "La silla está en la cocina.",
+                "text": "Perfecto, lo vemos cuando coincidamos.",
                 "rating": "off_target",
                 "feedback": "Off-target for this exchange."
               }
@@ -237,13 +237,13 @@
               },
               {
                 "id": "espera-info-step2-choice-2",
-                "text": "No tengo nada.",
+                "text": "Listo, en un rato te escribo.",
                 "rating": "acceptable",
                 "feedback": "Understandable, but doesn't match the polite flow."
               },
               {
                 "id": "espera-info-step2-choice-3",
-                "text": "La comida está fría.",
+                "text": "Perfecto, mejor lo dejamos para mañana.",
                 "rating": "off_target",
                 "feedback": "Off-target for this context."
               }
@@ -278,13 +278,13 @@
               },
               {
                 "id": "pedir-detalles-step1-choice-2",
-                "text": "Solo te doy una parte.",
+                "text": "Te comparto un resumen primero.",
                 "rating": "acceptable",
                 "feedback": "Understandable, but not aligned with the request."
               },
               {
                 "id": "pedir-detalles-step1-choice-3",
-                "text": "La puerta necesita sal.",
+                "text": "Ahora mismo solo tengo los puntos principales.",
                 "rating": "off_target",
                 "feedback": "Off-target for this request."
               }
@@ -320,13 +320,13 @@
               },
               {
                 "id": "pedir-detalles-step2-choice-2",
-                "text": "Bueno, adiós.",
+                "text": "De nada, seguimos en contacto.",
                 "rating": "acceptable",
                 "feedback": "It works, but sounds abrupt here."
               },
               {
                 "id": "pedir-detalles-step2-choice-3",
-                "text": "El pan está en la sala.",
+                "text": "Perfecto, te confirmo cuando tenga tiempo.",
                 "rating": "off_target",
                 "feedback": "Off-target for this closing."
               }

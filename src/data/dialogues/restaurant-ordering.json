@@ -36,13 +36,13 @@
               },
               {
                 "id": "mesa-step1-choice-2",
-                "text": "No se, cualquier cosa.",
+                "text": "Si hay sombra, mejor afuera.",
                 "rating": "acceptable",
                 "feedback": "Understandable, but less clear than choosing directly."
               },
               {
                 "id": "mesa-step1-choice-3",
-                "text": "La mesa bebe agua.",
+                "text": "¿Puede ser cerca de la ventana?",
                 "rating": "off_target",
                 "feedback": "Off-target for this seating question."
               }
@@ -78,13 +78,13 @@
               },
               {
                 "id": "mesa-step2-choice-2",
-                "text": "Prefiero esperar otra mesa.",
+                "text": "Gracias, ¿podría ser una mesa un poco más tranquila?",
                 "rating": "acceptable",
                 "feedback": "Understandable, but less cooperative in this flow."
               },
               {
                 "id": "mesa-step2-choice-3",
-                "text": "La silla llega en autobus.",
+                "text": "Perfecto, mientras tanto revisamos el menú en la entrada.",
                 "rating": "off_target",
                 "feedback": "Off-target for this moment."
               }
@@ -126,13 +126,13 @@
               },
               {
                 "id": "menu-step1-choice-2",
-                "text": "No quiero ver el menu.",
+                "text": "Gracias, dame un minuto para verlo.",
                 "rating": "acceptable",
                 "feedback": "Understandable, but it blocks ordering."
               },
               {
                 "id": "menu-step1-choice-3",
-                "text": "El menu esta en la puerta.",
+                "text": "Gracias, ¿nos trae agua mientras decidimos?",
                 "rating": "off_target",
                 "feedback": "Off-target for this exchange."
               }
@@ -168,13 +168,13 @@
               },
               {
                 "id": "menu-step2-choice-2",
-                "text": "Todavia no se que quiero.",
+                "text": "Suena bien, pero quisiera ver una opción más ligera.",
                 "rating": "acceptable",
                 "feedback": "Understandable, but less decisive."
               },
               {
                 "id": "menu-step2-choice-3",
-                "text": "La sopa corre al metro.",
+                "text": "Perfecto, entonces empezamos con la sopa y luego vemos.",
                 "rating": "off_target",
                 "feedback": "Off-target for ordering."
               }
@@ -216,13 +216,13 @@
               },
               {
                 "id": "bebida-step1-choice-2",
-                "text": "Algo para tomar.",
+                "text": "Una bebida sin azúcar, por favor.",
                 "rating": "acceptable",
                 "feedback": "Understandable, but too vague."
               },
               {
                 "id": "bebida-step1-choice-3",
-                "text": "La bebida es una silla.",
+                "text": "Todavía no, ¿me da un momento para decidir?",
                 "rating": "off_target",
                 "feedback": "Off-target for drink ordering."
               }
@@ -258,13 +258,13 @@
               },
               {
                 "id": "bebida-step2-choice-2",
-                "text": "No importa.",
+                "text": "Con hielo está bien, gracias.",
                 "rating": "acceptable",
                 "feedback": "Understandable, but less specific."
               },
               {
                 "id": "bebida-step2-choice-3",
-                "text": "El hielo paga la cuenta.",
+                "text": "Mejor sin hielo, por favor.",
                 "rating": "off_target",
                 "feedback": "Off-target for this question."
               }
@@ -306,13 +306,13 @@
               },
               {
                 "id": "plato-step1-choice-2",
-                "text": "Necesito un minuto mas.",
+                "text": "Casi, ¿nos da un minuto más?",
                 "rating": "acceptable",
                 "feedback": "Understandable and valid, but delays ordering."
               },
               {
                 "id": "plato-step1-choice-3",
-                "text": "El arroz habla ingles.",
+                "text": "Todavía no, primero queremos otra ronda de bebidas.",
                 "rating": "off_target",
                 "feedback": "Off-target for ordering food."
               }
@@ -348,13 +348,13 @@
               },
               {
                 "id": "plato-step2-choice-2",
-                "text": "No, solo eso.",
+                "text": "Por ahora no, estamos bien así.",
                 "rating": "acceptable",
                 "feedback": "Understandable and valid, just less expansive."
               },
               {
                 "id": "plato-step2-choice-3",
-                "text": "La ensalada toma el autobus.",
+                "text": "Sí, mejor tráiganos otra orden de bebidas.",
                 "rating": "off_target",
                 "feedback": "Off-target for this context."
               }
@@ -396,13 +396,13 @@
               },
               {
                 "id": "aclaracion-step1-choice-2",
-                "text": "Entonces no quiero nada.",
+                "text": "Perfecto, ¿y podría ser poco picante también?",
                 "rating": "acceptable",
                 "feedback": "Understandable, but it stops the order unexpectedly."
               },
               {
                 "id": "aclaracion-step1-choice-3",
-                "text": "La cebolla pide la cuenta.",
+                "text": "Entiendo, entonces mejor lo cambio por pasta.",
                 "rating": "off_target",
                 "feedback": "Off-target for this clarification."
               }
@@ -438,13 +438,13 @@
               },
               {
                 "id": "aclaracion-step2-choice-2",
-                "text": "No se todavia.",
+                "text": "Gracias, déjeme pensarlo un momento.",
                 "rating": "acceptable",
                 "feedback": "Understandable, but less clear."
               },
               {
                 "id": "aclaracion-step2-choice-3",
-                "text": "La opcion camina al banco.",
+                "text": "Perfecto, entonces tráigame la vegetariana en lugar del pollo.",
                 "rating": "off_target",
                 "feedback": "Off-target for this food choice."
               }
@@ -486,13 +486,13 @@
               },
               {
                 "id": "cuenta-step1-choice-2",
-                "text": "Todavia quiero ordenar.",
+                "text": "Gracias, mientras tanto pedimos un café.",
                 "rating": "acceptable",
                 "feedback": "Understandable, but it changes your request."
               },
               {
                 "id": "cuenta-step1-choice-3",
-                "text": "La cuenta cocina sopa.",
+                "text": "Gracias, pero primero queremos ver postres.",
                 "rating": "off_target",
                 "feedback": "Off-target for this billing step."
               }
@@ -528,13 +528,13 @@
               },
               {
                 "id": "cuenta-step2-choice-2",
-                "text": "No tengo decision.",
+                "text": "Creo que mejor separado, ¿se puede?",
                 "rating": "acceptable",
                 "feedback": "Understandable, but unhelpful for payment."
               },
               {
                 "id": "cuenta-step2-choice-3",
-                "text": "La tarjeta esta en el menu.",
+                "text": "Juntos hoy, y la próxima vez separado.",
                 "rating": "off_target",
                 "feedback": "Off-target for paying the bill."
               }

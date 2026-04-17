@@ -29,13 +29,13 @@
               },
               {
                 "id": "casa-choice-2",
-                "text": "Sí, quiero agua, por favor.",
+                "text": "Gracias, ¿puedo dejar mi maleta aquí?",
                 "rating": "acceptable",
                 "feedback": "Understandable, but this shifts early to a request instead of greeting first."
               },
               {
                 "id": "casa-choice-3",
-                "text": "La silla está debajo de la mesa.",
+                "text": "Gracias, ¿prefieres que espere en la entrada?",
                 "rating": "off_target",
                 "feedback": "Off-target for this welcome moment."
               }
@@ -83,13 +83,13 @@
               },
               {
                 "id": "casa-step3-choice-2",
-                "text": "Prefiero salir de la casa ahora.",
+                "text": "Sí, aunque primero saludo a Ana.",
                 "rating": "acceptable",
                 "feedback": "Understandable Spanish, but it shifts away from the welcoming flow."
               },
               {
                 "id": "casa-step3-choice-3",
-                "text": "La mesa tiene una puerta.",
+                "text": "Me quedo aquí un minuto y luego paso.",
                 "rating": "off_target",
                 "feedback": "Off-target for this follow-up moment."
               }
@@ -131,13 +131,13 @@
               },
               {
                 "id": "puerta-choice-2",
-                "text": "No entro, me quedo afuera.",
+                "text": "Paso en un momento, estoy terminando una llamada.",
                 "rating": "acceptable",
                 "feedback": "Understandable Spanish, but it does not follow the welcoming flow."
               },
               {
                 "id": "puerta-choice-3",
-                "text": "La comida está debajo de la puerta.",
+                "text": "¿Te molesta si me quedo en la entrada un ratito?",
                 "rating": "off_target",
                 "feedback": "Off-target for this arrival moment."
               }
@@ -173,13 +173,13 @@
               },
               {
                 "id": "puerta-step2-choice-2",
-                "text": "Prefiero dejar la puerta abierta.",
+                "text": "La cierro después, cuando entren todos.",
                 "rating": "acceptable",
                 "feedback": "Understandable Spanish, but less cooperative in this context."
               },
               {
                 "id": "puerta-step2-choice-3",
-                "text": "La puerta come pan.",
+                "text": "¿La dejamos entornada para que corra el aire?",
                 "rating": "off_target",
                 "feedback": "Off-target for this household request."
               }
@@ -221,13 +221,13 @@
               },
               {
                 "id": "mesa-choice-2",
-                "text": "Prefiero comer en la cocina ahora.",
+                "text": "Qué rico, ¿puedo sentarme ya?",
                 "rating": "acceptable",
                 "feedback": "Understandable, but less cooperative for this specific moment."
               },
               {
                 "id": "mesa-choice-3",
-                "text": "La silla bebe agua.",
+                "text": "Dame un minuto y luego ayudo con la mesa.",
                 "rating": "off_target",
                 "feedback": "Off-target for this mealtime setup."
               }
@@ -263,13 +263,13 @@
               },
               {
                 "id": "mesa-step2-choice-2",
-                "text": "No, mejor después.",
+                "text": "Claro, en cuanto termino con los vasos.",
                 "rating": "acceptable",
                 "feedback": "Understandable, but not very cooperative for this moment."
               },
               {
                 "id": "mesa-step2-choice-3",
-                "text": "La mesa está dentro del vaso.",
+                "text": "Ahora voy, pero primero busco mi teléfono.",
                 "rating": "off_target",
                 "feedback": "Off-target for this table task."
               }
@@ -311,13 +311,13 @@
               },
               {
                 "id": "silla-choice-2",
-                "text": "No, me quedo de pie toda la noche.",
+                "text": "Gracias, prefiero quedarme de pie un rato.",
                 "rating": "acceptable",
                 "feedback": "Understandable, but less natural in this friendly family context."
               },
               {
                 "id": "silla-choice-3",
-                "text": "La puerta está en la silla.",
+                "text": "Si quieres, me siento en la otra silla.",
                 "rating": "off_target",
                 "feedback": "Off-target for the chair invitation."
               }
@@ -353,13 +353,13 @@
               },
               {
                 "id": "silla-step2-choice-2",
-                "text": "No sé, quizá mañana.",
+                "text": "Más o menos, pero está bien por ahora.",
                 "rating": "acceptable",
                 "feedback": "Understandable Spanish, but unclear for this immediate question."
               },
               {
                 "id": "silla-step2-choice-3",
-                "text": "La silla tiene hambre.",
+                "text": "Estoy bien, luego me siento otra vez.",
                 "rating": "off_target",
                 "feedback": "Off-target for this comfort check."
               }
@@ -401,13 +401,13 @@
               },
               {
                 "id": "mama-choice-2",
-                "text": "¿Dónde está la puerta?",
+                "text": "Muchas gracias por su recibimiento.",
                 "rating": "acceptable",
                 "feedback": "Understandable Spanish, but not the best social response in this moment."
               },
               {
                 "id": "mama-choice-3",
-                "text": "El agua es una silla.",
+                "text": "Sí, vine porque me quedaba de camino.",
                 "rating": "off_target",
                 "feedback": "Off-target for the greeting prompt."
               }
@@ -443,13 +443,13 @@
               },
               {
                 "id": "mama-step2-choice-2",
-                "text": "No hablo del viaje ahora.",
+                "text": "Largo, pero tranquilo.",
                 "rating": "acceptable",
                 "feedback": "Understandable, but abrupt for this warm conversation."
               },
               {
                 "id": "mama-step2-choice-3",
-                "text": "Mi viaje es una mesa.",
+                "text": "Después te cuento, primero saludo a todos.",
                 "rating": "off_target",
                 "feedback": "Off-target for this question."
               }
@@ -491,13 +491,13 @@
               },
               {
                 "id": "agua-choice-2",
-                "text": "Sí, gracias.",
+                "text": "Sí, mejor a temperatura ambiente.",
                 "rating": "acceptable",
                 "feedback": "Understandable, but less specific than directly mentioning water."
               },
               {
                 "id": "agua-choice-3",
-                "text": "No, la puerta.",
+                "text": "Ahora no, quizá después de comer.",
                 "rating": "off_target",
                 "feedback": "Off-target for this offer prompt."
               }
@@ -533,13 +533,13 @@
               },
               {
                 "id": "agua-step2-choice-2",
-                "text": "No, suficiente.",
+                "text": "No, por ahora estoy bien, gracias.",
                 "rating": "acceptable",
                 "feedback": "Understandable and valid, but it does not practice accepting the offer."
               },
               {
                 "id": "agua-step2-choice-3",
-                "text": "El agua está en la silla.",
+                "text": "Un momentito, termino esto y te digo.",
                 "rating": "off_target",
                 "feedback": "Off-target for this offer."
               }
@@ -581,13 +581,13 @@
               },
               {
                 "id": "comida-choice-2",
-                "text": "Ahora no, quizá después.",
+                "text": "Huele muy bien, pero empezaré con poco.",
                 "rating": "acceptable",
                 "feedback": "Understandable response, though less aligned with the welcoming meal context."
               },
               {
                 "id": "comida-choice-3",
-                "text": "La comida está en la puerta.",
+                "text": "Se ve rico, pero prefiero comer más tarde.",
                 "rating": "off_target",
                 "feedback": "Off-target for the prompt context."
               }
@@ -623,13 +623,13 @@
               },
               {
                 "id": "comida-step2-choice-2",
-                "text": "No tengo tiempo para comer.",
+                "text": "Claro, en un momento lo pruebo.",
                 "rating": "acceptable",
                 "feedback": "Understandable, but less aligned with this family meal moment."
               },
               {
                 "id": "comida-step2-choice-3",
-                "text": "La comida abre la puerta.",
+                "text": "Gracias, primero voy por agua y regreso.",
                 "rating": "off_target",
                 "feedback": "Off-target for this mealtime exchange."
               }
@@ -671,13 +671,13 @@
               },
               {
                 "id": "nina-choice-2",
-                "text": "Sí, gracias.",
+                "text": "Hola, Ana. Mucho gusto también.",
                 "rating": "acceptable",
                 "feedback": "Understandable, but less warm and specific than a direct greeting."
               },
               {
                 "id": "nina-choice-3",
-                "text": "La niña está en el pan.",
+                "text": "Hola, Ana, luego jugamos si quieres.",
                 "rating": "off_target",
                 "feedback": "Off-target for this introduction moment."
               }
@@ -713,13 +713,13 @@
               },
               {
                 "id": "nina-step2-choice-2",
-                "text": "Ahora no puedo, tal vez más tarde.",
+                "text": "Me gustaría, pero quizá un poquito más tarde.",
                 "rating": "acceptable",
                 "feedback": "Understandable and polite, but less aligned with agreeing to play."
               },
               {
                 "id": "nina-step2-choice-3",
-                "text": "El juego está en la sal.",
+                "text": "Hoy no prometo, depende de la hora.",
                 "rating": "off_target",
                 "feedback": "Off-target for this invitation."
               }
