@@ -1,0 +1,547 @@
+{
+  "moduleId": "module4",
+  "sceneId": "city-transit",
+  "title": "Getting Around Town",
+  "itemDialogues": {
+    "parada": {
+      "itemId": "parada",
+      "audioKey": "scene.city-transit.item.parada",
+      "steps": [
+        {
+          "id": "parada-step-1",
+          "lines": [
+            {
+              "id": "parada-1",
+              "audioKey": "scene.city-transit.line.parada-1",
+              "speaker": "Viajera",
+              "es": "Disculpe, donde esta la parada de autobus?",
+              "en": "Excuse me, where is the bus stop?"
+            },
+            {
+              "id": "parada-2",
+              "audioKey": "scene.city-transit.line.parada-2",
+              "speaker": "Persona local",
+              "es": "La parada esta en la esquina, frente al banco.",
+              "en": "The stop is on the corner, in front of the bank."
+            }
+          ],
+          "responseExercise": {
+            "prompt": "A local says the stop is on the corner in front of the bank. Choose a natural reply.",
+            "choices": [
+              {
+                "id": "parada-step1-choice-1",
+                "text": "Perfecto, muchas gracias por la ayuda.",
+                "rating": "appropriate",
+                "feedback": "Great fit. Polite and natural after receiving directions."
+              },
+              {
+                "id": "parada-step1-choice-2",
+                "text": "No, mejor camino sin preguntar.",
+                "rating": "acceptable",
+                "feedback": "Understandable Spanish, but less natural after someone helped you."
+              },
+              {
+                "id": "parada-step1-choice-3",
+                "text": "La parada come pan en la mesa.",
+                "rating": "off_target",
+                "feedback": "Off-target for this transit conversation."
+              }
+            ]
+          }
+        },
+        {
+          "id": "parada-step-2",
+          "lines": [
+            {
+              "id": "parada-3",
+              "audioKey": "scene.city-transit.line.parada-3",
+              "speaker": "Viajera",
+              "es": "Perfecto, muchas gracias por la ayuda.",
+              "en": "Perfect, thank you very much for the help."
+            },
+            {
+              "id": "parada-4",
+              "audioKey": "scene.city-transit.line.parada-4",
+              "speaker": "Persona local",
+              "es": "De nada, el autobus pasa cada quince minutos.",
+              "en": "You're welcome, the bus comes every fifteen minutes."
+            }
+          ],
+          "responseExercise": {
+            "prompt": "The local says the bus comes every fifteen minutes. Pick a useful response.",
+            "choices": [
+              {
+                "id": "parada-step2-choice-1",
+                "text": "Muy bien, entonces espero aqui.",
+                "rating": "appropriate",
+                "feedback": "Great fit. Clear and practical."
+              },
+              {
+                "id": "parada-step2-choice-2",
+                "text": "No espero nada hoy.",
+                "rating": "acceptable",
+                "feedback": "Understandable, but not the most natural follow-up."
+              },
+              {
+                "id": "parada-step2-choice-3",
+                "text": "La esquina esta en el boleto.",
+                "rating": "off_target",
+                "feedback": "Off-target for this timing update."
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "autobus": {
+      "itemId": "autobus",
+      "audioKey": "scene.city-transit.item.autobus",
+      "steps": [
+        {
+          "id": "autobus-step-1",
+          "lines": [
+            {
+              "id": "autobus-1",
+              "audioKey": "scene.city-transit.line.autobus-1",
+              "speaker": "Conductor",
+              "es": "Buenos dias, a donde va?",
+              "en": "Good morning, where are you going?"
+            },
+            {
+              "id": "autobus-2",
+              "audioKey": "scene.city-transit.line.autobus-2",
+              "speaker": "Viajera",
+              "es": "Voy al centro, por favor.",
+              "en": "I'm going downtown, please."
+            }
+          ],
+          "responseExercise": {
+            "prompt": "The driver asks where you're going. Choose the best beginner response.",
+            "choices": [
+              {
+                "id": "autobus-step1-choice-1",
+                "text": "Voy al centro, por favor.",
+                "rating": "appropriate",
+                "feedback": "Great fit. Direct and polite."
+              },
+              {
+                "id": "autobus-step1-choice-2",
+                "text": "No se, solo subo al autobus.",
+                "rating": "acceptable",
+                "feedback": "Understandable, but less useful in this situation."
+              },
+              {
+                "id": "autobus-step1-choice-3",
+                "text": "El autobus esta debajo del agua.",
+                "rating": "off_target",
+                "feedback": "Off-target for this exchange."
+              }
+            ]
+          }
+        },
+        {
+          "id": "autobus-step-2",
+          "lines": [
+            {
+              "id": "autobus-3",
+              "audioKey": "scene.city-transit.line.autobus-3",
+              "speaker": "Conductor",
+              "es": "Perfecto, este autobus si va al centro.",
+              "en": "Perfect, this bus does go downtown."
+            },
+            {
+              "id": "autobus-4",
+              "audioKey": "scene.city-transit.line.autobus-4",
+              "speaker": "Viajera",
+              "es": "Gracias, me avisa cuando lleguemos?",
+              "en": "Thanks, can you let me know when we arrive?"
+            }
+          ],
+          "responseExercise": {
+            "prompt": "You confirmed the route. What is a practical follow-up request?",
+            "choices": [
+              {
+                "id": "autobus-step2-choice-1",
+                "text": "Gracias, me avisa cuando lleguemos?",
+                "rating": "appropriate",
+                "feedback": "Great fit. Very practical for a rider."
+              },
+              {
+                "id": "autobus-step2-choice-2",
+                "text": "No quiero saber cuando llegamos.",
+                "rating": "acceptable",
+                "feedback": "Understandable, but not helpful for navigating."
+              },
+              {
+                "id": "autobus-step2-choice-3",
+                "text": "El centro esta en la cocina.",
+                "rating": "off_target",
+                "feedback": "Off-target for this transit context."
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "metro": {
+      "itemId": "metro",
+      "audioKey": "scene.city-transit.item.metro",
+      "steps": [
+        {
+          "id": "metro-step-1",
+          "lines": [
+            {
+              "id": "metro-1",
+              "audioKey": "scene.city-transit.line.metro-1",
+              "speaker": "Viajero",
+              "es": "Esta linea del metro llega a la estacion Central?",
+              "en": "Does this subway line reach Central Station?"
+            },
+            {
+              "id": "metro-2",
+              "audioKey": "scene.city-transit.line.metro-2",
+              "speaker": "Empleado",
+              "es": "Si, pero tiene que cambiar en Universidad.",
+              "en": "Yes, but you have to transfer at Universidad."
+            }
+          ],
+          "responseExercise": {
+            "prompt": "The employee says you need to transfer at Universidad. Choose a natural response.",
+            "choices": [
+              {
+                "id": "metro-step1-choice-1",
+                "text": "Entiendo, cambio en Universidad. Gracias.",
+                "rating": "appropriate",
+                "feedback": "Great fit. You confirm the key instruction."
+              },
+              {
+                "id": "metro-step1-choice-2",
+                "text": "No cambio nunca.",
+                "rating": "acceptable",
+                "feedback": "Understandable, but not practical if you need that destination."
+              },
+              {
+                "id": "metro-step1-choice-3",
+                "text": "La estacion tiene pan y sal.",
+                "rating": "off_target",
+                "feedback": "Off-target for this route guidance."
+              }
+            ]
+          }
+        },
+        {
+          "id": "metro-step-2",
+          "lines": [
+            {
+              "id": "metro-3",
+              "audioKey": "scene.city-transit.line.metro-3",
+              "speaker": "Empleado",
+              "es": "Despues del cambio, son dos paradas mas.",
+              "en": "After the transfer, it's two more stops."
+            },
+            {
+              "id": "metro-4",
+              "audioKey": "scene.city-transit.line.metro-4",
+              "speaker": "Viajero",
+              "es": "Perfecto, entonces bajo en la segunda parada.",
+              "en": "Perfect, then I'll get off at the second stop."
+            }
+          ],
+          "responseExercise": {
+            "prompt": "You hear it's two more stops after the transfer. Pick the best response.",
+            "choices": [
+              {
+                "id": "metro-step2-choice-1",
+                "text": "Perfecto, entonces bajo en la segunda parada.",
+                "rating": "appropriate",
+                "feedback": "Great fit. Clear and practical."
+              },
+              {
+                "id": "metro-step2-choice-2",
+                "text": "No escucho las paradas.",
+                "rating": "acceptable",
+                "feedback": "Understandable Spanish, but it doesn't confirm your plan."
+              },
+              {
+                "id": "metro-step2-choice-3",
+                "text": "El metro duerme en la casa.",
+                "rating": "off_target",
+                "feedback": "Off-target for this navigation moment."
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "boleto": {
+      "itemId": "boleto",
+      "audioKey": "scene.city-transit.item.boleto",
+      "steps": [
+        {
+          "id": "boleto-step-1",
+          "lines": [
+            {
+              "id": "boleto-1",
+              "audioKey": "scene.city-transit.line.boleto-1",
+              "speaker": "Cajera",
+              "es": "Necesita un boleto sencillo o ida y vuelta?",
+              "en": "Do you need a one-way ticket or round trip?"
+            },
+            {
+              "id": "boleto-2",
+              "audioKey": "scene.city-transit.line.boleto-2",
+              "speaker": "Cliente",
+              "es": "Un boleto de ida y vuelta, por favor.",
+              "en": "A round-trip ticket, please."
+            }
+          ],
+          "responseExercise": {
+            "prompt": "The cashier asks what kind of ticket you need. Choose a clear reply.",
+            "choices": [
+              {
+                "id": "boleto-step1-choice-1",
+                "text": "Un boleto de ida y vuelta, por favor.",
+                "rating": "appropriate",
+                "feedback": "Great fit. Specific and polite."
+              },
+              {
+                "id": "boleto-step1-choice-2",
+                "text": "No se, cualquier boleto.",
+                "rating": "acceptable",
+                "feedback": "Understandable, but less clear than choosing directly."
+              },
+              {
+                "id": "boleto-step1-choice-3",
+                "text": "El boleto esta en la puerta.",
+                "rating": "off_target",
+                "feedback": "Off-target for this purchase question."
+              }
+            ]
+          }
+        },
+        {
+          "id": "boleto-step-2",
+          "lines": [
+            {
+              "id": "boleto-3",
+              "audioKey": "scene.city-transit.line.boleto-3",
+              "speaker": "Cajera",
+              "es": "Son cuatro dolares. Puede pagar con tarjeta.",
+              "en": "It's four dollars. You can pay with card."
+            },
+            {
+              "id": "boleto-4",
+              "audioKey": "scene.city-transit.line.boleto-4",
+              "speaker": "Cliente",
+              "es": "Perfecto, pago con tarjeta.",
+              "en": "Perfect, I'll pay with card."
+            }
+          ],
+          "responseExercise": {
+            "prompt": "You hear the price and payment option. Pick a natural response.",
+            "choices": [
+              {
+                "id": "boleto-step2-choice-1",
+                "text": "Perfecto, pago con tarjeta.",
+                "rating": "appropriate",
+                "feedback": "Great fit. Direct and natural at a ticket counter."
+              },
+              {
+                "id": "boleto-step2-choice-2",
+                "text": "No pago hoy.",
+                "rating": "acceptable",
+                "feedback": "Understandable, but it doesn't complete the purchase."
+              },
+              {
+                "id": "boleto-step2-choice-3",
+                "text": "La tarjeta va al metro con sal.",
+                "rating": "off_target",
+                "feedback": "Off-target for this payment moment."
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "direccion": {
+      "itemId": "direccion",
+      "audioKey": "scene.city-transit.item.direccion",
+      "steps": [
+        {
+          "id": "direccion-step-1",
+          "lines": [
+            {
+              "id": "direccion-1",
+              "audioKey": "scene.city-transit.line.direccion-1",
+              "speaker": "Cliente",
+              "es": "Me puede dar la direccion del museo?",
+              "en": "Can you give me the museum address?"
+            },
+            {
+              "id": "direccion-2",
+              "audioKey": "scene.city-transit.line.direccion-2",
+              "speaker": "Recepcionista",
+              "es": "Claro, es Calle Rivera 24.",
+              "en": "Of course, it's 24 Rivera Street."
+            }
+          ],
+          "responseExercise": {
+            "prompt": "You receive the address: 'Calle Rivera 24.' Choose a good follow-up.",
+            "choices": [
+              {
+                "id": "direccion-step1-choice-1",
+                "text": "Gracias, lo anoto ahora mismo.",
+                "rating": "appropriate",
+                "feedback": "Great fit. Natural and practical."
+              },
+              {
+                "id": "direccion-step1-choice-2",
+                "text": "No necesito la direccion.",
+                "rating": "acceptable",
+                "feedback": "Understandable, but it conflicts with your request."
+              },
+              {
+                "id": "direccion-step1-choice-3",
+                "text": "La calle vive en el autobus.",
+                "rating": "off_target",
+                "feedback": "Off-target for this directions exchange."
+              }
+            ]
+          }
+        },
+        {
+          "id": "direccion-step-2",
+          "lines": [
+            {
+              "id": "direccion-3",
+              "audioKey": "scene.city-transit.line.direccion-3",
+              "speaker": "Recepcionista",
+              "es": "Si quiere, tambien le marco la ubicacion en el mapa.",
+              "en": "If you want, I can also mark the location on the map."
+            },
+            {
+              "id": "direccion-4",
+              "audioKey": "scene.city-transit.line.direccion-4",
+              "speaker": "Cliente",
+              "es": "Si, por favor. Asi llego mas facil.",
+              "en": "Yes, please. That way I can get there more easily."
+            }
+          ],
+          "responseExercise": {
+            "prompt": "Someone offers to mark the location on a map. Pick the most natural response.",
+            "choices": [
+              {
+                "id": "direccion-step2-choice-1",
+                "text": "Si, por favor. Asi llego mas facil.",
+                "rating": "appropriate",
+                "feedback": "Great fit. Polite and very useful."
+              },
+              {
+                "id": "direccion-step2-choice-2",
+                "text": "No, prefiero perderme.",
+                "rating": "acceptable",
+                "feedback": "Understandable Spanish, but not practical in this context."
+              },
+              {
+                "id": "direccion-step2-choice-3",
+                "text": "El mapa cocina un boleto.",
+                "rating": "off_target",
+                "feedback": "Off-target for this offer."
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "llegada": {
+      "itemId": "llegada",
+      "audioKey": "scene.city-transit.item.llegada",
+      "steps": [
+        {
+          "id": "llegada-step-1",
+          "lines": [
+            {
+              "id": "llegada-1",
+              "audioKey": "scene.city-transit.line.llegada-1",
+              "speaker": "Pasajero",
+              "es": "A que hora es la llegada del proximo tren?",
+              "en": "What time is the next train's arrival?"
+            },
+            {
+              "id": "llegada-2",
+              "audioKey": "scene.city-transit.line.llegada-2",
+              "speaker": "Empleado",
+              "es": "La llegada es a las ocho y diez.",
+              "en": "Arrival is at eight ten."
+            }
+          ],
+          "responseExercise": {
+            "prompt": "You hear the train arrives at 8:10. Choose a natural response.",
+            "choices": [
+              {
+                "id": "llegada-step1-choice-1",
+                "text": "Perfecto, entonces tengo tiempo.",
+                "rating": "appropriate",
+                "feedback": "Great fit. Natural reaction to schedule info."
+              },
+              {
+                "id": "llegada-step1-choice-2",
+                "text": "No entiendo la hora.",
+                "rating": "acceptable",
+                "feedback": "Understandable, but less complete as a response."
+              },
+              {
+                "id": "llegada-step1-choice-3",
+                "text": "La hora come un boleto.",
+                "rating": "off_target",
+                "feedback": "Off-target for this timing question."
+              }
+            ]
+          }
+        },
+        {
+          "id": "llegada-step-2",
+          "lines": [
+            {
+              "id": "llegada-3",
+              "audioKey": "scene.city-transit.line.llegada-3",
+              "speaker": "Empleado",
+              "es": "Si hay retraso, lo anunciamos por altavoz.",
+              "en": "If there is a delay, we announce it over the loudspeaker."
+            },
+            {
+              "id": "llegada-4",
+              "audioKey": "scene.city-transit.line.llegada-4",
+              "speaker": "Pasajero",
+              "es": "Entendido, estare pendiente. Gracias.",
+              "en": "Understood, I'll stay alert. Thank you."
+            }
+          ],
+          "responseExercise": {
+            "prompt": "You are told delays will be announced. Pick the best reply.",
+            "choices": [
+              {
+                "id": "llegada-step2-choice-1",
+                "text": "Entendido, estare pendiente. Gracias.",
+                "rating": "appropriate",
+                "feedback": "Great fit. Clear and polite."
+              },
+              {
+                "id": "llegada-step2-choice-2",
+                "text": "No escucho anuncios.",
+                "rating": "acceptable",
+                "feedback": "Understandable, but it doesn't acknowledge the useful guidance."
+              },
+              {
+                "id": "llegada-step2-choice-3",
+                "text": "El altavoz vive en la direccion.",
+                "rating": "off_target",
+                "feedback": "Off-target for this station update."
+              }
+            ]
+          }
+        }
+      ]
+    }
+  }
+}

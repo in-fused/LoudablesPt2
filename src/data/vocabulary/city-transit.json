@@ -1,0 +1,41 @@
+{
+  "sceneId": "city-transit",
+  "list": [
+    {
+      "id": "parada",
+      "spanish": "parada",
+      "english": "stop",
+      "audioKey": "vocab.parada"
+    },
+    {
+      "id": "autobus",
+      "spanish": "autobus",
+      "english": "bus",
+      "audioKey": "vocab.autobus"
+    },
+    {
+      "id": "metro",
+      "spanish": "metro",
+      "english": "subway",
+      "audioKey": "vocab.metro"
+    },
+    {
+      "id": "boleto",
+      "spanish": "boleto",
+      "english": "ticket",
+      "audioKey": "vocab.boleto"
+    },
+    {
+      "id": "direccion",
+      "spanish": "direccion",
+      "english": "address",
+      "audioKey": "vocab.direccion"
+    },
+    {
+      "id": "llegada",
+      "spanish": "llegada",
+      "english": "arrival",
+      "audioKey": "vocab.llegada"
+    }
+  ]
+}

@@ -1,13 +1,16 @@
 import familyHouseSceneData from "./family-house.json";
 import kitchenBasicSceneData from "./kitchen-basic.json";
 import puertoRicoListeningSceneData from "./puerto-rico-listening.json";
+import cityTransitSceneData from "./city-transit.json";
 
 import familyHouseDialogueData from "../dialogues/family-house.json";
 import kitchenBasicDialogueData from "../dialogues/kitchen-basic.json";
 import puertoRicoListeningDialogueData from "../dialogues/puerto-rico-listening.json";
+import cityTransitDialogueData from "../dialogues/city-transit.json";
 
 import familyHouseVocabularyData from "../vocabulary/family-house.json";
 import kitchenBasicVocabularyData from "../vocabulary/kitchen-basic.json";
+import cityTransitVocabularyData from "../vocabulary/city-transit.json";
 
 const DEFAULT_SCENE_ID = "family-house";
 
@@ -117,6 +120,13 @@ const SCENE_REGISTRY = [
     scene: normalizeScene(puertoRicoListeningSceneData, null, "puerto-rico-listening", "Puerto Rican Audio Conversations"),
     dialogue: puertoRicoListeningDialogueData,
     vocabulary: { list: [], byId: {} }
+  },
+  {
+    id: "city-transit",
+    label: "Getting Around Town",
+    scene: normalizeScene(cityTransitSceneData, cityTransitVocabularyData, "city-transit", "Getting Around Town"),
+    dialogue: cityTransitDialogueData,
+    vocabulary: normalizeVocabulary(cityTransitVocabularyData)
   }
 ];
 

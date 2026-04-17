@@ -1,0 +1,13 @@
+{
+  "id": "city-transit",
+  "title": "Getting Around Town",
+  "description": "You are moving around the city and practice beginner Spanish for directions, transit, and timing.",
+  "itemIds": [
+    "parada",
+    "autobus",
+    "metro",
+    "boleto",
+    "direccion",
+    "llegada"
+  ]
+}
