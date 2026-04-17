@@ -19,7 +19,7 @@
             }
           ],
           "responseExercise": {
-            "prompt": "Listen first: what did you hear in this greeting, and what response fits that meaning?",
+            "prompt": "Listen first: what exact greeting did you hear, what is the speaker's intent, and which response matches that meaning?",
             "choices": [
               {
                 "id": "saludo-barrio-step1-choice-1",
@@ -61,7 +61,7 @@
             }
           ],
           "responseExercise": {
-            "prompt": "Listen again: what does she mean, and which friendly follow-up fits the moment?",
+            "prompt": "Listen again: based on what you heard, what does she mean and which friendly follow-up matches her intent?",
             "choices": [
               {
                 "id": "saludo-barrio-step2-choice-1",
@@ -102,7 +102,7 @@
             }
           ],
           "responseExercise": {
-            "prompt": "Listen first: what goodbye did you hear, and what is the best natural reply?",
+            "prompt": "Listen first: what goodbye did you hear, what intent does it carry, and what is the best natural reply?",
             "choices": [
               {
                 "id": "cierre-amistoso-step1-choice-1",
@@ -144,7 +144,7 @@
             }
           ],
           "responseExercise": {
-            "prompt": "After listening, what intent do you hear in 'Cuídate mucho,' and how do you reply naturally?",
+            "prompt": "After listening, what intent do you hear in 'Cuídate mucho,' and which natural reply best matches that meaning?",
             "choices": [
               {
                 "id": "cierre-amistoso-step2-choice-1",
@@ -185,7 +185,7 @@
             }
           ],
           "responseExercise": {
-            "prompt": "Listen first: what is the speaker asking for here, and which response matches that meaning?",
+            "prompt": "Listen first: what request did you hear, what is the speaker's intent, and which response matches that meaning?",
             "choices": [
               {
                 "id": "espera-info-step1-choice-1",
@@ -227,7 +227,7 @@
             }
           ],
           "responseExercise": {
-            "prompt": "After listening, what does 'Gracias, quedo pendiente' mean in context, and what reply fits?",
+            "prompt": "After listening, what does 'Gracias, quedo pendiente' mean in context, what intent do you hear, and what reply fits?",
             "choices": [
               {
                 "id": "espera-info-step2-choice-1",
@@ -268,7 +268,7 @@
             }
           ],
           "responseExercise": {
-            "prompt": "Listen first: what request did you hear, and which response best answers that request?",
+            "prompt": "Listen first: what exact request did you hear, what is the speaker asking for, and which response best answers that intent?",
             "choices": [
               {
                 "id": "pedir-detalles-step1-choice-1",
@@ -310,7 +310,7 @@
             }
           ],
           "responseExercise": {
-            "prompt": "After listening, what is their intention in this thank-you, and what final reply sounds natural?",
+            "prompt": "After listening, what is their intention in this thank-you, and which final reply sounds natural for that meaning?",
             "choices": [
               {
                 "id": "pedir-detalles-step2-choice-1",

@@ -13,8 +13,9 @@ function DialoguePanel({
   isAutoAdvancePending,
   isRecentlyCompleted
 }) {
-  const isPuertoRicoListening = sceneId === "puerto-rico-listening";
+  const isListeningFocusedModule = sceneId === "puerto-rico-listening" || sceneId === "listening-module";
   const [softEmphasisLineKey, setSoftEmphasisLineKey] = useState("");
+  const [isEnglishSupportRevealed, setIsEnglishSupportRevealed] = useState(true);
   const previousActiveLineKeyRef = useRef("");
 
   const normalizedLines = Array.isArray(lines)
@@ -45,9 +46,10 @@ function DialoguePanel({
   const activeLineKey = activeLine?.id
     ? `${selectedItemId || "item"}:${activeLine.id}:${stepNumber || 0}`
     : "";
+  const stepRevealKey = `${sceneId || "scene"}:${selectedItemId || "item"}:${stepNumber || 0}`;
 
   useEffect(() => {
-    if (!isPuertoRicoListening || !activeLineKey) {
+    if (!isListeningFocusedModule || !activeLineKey) {
       setSoftEmphasisLineKey("");
       previousActiveLineKeyRef.current = "";
       return undefined;
@@ -66,18 +68,37 @@ function DialoguePanel({
     return () => {
       window.clearTimeout(timerId);
     };
-  }, [isPuertoRicoListening, activeLineKey]);
+  }, [isListeningFocusedModule, activeLineKey]);
+
+  useEffect(() => {
+    if (!isListeningFocusedModule) {
+      setIsEnglishSupportRevealed(true);
+      return undefined;
+    }
+
+    setIsEnglishSupportRevealed(false);
+    const timerId = window.setTimeout(() => {
+      setIsEnglishSupportRevealed(true);
+    }, 1200);
+
+    return () => {
+      window.clearTimeout(timerId);
+    };
+  }, [isListeningFocusedModule, stepRevealKey]);
 
   function emphasizeTextNow() {
-    if (!isPuertoRicoListening || !softEmphasisLineKey) {
-      return;
+    if (isListeningFocusedModule) {
+      setIsEnglishSupportRevealed(true);
     }
-    setSoftEmphasisLineKey("");
+
+    if (isListeningFocusedModule && softEmphasisLineKey) {
+      setSoftEmphasisLineKey("");
+    }
   }
 
   return (
     <section
-      className={`dialogue-panel ${isRecentlyCompleted ? "is-recently-completed" : ""} ${isPuertoRicoListening ? "is-listening-emphasis-mode" : ""}`}
+      className={`dialogue-panel ${isRecentlyCompleted ? "is-recently-completed" : ""} ${isListeningFocusedModule ? "is-listening-emphasis-mode" : ""} ${isListeningFocusedModule && !isEnglishSupportRevealed ? "is-english-support-delayed" : ""}`}
       aria-label="Dialogue panel"
       onPointerDownCapture={emphasizeTextNow}
       onTouchStartCapture={emphasizeTextNow}
@@ -95,6 +116,9 @@ function DialoguePanel({
         </p>
       ) : null}
       <p className="dialogue-listen-cue">Listen, then follow along.</p>
+      {isListeningFocusedModule && !isEnglishSupportRevealed ? (
+        <p className="dialogue-english-delay-cue">English support appears shortly. Tap to reveal now.</p>
+      ) : null}
 
       <ul className="dialogue-list">
         {safeLines.map((line, index) => {
@@ -102,8 +126,9 @@ function DialoguePanel({
           const lineKey = line?.id
             ? `${selectedItemId || "item"}:${line.id}:${stepNumber || 0}`
             : "";
-          const isSoftEmphasisActive = isPuertoRicoListening && isActiveLine && softEmphasisLineKey === lineKey;
+          const isSoftEmphasisActive = isListeningFocusedModule && isActiveLine && softEmphasisLineKey === lineKey;
           const lineAudioTarget = isActiveLine ? getLineAudioTarget?.(line, selectedItemId) : null;
+          const isEnglishDelayed = isListeningFocusedModule && !isEnglishSupportRevealed;
 
           return (
             <li key={line.id} className={`dialogue-line ${isActiveLine ? "is-active-line" : ""}`}>
@@ -120,7 +145,7 @@ function DialoguePanel({
                 ) : null}
               </div>
               <p className={`line-es ${isSoftEmphasisActive ? "is-soft-emphasis" : ""}`}>{line.es}</p>
-              <p className={`line-en ${isSoftEmphasisActive ? "is-soft-emphasis" : ""}`}>{line.en}</p>
+              <p className={`line-en ${isSoftEmphasisActive ? "is-soft-emphasis" : ""} ${isEnglishDelayed ? "is-delayed-support" : ""}`}>{line.en}</p>
             </li>
           );
         })}

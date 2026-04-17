@@ -598,6 +598,13 @@ button {
   letter-spacing: 0.02em;
 }
 
+.dialogue-english-delay-cue {
+  margin: 6px 0 0;
+  font-size: 0.74rem;
+  color: #927a62;
+  letter-spacing: 0.01em;
+}
+
 .dialogue-chain-context {
   margin: var(--space-2) 0 0;
   padding: var(--space-2) var(--space-3);
@@ -682,6 +689,11 @@ button {
 .dialogue-panel.is-listening-emphasis-mode .line-en.is-soft-emphasis {
   opacity: 0.68;
   color: #967f69;
+}
+
+.dialogue-panel.is-listening-emphasis-mode.is-english-support-delayed .line-en.is-delayed-support {
+  opacity: 0.16;
+  color: #b19b86;
 }
 
 .grammar-text {
