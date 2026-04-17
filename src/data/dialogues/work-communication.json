@@ -1,0 +1,547 @@
+{
+  "moduleId": "module7",
+  "sceneId": "work-communication",
+  "title": "Work Communication",
+  "itemDialogues": {
+    "actualizacion": {
+      "itemId": "actualizacion",
+      "audioKey": "scene.work-communication.item.actualizacion",
+      "steps": [
+        {
+          "id": "actualizacion-step-1",
+          "lines": [
+            {
+              "id": "actualizacion-1",
+              "audioKey": "scene.work-communication.line.actualizacion-1",
+              "speaker": "Supervisora",
+              "es": "Hola, me puedes dar una actualizacion del reporte?",
+              "en": "Hi, can you give me an update on the report?"
+            },
+            {
+              "id": "actualizacion-2",
+              "audioKey": "scene.work-communication.line.actualizacion-2",
+              "speaker": "Empleado",
+              "es": "Si, ya termine la primera parte y hoy envio el resumen.",
+              "en": "Yes, I already finished the first part and today I'll send the summary."
+            }
+          ],
+          "responseExercise": {
+            "prompt": "Your supervisor asks for an update. Choose the best professional response.",
+            "choices": [
+              {
+                "id": "actualizacion-step1-choice-1",
+                "text": "Si, ya termine la primera parte y hoy envio el resumen.",
+                "rating": "appropriate",
+                "feedback": "Great fit. Clear status plus next action."
+              },
+              {
+                "id": "actualizacion-step1-choice-2",
+                "text": "Voy avanzando, te comparto detalles en un rato.",
+                "rating": "acceptable",
+                "feedback": "Reasonable, but less specific than a concrete update."
+              },
+              {
+                "id": "actualizacion-step1-choice-3",
+                "text": "Ahora no lo tengo, mejor lo vemos manana.",
+                "rating": "off_target",
+                "feedback": "Off-target for a timely status request."
+              }
+            ]
+          }
+        },
+        {
+          "id": "actualizacion-step-2",
+          "lines": [
+            {
+              "id": "actualizacion-3",
+              "audioKey": "scene.work-communication.line.actualizacion-3",
+              "speaker": "Supervisora",
+              "es": "Perfecto. Lo necesito antes de las cuatro.",
+              "en": "Perfect. I need it before four."
+            },
+            {
+              "id": "actualizacion-4",
+              "audioKey": "scene.work-communication.line.actualizacion-4",
+              "speaker": "Empleado",
+              "es": "Entendido, te lo envio antes de esa hora.",
+              "en": "Understood, I'll send it before that time."
+            }
+          ],
+          "responseExercise": {
+            "prompt": "You are given a deadline before 4:00. Pick the most natural reply.",
+            "choices": [
+              {
+                "id": "actualizacion-step2-choice-1",
+                "text": "Entendido, te lo envio antes de esa hora.",
+                "rating": "appropriate",
+                "feedback": "Great fit. Direct confirmation of timing."
+              },
+              {
+                "id": "actualizacion-step2-choice-2",
+                "text": "Intento tenerlo para esa hora.",
+                "rating": "acceptable",
+                "feedback": "Understandable, but less committed than a clear confirmation."
+              },
+              {
+                "id": "actualizacion-step2-choice-3",
+                "text": "A esa hora estoy ocupado, te aviso luego.",
+                "rating": "off_target",
+                "feedback": "Off-target for this immediate deadline."
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "disponibilidad": {
+      "itemId": "disponibilidad",
+      "audioKey": "scene.work-communication.item.disponibilidad",
+      "steps": [
+        {
+          "id": "disponibilidad-step-1",
+          "lines": [
+            {
+              "id": "disponibilidad-1",
+              "audioKey": "scene.work-communication.line.disponibilidad-1",
+              "speaker": "Companero",
+              "es": "Tienes disponibilidad para una llamada corta a las diez?",
+              "en": "Are you available for a short call at ten?"
+            },
+            {
+              "id": "disponibilidad-2",
+              "audioKey": "scene.work-communication.line.disponibilidad-2",
+              "speaker": "Empleado",
+              "es": "Si, a las diez estoy libre.",
+              "en": "Yes, I'm free at ten."
+            }
+          ],
+          "responseExercise": {
+            "prompt": "A coworker asks about your availability at 10:00. Choose a natural response.",
+            "choices": [
+              {
+                "id": "disponibilidad-step1-choice-1",
+                "text": "Si, a las diez estoy libre.",
+                "rating": "appropriate",
+                "feedback": "Great fit. Clear and useful confirmation."
+              },
+              {
+                "id": "disponibilidad-step1-choice-2",
+                "text": "A esa hora casi siempre puedo.",
+                "rating": "acceptable",
+                "feedback": "Reasonable, but slightly less precise."
+              },
+              {
+                "id": "disponibilidad-step1-choice-3",
+                "text": "A las diez no, pero quiza sin reunion.",
+                "rating": "off_target",
+                "feedback": "Off-target because it leaves the plan unclear."
+              }
+            ]
+          }
+        },
+        {
+          "id": "disponibilidad-step-2",
+          "lines": [
+            {
+              "id": "disponibilidad-3",
+              "audioKey": "scene.work-communication.line.disponibilidad-3",
+              "speaker": "Companero",
+              "es": "Genial, te envio el enlace en unos minutos.",
+              "en": "Great, I'll send you the link in a few minutes."
+            },
+            {
+              "id": "disponibilidad-4",
+              "audioKey": "scene.work-communication.line.disponibilidad-4",
+              "speaker": "Empleado",
+              "es": "Perfecto, lo reviso en cuanto llegue.",
+              "en": "Perfect, I'll check it as soon as it arrives."
+            }
+          ],
+          "responseExercise": {
+            "prompt": "Your coworker says they'll send the meeting link. Pick the best reply.",
+            "choices": [
+              {
+                "id": "disponibilidad-step2-choice-1",
+                "text": "Perfecto, lo reviso en cuanto llegue.",
+                "rating": "appropriate",
+                "feedback": "Great fit. Confirms quick follow-through."
+              },
+              {
+                "id": "disponibilidad-step2-choice-2",
+                "text": "Gracias, lo veo antes de la llamada.",
+                "rating": "acceptable",
+                "feedback": "Natural and fine, just slightly less immediate."
+              },
+              {
+                "id": "disponibilidad-step2-choice-3",
+                "text": "Mejor mandalo manana y vemos si entra.",
+                "rating": "off_target",
+                "feedback": "Off-target for a call already planned today."
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "aclarar-tarea": {
+      "itemId": "aclarar-tarea",
+      "audioKey": "scene.work-communication.item.aclarar-tarea",
+      "steps": [
+        {
+          "id": "aclarar-tarea-step-1",
+          "lines": [
+            {
+              "id": "aclarar-tarea-1",
+              "audioKey": "scene.work-communication.line.aclarar-tarea-1",
+              "speaker": "Lider",
+              "es": "Para esta tarea, necesitamos solo el resumen o tambien los datos completos?",
+              "en": "For this task, do we need only the summary or also the full data?"
+            },
+            {
+              "id": "aclarar-tarea-2",
+              "audioKey": "scene.work-communication.line.aclarar-tarea-2",
+              "speaker": "Analista",
+              "es": "Mejor ambos: resumen para hoy y datos completos manana.",
+              "en": "Better both: summary for today and full data tomorrow."
+            }
+          ],
+          "responseExercise": {
+            "prompt": "You are clarifying scope and deliverables. Choose the strongest response.",
+            "choices": [
+              {
+                "id": "aclarar-tarea-step1-choice-1",
+                "text": "Mejor ambos: resumen para hoy y datos completos manana.",
+                "rating": "appropriate",
+                "feedback": "Great fit. It clarifies scope and timing clearly."
+              },
+              {
+                "id": "aclarar-tarea-step1-choice-2",
+                "text": "Por ahora te mando el resumen y luego confirmamos lo demas.",
+                "rating": "acceptable",
+                "feedback": "Reasonable, but leaves final scope less defined."
+              },
+              {
+                "id": "aclarar-tarea-step1-choice-3",
+                "text": "Solo hago una parte y despues vemos que falta.",
+                "rating": "off_target",
+                "feedback": "Off-target because it avoids clear task definition."
+              }
+            ]
+          }
+        },
+        {
+          "id": "aclarar-tarea-step-2",
+          "lines": [
+            {
+              "id": "aclarar-tarea-3",
+              "audioKey": "scene.work-communication.line.aclarar-tarea-3",
+              "speaker": "Lider",
+              "es": "Perfecto, entonces prioriza el resumen para la reunion.",
+              "en": "Perfect, then prioritize the summary for the meeting."
+            },
+            {
+              "id": "aclarar-tarea-4",
+              "audioKey": "scene.work-communication.line.aclarar-tarea-4",
+              "speaker": "Analista",
+              "es": "Listo, te lo comparto antes de empezar.",
+              "en": "Got it, I'll share it before we start."
+            }
+          ],
+          "responseExercise": {
+            "prompt": "Your lead sets priority for the meeting summary. Pick the best reply.",
+            "choices": [
+              {
+                "id": "aclarar-tarea-step2-choice-1",
+                "text": "Listo, te lo comparto antes de empezar.",
+                "rating": "appropriate",
+                "feedback": "Great fit. Confirms priority and delivery time."
+              },
+              {
+                "id": "aclarar-tarea-step2-choice-2",
+                "text": "De acuerdo, lo adelanto y te aviso cuando este.",
+                "rating": "acceptable",
+                "feedback": "Natural and cooperative, though slightly less specific."
+              },
+              {
+                "id": "aclarar-tarea-step2-choice-3",
+                "text": "Primero termino otras cosas y luego reviso eso.",
+                "rating": "off_target",
+                "feedback": "Off-target for a stated priority task."
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "seguimiento": {
+      "itemId": "seguimiento",
+      "audioKey": "scene.work-communication.item.seguimiento",
+      "steps": [
+        {
+          "id": "seguimiento-step-1",
+          "lines": [
+            {
+              "id": "seguimiento-1",
+              "audioKey": "scene.work-communication.line.seguimiento-1",
+              "speaker": "Cliente",
+              "es": "Hola, queria dar seguimiento al correo que enviamos ayer.",
+              "en": "Hi, I wanted to follow up on the email we sent yesterday."
+            },
+            {
+              "id": "seguimiento-2",
+              "audioKey": "scene.work-communication.line.seguimiento-2",
+              "speaker": "Asistente",
+              "es": "Claro, ya lo revise y hoy le comparto una respuesta.",
+              "en": "Of course, I already reviewed it and today I'll share a response."
+            }
+          ],
+          "responseExercise": {
+            "prompt": "A client follows up on yesterday's email. Choose a professional response.",
+            "choices": [
+              {
+                "id": "seguimiento-step1-choice-1",
+                "text": "Claro, ya lo revise y hoy le comparto una respuesta.",
+                "rating": "appropriate",
+                "feedback": "Great fit. Polite and action-oriented."
+              },
+              {
+                "id": "seguimiento-step1-choice-2",
+                "text": "Gracias por recordarlo, lo tengo en mi lista de hoy.",
+                "rating": "acceptable",
+                "feedback": "Natural and polite, but less explicit on timing."
+              },
+              {
+                "id": "seguimiento-step1-choice-3",
+                "text": "Aun no lo veo, cuando pueda lo leo.",
+                "rating": "off_target",
+                "feedback": "Off-target for a client follow-up needing confidence."
+              }
+            ]
+          }
+        },
+        {
+          "id": "seguimiento-step-2",
+          "lines": [
+            {
+              "id": "seguimiento-3",
+              "audioKey": "scene.work-communication.line.seguimiento-3",
+              "speaker": "Cliente",
+              "es": "Muchas gracias, quedo pendiente.",
+              "en": "Thank you very much, I'll stay tuned."
+            },
+            {
+              "id": "seguimiento-4",
+              "audioKey": "scene.work-communication.line.seguimiento-4",
+              "speaker": "Asistente",
+              "es": "Con gusto, le escribo en cuanto este listo.",
+              "en": "With pleasure, I'll write to you as soon as it's ready."
+            }
+          ],
+          "responseExercise": {
+            "prompt": "The client says they'll stay tuned. Pick the best closing response.",
+            "choices": [
+              {
+                "id": "seguimiento-step2-choice-1",
+                "text": "Con gusto, le escribo en cuanto este listo.",
+                "rating": "appropriate",
+                "feedback": "Great fit. Professional and reassuring."
+              },
+              {
+                "id": "seguimiento-step2-choice-2",
+                "text": "Perfecto, seguimos en contacto hoy.",
+                "rating": "acceptable",
+                "feedback": "Good and natural, though less specific on deliverable timing."
+              },
+              {
+                "id": "seguimiento-step2-choice-3",
+                "text": "Si no alcanzo hoy, mejor lo dejamos para otra semana.",
+                "rating": "off_target",
+                "feedback": "Off-target for this committed follow-up flow."
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "enviar-archivo": {
+      "itemId": "enviar-archivo",
+      "audioKey": "scene.work-communication.item.enviar-archivo",
+      "steps": [
+        {
+          "id": "enviar-archivo-step-1",
+          "lines": [
+            {
+              "id": "enviar-archivo-1",
+              "audioKey": "scene.work-communication.line.enviar-archivo-1",
+              "speaker": "Companera",
+              "es": "Me puedes enviar el archivo final por favor?",
+              "en": "Can you send me the final file please?"
+            },
+            {
+              "id": "enviar-archivo-2",
+              "audioKey": "scene.work-communication.line.enviar-archivo-2",
+              "speaker": "Empleado",
+              "es": "Si, te lo envio ahora mismo por correo.",
+              "en": "Yes, I'll send it right now by email."
+            }
+          ],
+          "responseExercise": {
+            "prompt": "A teammate asks for the final file. Choose the best response.",
+            "choices": [
+              {
+                "id": "enviar-archivo-step1-choice-1",
+                "text": "Si, te lo envio ahora mismo por correo.",
+                "rating": "appropriate",
+                "feedback": "Great fit. Clear channel and immediate action."
+              },
+              {
+                "id": "enviar-archivo-step1-choice-2",
+                "text": "Claro, te lo paso en cuanto confirme la version.",
+                "rating": "acceptable",
+                "feedback": "Reasonable, but slightly delayed versus direct send now."
+              },
+              {
+                "id": "enviar-archivo-step1-choice-3",
+                "text": "Todavia no esta, pero envio cualquier borrador.",
+                "rating": "off_target",
+                "feedback": "Off-target when they asked specifically for the final file."
+              }
+            ]
+          }
+        },
+        {
+          "id": "enviar-archivo-step-2",
+          "lines": [
+            {
+              "id": "enviar-archivo-3",
+              "audioKey": "scene.work-communication.line.enviar-archivo-3",
+              "speaker": "Companera",
+              "es": "Gracias. Avísame cuando quede enviado.",
+              "en": "Thanks. Let me know when it's sent."
+            },
+            {
+              "id": "enviar-archivo-4",
+              "audioKey": "scene.work-communication.line.enviar-archivo-4",
+              "speaker": "Empleado",
+              "es": "Listo, te confirmo en dos minutos.",
+              "en": "Done, I'll confirm in two minutes."
+            }
+          ],
+          "responseExercise": {
+            "prompt": "You are asked to confirm once sent. Pick the best reply.",
+            "choices": [
+              {
+                "id": "enviar-archivo-step2-choice-1",
+                "text": "Listo, te confirmo en dos minutos.",
+                "rating": "appropriate",
+                "feedback": "Great fit. Quick and specific confirmation."
+              },
+              {
+                "id": "enviar-archivo-step2-choice-2",
+                "text": "Claro, te aviso apenas salga el correo.",
+                "rating": "acceptable",
+                "feedback": "Natural and good, just slightly less time-specific."
+              },
+              {
+                "id": "enviar-archivo-step2-choice-3",
+                "text": "Si no se envia hoy, lo intentamos manana.",
+                "rating": "off_target",
+                "feedback": "Off-target for a near-immediate confirmation request."
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "confirmar-entrega": {
+      "itemId": "confirmar-entrega",
+      "audioKey": "scene.work-communication.item.confirmar-entrega",
+      "steps": [
+        {
+          "id": "confirmar-entrega-step-1",
+          "lines": [
+            {
+              "id": "confirmar-entrega-1",
+              "audioKey": "scene.work-communication.line.confirmar-entrega-1",
+              "speaker": "Gerente",
+              "es": "Solo para confirmar: la entrega final queda para el viernes, correcto?",
+              "en": "Just to confirm: final delivery is set for Friday, correct?"
+            },
+            {
+              "id": "confirmar-entrega-2",
+              "audioKey": "scene.work-communication.line.confirmar-entrega-2",
+              "speaker": "Coordinadora",
+              "es": "Correcto, el viernes antes del mediodia.",
+              "en": "Correct, Friday before noon."
+            }
+          ],
+          "responseExercise": {
+            "prompt": "Your manager confirms the final delivery date. Choose a precise response.",
+            "choices": [
+              {
+                "id": "confirmar-entrega-step1-choice-1",
+                "text": "Correcto, el viernes antes del mediodia.",
+                "rating": "appropriate",
+                "feedback": "Great fit. Date and time are clearly confirmed."
+              },
+              {
+                "id": "confirmar-entrega-step1-choice-2",
+                "text": "Si, mantenemos viernes si no cambia nada.",
+                "rating": "acceptable",
+                "feedback": "Reasonable, but less firm than a direct confirmation."
+              },
+              {
+                "id": "confirmar-entrega-step1-choice-3",
+                "text": "Tal vez viernes, o quiza el lunes temprano.",
+                "rating": "off_target",
+                "feedback": "Off-target when asked for a concrete confirmation."
+              }
+            ]
+          }
+        },
+        {
+          "id": "confirmar-entrega-step-2",
+          "lines": [
+            {
+              "id": "confirmar-entrega-3",
+              "audioKey": "scene.work-communication.line.confirmar-entrega-3",
+              "speaker": "Gerente",
+              "es": "Perfecto, entonces cierro el calendario con esa fecha.",
+              "en": "Perfect, then I'll lock the calendar with that date."
+            },
+            {
+              "id": "confirmar-entrega-4",
+              "audioKey": "scene.work-communication.line.confirmar-entrega-4",
+              "speaker": "Coordinadora",
+              "es": "Excelente, cualquier cambio te aviso de inmediato.",
+              "en": "Excellent, I'll let you know immediately about any change."
+            }
+          ],
+          "responseExercise": {
+            "prompt": "The schedule is being finalized. Pick the best professional close.",
+            "choices": [
+              {
+                "id": "confirmar-entrega-step2-choice-1",
+                "text": "Excelente, cualquier cambio te aviso de inmediato.",
+                "rating": "appropriate",
+                "feedback": "Great fit. Proactive and professional."
+              },
+              {
+                "id": "confirmar-entrega-step2-choice-2",
+                "text": "Perfecto, seguimos con ese plan por ahora.",
+                "rating": "acceptable",
+                "feedback": "Natural and useful, but slightly less proactive."
+              },
+              {
+                "id": "confirmar-entrega-step2-choice-3",
+                "text": "Si cambia algo, lo vemos cuando se acerque la fecha.",
+                "rating": "off_target",
+                "feedback": "Off-target for tight delivery coordination."
+              }
+            ]
+          }
+        }
+      ]
+    }
+  }
+}

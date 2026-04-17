@@ -4,6 +4,8 @@ import puertoRicoListeningSceneData from "./puerto-rico-listening.json";
 import cityTransitSceneData from "./city-transit.json";
 import restaurantOrderingSceneData from "./restaurant-ordering.json";
 import socialSmallTalkSceneData from "./social-small-talk.json";
+import workCommunicationSceneData from "./work-communication.json";
+import dailyCoordinationSceneData from "./daily-coordination.json";
 
 import familyHouseDialogueData from "../dialogues/family-house.json";
 import kitchenBasicDialogueData from "../dialogues/kitchen-basic.json";
@@ -11,12 +13,16 @@ import puertoRicoListeningDialogueData from "../dialogues/puerto-rico-listening.
 import cityTransitDialogueData from "../dialogues/city-transit.json";
 import restaurantOrderingDialogueData from "../dialogues/restaurant-ordering.json";
 import socialSmallTalkDialogueData from "../dialogues/social-small-talk.json";
+import workCommunicationDialogueData from "../dialogues/work-communication.json";
+import dailyCoordinationDialogueData from "../dialogues/daily-coordination.json";
 
 import familyHouseVocabularyData from "../vocabulary/family-house.json";
 import kitchenBasicVocabularyData from "../vocabulary/kitchen-basic.json";
 import cityTransitVocabularyData from "../vocabulary/city-transit.json";
 import restaurantOrderingVocabularyData from "../vocabulary/restaurant-ordering.json";
 import socialSmallTalkVocabularyData from "../vocabulary/social-small-talk.json";
+import workCommunicationVocabularyData from "../vocabulary/work-communication.json";
+import dailyCoordinationVocabularyData from "../vocabulary/daily-coordination.json";
 
 const DEFAULT_SCENE_ID = "family-house";
 
@@ -190,6 +196,24 @@ const MODULE_DEFINITIONS = [
     vocabularyData: socialSmallTalkVocabularyData,
     difficulty: "beginner",
     category: "social"
+  },
+  {
+    id: "work-communication",
+    label: "Work Communication",
+    sceneData: workCommunicationSceneData,
+    dialogueData: workCommunicationDialogueData,
+    vocabularyData: workCommunicationVocabularyData,
+    difficulty: "beginner",
+    category: "work"
+  },
+  {
+    id: "daily-coordination",
+    label: "Daily Coordination",
+    sceneData: dailyCoordinationSceneData,
+    dialogueData: dailyCoordinationDialogueData,
+    vocabularyData: dailyCoordinationVocabularyData,
+    difficulty: "beginner",
+    category: "daily-life"
   }
 ];
 

@@ -1,0 +1,13 @@
+{
+  "id": "daily-coordination",
+  "title": "Daily Coordination",
+  "description": "You practice everyday Spanish for confirming time, checking location, being on the way, rescheduling, and simple plan coordination.",
+  "itemIds": [
+    "confirmar-hora",
+    "donde-estas",
+    "en-camino",
+    "reprogramar",
+    "punto-encuentro",
+    "confirmar-plan"
+  ]
+}

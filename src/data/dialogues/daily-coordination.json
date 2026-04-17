@@ -1,0 +1,547 @@
+{
+  "moduleId": "module8",
+  "sceneId": "daily-coordination",
+  "title": "Daily Coordination",
+  "itemDialogues": {
+    "confirmar-hora": {
+      "itemId": "confirmar-hora",
+      "audioKey": "scene.daily-coordination.item.confirmar-hora",
+      "steps": [
+        {
+          "id": "confirmar-hora-step-1",
+          "lines": [
+            {
+              "id": "confirmar-hora-1",
+              "audioKey": "scene.daily-coordination.line.confirmar-hora-1",
+              "speaker": "Amiga",
+              "es": "Confirmamos para las seis y media?",
+              "en": "Do we confirm for six thirty?"
+            },
+            {
+              "id": "confirmar-hora-2",
+              "audioKey": "scene.daily-coordination.line.confirmar-hora-2",
+              "speaker": "Tu",
+              "es": "Si, a las seis y media me queda perfecto.",
+              "en": "Yes, six thirty works perfectly for me."
+            }
+          ],
+          "responseExercise": {
+            "prompt": "Someone asks to confirm a time. Choose the best coordination response.",
+            "choices": [
+              {
+                "id": "confirmar-hora-step1-choice-1",
+                "text": "Si, a las seis y media me queda perfecto.",
+                "rating": "appropriate",
+                "feedback": "Great fit. Clear and direct confirmation."
+              },
+              {
+                "id": "confirmar-hora-step1-choice-2",
+                "text": "Creo que si, salvo que se complique el trafico.",
+                "rating": "acceptable",
+                "feedback": "Reasonable, but less firm than a direct confirmation."
+              },
+              {
+                "id": "confirmar-hora-step1-choice-3",
+                "text": "A esa hora no se, te digo cuando salga.",
+                "rating": "off_target",
+                "feedback": "Off-target for confirming a specific plan time."
+              }
+            ]
+          }
+        },
+        {
+          "id": "confirmar-hora-step-2",
+          "lines": [
+            {
+              "id": "confirmar-hora-3",
+              "audioKey": "scene.daily-coordination.line.confirmar-hora-3",
+              "speaker": "Amiga",
+              "es": "Buenisimo, entonces nos vemos alla.",
+              "en": "Great, then we'll see each other there."
+            },
+            {
+              "id": "confirmar-hora-4",
+              "audioKey": "scene.daily-coordination.line.confirmar-hora-4",
+              "speaker": "Tu",
+              "es": "Dale, llego unos minutos antes.",
+              "en": "Sounds good, I'll arrive a few minutes early."
+            }
+          ],
+          "responseExercise": {
+            "prompt": "The time is confirmed. Pick the best follow-up.",
+            "choices": [
+              {
+                "id": "confirmar-hora-step2-choice-1",
+                "text": "Dale, llego unos minutos antes.",
+                "rating": "appropriate",
+                "feedback": "Great fit. Friendly and practical."
+              },
+              {
+                "id": "confirmar-hora-step2-choice-2",
+                "text": "Perfecto, te escribo cuando este cerca.",
+                "rating": "acceptable",
+                "feedback": "Natural and useful, though slightly less specific."
+              },
+              {
+                "id": "confirmar-hora-step2-choice-3",
+                "text": "Bueno, si me atraso, mejor lo movemos en el momento.",
+                "rating": "off_target",
+                "feedback": "Off-target once the plan is already confirmed."
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "donde-estas": {
+      "itemId": "donde-estas",
+      "audioKey": "scene.daily-coordination.item.donde-estas",
+      "steps": [
+        {
+          "id": "donde-estas-step-1",
+          "lines": [
+            {
+              "id": "donde-estas-1",
+              "audioKey": "scene.daily-coordination.line.donde-estas-1",
+              "speaker": "Hermano",
+              "es": "Hola, donde estas ahora?",
+              "en": "Hi, where are you right now?"
+            },
+            {
+              "id": "donde-estas-2",
+              "audioKey": "scene.daily-coordination.line.donde-estas-2",
+              "speaker": "Tu",
+              "es": "Estoy saliendo de la oficina, llego en veinte minutos.",
+              "en": "I'm leaving the office, I'll arrive in twenty minutes."
+            }
+          ],
+          "responseExercise": {
+            "prompt": "Someone asks where you are. Choose a practical real-time reply.",
+            "choices": [
+              {
+                "id": "donde-estas-step1-choice-1",
+                "text": "Estoy saliendo de la oficina, llego en veinte minutos.",
+                "rating": "appropriate",
+                "feedback": "Great fit. Location plus ETA helps coordination."
+              },
+              {
+                "id": "donde-estas-step1-choice-2",
+                "text": "Voy en camino, te actualizo en un rato.",
+                "rating": "acceptable",
+                "feedback": "Reasonable, but less precise than giving location and ETA."
+              },
+              {
+                "id": "donde-estas-step1-choice-3",
+                "text": "No se bien, ando por ahi todavia.",
+                "rating": "off_target",
+                "feedback": "Off-target because it does not support planning."
+              }
+            ]
+          }
+        },
+        {
+          "id": "donde-estas-step-2",
+          "lines": [
+            {
+              "id": "donde-estas-3",
+              "audioKey": "scene.daily-coordination.line.donde-estas-3",
+              "speaker": "Hermano",
+              "es": "Perfecto, te espero en la entrada principal.",
+              "en": "Perfect, I'll wait for you at the main entrance."
+            },
+            {
+              "id": "donde-estas-4",
+              "audioKey": "scene.daily-coordination.line.donde-estas-4",
+              "speaker": "Tu",
+              "es": "Listo, cuando llegue te llamo.",
+              "en": "Great, I'll call you when I arrive."
+            }
+          ],
+          "responseExercise": {
+            "prompt": "They'll wait at the main entrance. Pick the best coordinating response.",
+            "choices": [
+              {
+                "id": "donde-estas-step2-choice-1",
+                "text": "Listo, cuando llegue te llamo.",
+                "rating": "appropriate",
+                "feedback": "Great fit. Clear next action."
+              },
+              {
+                "id": "donde-estas-step2-choice-2",
+                "text": "Dale, te aviso apenas este afuera.",
+                "rating": "acceptable",
+                "feedback": "Natural and useful, just slightly less specific."
+              },
+              {
+                "id": "donde-estas-step2-choice-3",
+                "text": "Mejor entra tu y yo veo como encontrarte.",
+                "rating": "off_target",
+                "feedback": "Off-target for a clear meeting point plan."
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "en-camino": {
+      "itemId": "en-camino",
+      "audioKey": "scene.daily-coordination.item.en-camino",
+      "steps": [
+        {
+          "id": "en-camino-step-1",
+          "lines": [
+            {
+              "id": "en-camino-1",
+              "audioKey": "scene.daily-coordination.line.en-camino-1",
+              "speaker": "Amigo",
+              "es": "Ya saliste o todavia estas en casa?",
+              "en": "Did you leave already or are you still at home?"
+            },
+            {
+              "id": "en-camino-2",
+              "audioKey": "scene.daily-coordination.line.en-camino-2",
+              "speaker": "Tu",
+              "es": "Ya sali, voy en camino.",
+              "en": "I already left, I'm on the way."
+            }
+          ],
+          "responseExercise": {
+            "prompt": "A friend checks if you already left. Choose the best response.",
+            "choices": [
+              {
+                "id": "en-camino-step1-choice-1",
+                "text": "Ya sali, voy en camino.",
+                "rating": "appropriate",
+                "feedback": "Great fit. Short and directly useful."
+              },
+              {
+                "id": "en-camino-step1-choice-2",
+                "text": "Sali hace poco, calculo llegar pronto.",
+                "rating": "acceptable",
+                "feedback": "Natural and reasonable, but less immediate."
+              },
+              {
+                "id": "en-camino-step1-choice-3",
+                "text": "Todavia no, pero igual llego cuando pueda.",
+                "rating": "off_target",
+                "feedback": "Off-target when asked for a clear current status."
+              }
+            ]
+          }
+        },
+        {
+          "id": "en-camino-step-2",
+          "lines": [
+            {
+              "id": "en-camino-3",
+              "audioKey": "scene.daily-coordination.line.en-camino-3",
+              "speaker": "Amigo",
+              "es": "Buenisimo, te guardo sitio.",
+              "en": "Great, I'll save you a spot."
+            },
+            {
+              "id": "en-camino-4",
+              "audioKey": "scene.daily-coordination.line.en-camino-4",
+              "speaker": "Tu",
+              "es": "Gracias, en diez minutos estoy ahi.",
+              "en": "Thanks, I'll be there in ten minutes."
+            }
+          ],
+          "responseExercise": {
+            "prompt": "They will save you a spot. Pick the best follow-up with ETA.",
+            "choices": [
+              {
+                "id": "en-camino-step2-choice-1",
+                "text": "Gracias, en diez minutos estoy ahi.",
+                "rating": "appropriate",
+                "feedback": "Great fit. Polite and specific timing."
+              },
+              {
+                "id": "en-camino-step2-choice-2",
+                "text": "Gracias, no me demoro mucho.",
+                "rating": "acceptable",
+                "feedback": "Natural, though less precise than a concrete ETA."
+              },
+              {
+                "id": "en-camino-step2-choice-3",
+                "text": "Si se llena, despues vemos donde sentarnos.",
+                "rating": "off_target",
+                "feedback": "Off-target for immediate arrival coordination."
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "reprogramar": {
+      "itemId": "reprogramar",
+      "audioKey": "scene.daily-coordination.item.reprogramar",
+      "steps": [
+        {
+          "id": "reprogramar-step-1",
+          "lines": [
+            {
+              "id": "reprogramar-1",
+              "audioKey": "scene.daily-coordination.line.reprogramar-1",
+              "speaker": "Companera",
+              "es": "Perdon, se me complico. Podemos reprogramar para manana?",
+              "en": "Sorry, something came up. Can we reschedule for tomorrow?"
+            },
+            {
+              "id": "reprogramar-2",
+              "audioKey": "scene.daily-coordination.line.reprogramar-2",
+              "speaker": "Tu",
+              "es": "Claro, manana a la misma hora me funciona.",
+              "en": "Sure, tomorrow at the same time works for me."
+            }
+          ],
+          "responseExercise": {
+            "prompt": "Someone asks to reschedule for tomorrow. Choose the most helpful response.",
+            "choices": [
+              {
+                "id": "reprogramar-step1-choice-1",
+                "text": "Claro, manana a la misma hora me funciona.",
+                "rating": "appropriate",
+                "feedback": "Great fit. Accepts and confirms the new time."
+              },
+              {
+                "id": "reprogramar-step1-choice-2",
+                "text": "Si, manana podria ser, te confirmo mas tarde.",
+                "rating": "acceptable",
+                "feedback": "Reasonable, but less decisive for coordination."
+              },
+              {
+                "id": "reprogramar-step1-choice-3",
+                "text": "Manana no se, mejor hablamos sin hora fija.",
+                "rating": "off_target",
+                "feedback": "Off-target because it removes clear scheduling."
+              }
+            ]
+          }
+        },
+        {
+          "id": "reprogramar-step-2",
+          "lines": [
+            {
+              "id": "reprogramar-3",
+              "audioKey": "scene.daily-coordination.line.reprogramar-3",
+              "speaker": "Companera",
+              "es": "Gracias por la flexibilidad.",
+              "en": "Thanks for being flexible."
+            },
+            {
+              "id": "reprogramar-4",
+              "audioKey": "scene.daily-coordination.line.reprogramar-4",
+              "speaker": "Tu",
+              "es": "No hay problema, nos vemos manana.",
+              "en": "No problem, see you tomorrow."
+            }
+          ],
+          "responseExercise": {
+            "prompt": "They thank you for being flexible. Pick the best closing response.",
+            "choices": [
+              {
+                "id": "reprogramar-step2-choice-1",
+                "text": "No hay problema, nos vemos manana.",
+                "rating": "appropriate",
+                "feedback": "Great fit. Polite and closes the new plan clearly."
+              },
+              {
+                "id": "reprogramar-step2-choice-2",
+                "text": "Todo bien, seguimos en contacto.",
+                "rating": "acceptable",
+                "feedback": "Natural, but less specific than confirming tomorrow."
+              },
+              {
+                "id": "reprogramar-step2-choice-3",
+                "text": "Si vuelve a pasar, mejor cancelamos del todo.",
+                "rating": "off_target",
+                "feedback": "Off-target for a cooperative reschedule exchange."
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "punto-encuentro": {
+      "itemId": "punto-encuentro",
+      "audioKey": "scene.daily-coordination.item.punto-encuentro",
+      "steps": [
+        {
+          "id": "punto-encuentro-step-1",
+          "lines": [
+            {
+              "id": "punto-encuentro-1",
+              "audioKey": "scene.daily-coordination.line.punto-encuentro-1",
+              "speaker": "Amiga",
+              "es": "Donde nos encontramos exactamente?",
+              "en": "Where exactly should we meet?"
+            },
+            {
+              "id": "punto-encuentro-2",
+              "audioKey": "scene.daily-coordination.line.punto-encuentro-2",
+              "speaker": "Tu",
+              "es": "En la entrada del cafe, junto al semaforo.",
+              "en": "At the cafe entrance, next to the traffic light."
+            }
+          ],
+          "responseExercise": {
+            "prompt": "They ask for the exact meeting point. Choose the best answer.",
+            "choices": [
+              {
+                "id": "punto-encuentro-step1-choice-1",
+                "text": "En la entrada del cafe, junto al semaforo.",
+                "rating": "appropriate",
+                "feedback": "Great fit. Specific and easy to find."
+              },
+              {
+                "id": "punto-encuentro-step1-choice-2",
+                "text": "Cerca del cafe, por esa zona.",
+                "rating": "acceptable",
+                "feedback": "Understandable, but less precise for coordination."
+              },
+              {
+                "id": "punto-encuentro-step1-choice-3",
+                "text": "Vamos viendo cuando lleguemos cada uno.",
+                "rating": "off_target",
+                "feedback": "Off-target because it avoids setting a clear point."
+              }
+            ]
+          }
+        },
+        {
+          "id": "punto-encuentro-step-2",
+          "lines": [
+            {
+              "id": "punto-encuentro-3",
+              "audioKey": "scene.daily-coordination.line.punto-encuentro-3",
+              "speaker": "Amiga",
+              "es": "Perfecto, cuando llegue te escribo.",
+              "en": "Perfect, when I arrive I'll text you."
+            },
+            {
+              "id": "punto-encuentro-4",
+              "audioKey": "scene.daily-coordination.line.punto-encuentro-4",
+              "speaker": "Tu",
+              "es": "Dale, yo estare esperando ahi.",
+              "en": "Great, I'll be waiting there."
+            }
+          ],
+          "responseExercise": {
+            "prompt": "They'll text when they arrive. Pick the most natural reply.",
+            "choices": [
+              {
+                "id": "punto-encuentro-step2-choice-1",
+                "text": "Dale, yo estare esperando ahi.",
+                "rating": "appropriate",
+                "feedback": "Great fit. Confirms shared plan clearly."
+              },
+              {
+                "id": "punto-encuentro-step2-choice-2",
+                "text": "Perfecto, yo tambien te aviso si me muevo.",
+                "rating": "acceptable",
+                "feedback": "Natural and helpful, but slightly less direct."
+              },
+              {
+                "id": "punto-encuentro-step2-choice-3",
+                "text": "Si no te veo, entro y despues salgo otra vez.",
+                "rating": "off_target",
+                "feedback": "Off-target for a stable meeting-point plan."
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "confirmar-plan": {
+      "itemId": "confirmar-plan",
+      "audioKey": "scene.daily-coordination.item.confirmar-plan",
+      "steps": [
+        {
+          "id": "confirmar-plan-step-1",
+          "lines": [
+            {
+              "id": "confirmar-plan-1",
+              "audioKey": "scene.daily-coordination.line.confirmar-plan-1",
+              "speaker": "Amigo",
+              "es": "Entonces, hoy hacemos compras y despues cenamos?",
+              "en": "So today we do groceries and then have dinner?"
+            },
+            {
+              "id": "confirmar-plan-2",
+              "audioKey": "scene.daily-coordination.line.confirmar-plan-2",
+              "speaker": "Tu",
+              "es": "Si, ese plan me parece bien.",
+              "en": "Yes, that plan sounds good to me."
+            }
+          ],
+          "responseExercise": {
+            "prompt": "A friend confirms today's sequence of plans. Choose the best response.",
+            "choices": [
+              {
+                "id": "confirmar-plan-step1-choice-1",
+                "text": "Si, ese plan me parece bien.",
+                "rating": "appropriate",
+                "feedback": "Great fit. Simple and clear agreement."
+              },
+              {
+                "id": "confirmar-plan-step1-choice-2",
+                "text": "Si, aunque quiza cambiamos segun como vaya la tarde.",
+                "rating": "acceptable",
+                "feedback": "Reasonable, but less firm for coordination."
+              },
+              {
+                "id": "confirmar-plan-step1-choice-3",
+                "text": "No se, primero vemos si tengo ganas.",
+                "rating": "off_target",
+                "feedback": "Off-target for confirming a shared plan."
+              }
+            ]
+          }
+        },
+        {
+          "id": "confirmar-plan-step-2",
+          "lines": [
+            {
+              "id": "confirmar-plan-3",
+              "audioKey": "scene.daily-coordination.line.confirmar-plan-3",
+              "speaker": "Amigo",
+              "es": "Buenisimo, te paso a buscar a las cinco.",
+              "en": "Great, I'll pick you up at five."
+            },
+            {
+              "id": "confirmar-plan-4",
+              "audioKey": "scene.daily-coordination.line.confirmar-plan-4",
+              "speaker": "Tu",
+              "es": "Perfecto, estare listo a esa hora.",
+              "en": "Perfect, I'll be ready at that time."
+            }
+          ],
+          "responseExercise": {
+            "prompt": "They offer pickup at 5:00. Pick the strongest confirmation response.",
+            "choices": [
+              {
+                "id": "confirmar-plan-step2-choice-1",
+                "text": "Perfecto, estare listo a esa hora.",
+                "rating": "appropriate",
+                "feedback": "Great fit. Confirms readiness and timing."
+              },
+              {
+                "id": "confirmar-plan-step2-choice-2",
+                "text": "Excelente, te confirmo unos minutos antes.",
+                "rating": "acceptable",
+                "feedback": "Natural and good, though it adds slight uncertainty."
+              },
+              {
+                "id": "confirmar-plan-step2-choice-3",
+                "text": "Si me atraso, arranca sin mi y luego llego.",
+                "rating": "off_target",
+                "feedback": "Off-target for a coordinated pickup commitment."
+              }
+            ]
+          }
+        }
+      ]
+    }
+  }
+}

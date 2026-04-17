@@ -1,0 +1,13 @@
+{
+  "id": "work-communication",
+  "title": "Work Communication",
+  "description": "You practice practical Spanish for workplace updates, task clarification, availability, and polite follow-up.",
+  "itemIds": [
+    "actualizacion",
+    "disponibilidad",
+    "aclarar-tarea",
+    "seguimiento",
+    "enviar-archivo",
+    "confirmar-entrega"
+  ]
+}

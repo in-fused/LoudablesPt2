@@ -1,0 +1,41 @@
+{
+  "sceneId": "daily-coordination",
+  "list": [
+    {
+      "id": "confirmar-hora",
+      "spanish": "confirmar hora",
+      "english": "confirm time",
+      "audioKey": "vocab.confirmar-hora"
+    },
+    {
+      "id": "donde-estas",
+      "spanish": "donde estas",
+      "english": "where are you",
+      "audioKey": "vocab.donde-estas"
+    },
+    {
+      "id": "en-camino",
+      "spanish": "en camino",
+      "english": "on the way",
+      "audioKey": "vocab.en-camino"
+    },
+    {
+      "id": "reprogramar",
+      "spanish": "reprogramar",
+      "english": "reschedule",
+      "audioKey": "vocab.reprogramar"
+    },
+    {
+      "id": "punto-encuentro",
+      "spanish": "punto de encuentro",
+      "english": "meeting point",
+      "audioKey": "vocab.punto-encuentro"
+    },
+    {
+      "id": "confirmar-plan",
+      "spanish": "confirmar plan",
+      "english": "confirm plan",
+      "audioKey": "vocab.confirmar-plan"
+    }
+  ]
+}

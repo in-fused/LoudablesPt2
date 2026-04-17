@@ -1,0 +1,41 @@
+{
+  "sceneId": "work-communication",
+  "list": [
+    {
+      "id": "actualizacion",
+      "spanish": "actualizacion",
+      "english": "update",
+      "audioKey": "vocab.actualizacion"
+    },
+    {
+      "id": "disponibilidad",
+      "spanish": "disponibilidad",
+      "english": "availability",
+      "audioKey": "vocab.disponibilidad"
+    },
+    {
+      "id": "aclarar-tarea",
+      "spanish": "aclarar tarea",
+      "english": "clarify task",
+      "audioKey": "vocab.aclarar-tarea"
+    },
+    {
+      "id": "seguimiento",
+      "spanish": "seguimiento",
+      "english": "follow-up",
+      "audioKey": "vocab.seguimiento"
+    },
+    {
+      "id": "enviar-archivo",
+      "spanish": "enviar archivo",
+      "english": "send file",
+      "audioKey": "vocab.enviar-archivo"
+    },
+    {
+      "id": "confirmar-entrega",
+      "spanish": "confirmar entrega",
+      "english": "confirm delivery",
+      "audioKey": "vocab.confirmar-entrega"
+    }
+  ]
+}
