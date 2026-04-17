@@ -74,6 +74,26 @@ button {
 
 .scene-switcher {
   margin-top: var(--space-2);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.scene-switch-group + .scene-switch-group {
+  padding-top: var(--space-2);
+  border-top: 1px solid rgba(201, 175, 141, 0.35);
+}
+
+.scene-switch-group-label {
+  margin: 0 0 var(--space-1);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-muted);
+  font-weight: 700;
+}
+
+.scene-switch-group-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: var(--space-2);
@@ -88,7 +108,12 @@ button {
   padding: var(--space-2) var(--space-3);
   font-size: 0.83rem;
   font-weight: 600;
-  text-align: center;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 2px;
   transition: border-color 0.14s ease, background-color 0.14s ease, color 0.14s ease, transform 0.08s ease, box-shadow 0.14s ease;
 }
 
@@ -106,6 +131,23 @@ button {
 .scene-switch-button:focus-visible {
   outline: 2px solid rgba(214, 159, 92, 0.5);
   outline-offset: 2px;
+}
+
+.scene-switch-button-label {
+  font-size: 0.82rem;
+  line-height: 1.25;
+}
+
+.scene-switch-difficulty {
+  font-size: 0.66rem;
+  line-height: 1.2;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #8a735d;
+  background: rgba(255, 255, 255, 0.5);
+  border: 1px solid #ead5bf;
+  border-radius: 999px;
+  padding: 1px 6px;
 }
 
 .app-progress-summary {

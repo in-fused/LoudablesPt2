@@ -5,6 +5,35 @@ import BottomDrawer from "../components/BottomDrawer";
 function AppLayout({ sceneState, dialogueState }) {
   const activeSceneTitle = sceneState.scene?.title || "Scene";
 
+  const groupedScenes = useMemo(() => {
+    const scenes = Array.isArray(sceneState.scenes) ? sceneState.scenes : [];
+    const groupsById = scenes.reduce((acc, sceneEntry, index) => {
+      if (!sceneEntry?.id) {
+        return acc;
+      }
+
+      const rawCategory = typeof sceneEntry.category === "string" ? sceneEntry.category.trim() : "";
+      const categoryId = rawCategory || "general";
+      const categoryLabel = rawCategory
+        ? `${rawCategory.charAt(0).toUpperCase()}${rawCategory.slice(1)}`
+        : "General";
+
+      if (!acc[categoryId]) {
+        acc[categoryId] = {
+          id: categoryId,
+          label: categoryLabel,
+          order: index,
+          scenes: []
+        };
+      }
+
+      acc[categoryId].scenes.push(sceneEntry);
+      return acc;
+    }, {});
+
+    return Object.values(groupsById).sort((a, b) => a.order - b.order);
+  }, [sceneState.scenes]);
+
   const moduleProgress = useMemo(() => {
     const sceneItems = Array.isArray(sceneState.scene?.items)
       ? sceneState.scene.items.filter((item) => item && item.id)
@@ -68,22 +97,31 @@ function AppLayout({ sceneState, dialogueState }) {
         <p className="app-kicker">Module 1</p>
         <h1 className="app-title">{activeSceneTitle}</h1>
         <p className="app-scene-meta">Active scene</p>
-        <div className="scene-switcher" role="group" aria-label="Scene switcher">
-          {(sceneState.scenes || []).map((sceneEntry) => {
-            const isActiveScene = sceneEntry.id === sceneState.activeSceneId;
-            return (
-              <button
-                key={sceneEntry.id}
-                type="button"
-                className={`scene-switch-button ${isActiveScene ? "is-active" : ""}`}
-                onClick={() => sceneState.switchScene?.(sceneEntry.id)}
-                aria-pressed={isActiveScene}
-                aria-label={`${sceneEntry.label}${isActiveScene ? ", active scene" : ""}`}
-              >
-                {sceneEntry.label}
-              </button>
-            );
-          })}
+        <div className="scene-switcher" aria-label="Scene switcher">
+          {groupedScenes.map((group) => (
+            <section key={group.id} className="scene-switch-group" aria-label={`${group.label} modules`}>
+              <p className="scene-switch-group-label">{group.label}</p>
+              <div className="scene-switch-group-grid" role="group" aria-label={`${group.label} scene options`}>
+                {group.scenes.map((sceneEntry) => {
+                  const isActiveScene = sceneEntry.id === sceneState.activeSceneId;
+                  const difficultyLabel = typeof sceneEntry.difficulty === "string" ? sceneEntry.difficulty.trim() : "";
+                  return (
+                    <button
+                      key={sceneEntry.id}
+                      type="button"
+                      className={`scene-switch-button ${isActiveScene ? "is-active" : ""}`}
+                      onClick={() => sceneState.switchScene?.(sceneEntry.id)}
+                      aria-pressed={isActiveScene}
+                      aria-label={`${sceneEntry.label}${difficultyLabel ? `, ${difficultyLabel}` : ""}${isActiveScene ? ", active scene" : ""}`}
+                    >
+                      <span className="scene-switch-button-label">{sceneEntry.label}</span>
+                      {difficultyLabel ? <span className="scene-switch-difficulty">{difficultyLabel}</span> : null}
+                    </button>
+                  );
+                })}
+              </div>
+            </section>
+          ))}
         </div>
         {(sceneState.scenes || []).length === 0 ? <p className="response-fallback">No scenes are currently available.</p> : null}
         <p className="app-progress-summary">
