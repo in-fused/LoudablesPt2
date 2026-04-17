@@ -3,7 +3,7 @@ import DialoguePanel from "./DialoguePanel";
 import AudioButton from "./AudioButton";
 import GrammarHint from "./GrammarHint";
 import ResponseChoices from "./ResponseChoices";
-import { playAudioTarget } from "../lib/audio";
+import { getAudioPlaybackState, playAudioTarget, subscribeToAudioPlayback } from "../lib/audio";
 
 function BottomDrawer({ selectedItem, dialogueState, grammarHint, sceneId }) {
   const selectedItemLabel = selectedItem ? selectedItem.spanish : "No item selected yet";
@@ -135,8 +135,13 @@ function BottomDrawer({ selectedItem, dialogueState, grammarHint, sceneId }) {
       .filter((text, index, all) => text && all.indexOf(text) === index)
       .join(" ");
   const lastAutoPlayedStepRef = useRef("");
+  const autoplayRunRef = useRef(0);
 
   useEffect(() => {
+    if (sceneId !== "puerto-rico-listening") {
+      return undefined;
+    }
+
     if (!itemId || !selectedItem || !conversationState?.stepNumber) {
       return;
     }
@@ -149,30 +154,100 @@ function BottomDrawer({ selectedItem, dialogueState, grammarHint, sceneId }) {
       return;
     }
 
-    const stepPlaybackKey = `${itemId}:${conversationState.stepNumber}`;
+    const stepPlaybackKey = `${sceneId}:${itemId}:${conversationState.stepNumber}`;
     if (lastAutoPlayedStepRef.current === stepPlaybackKey) {
       return;
     }
 
-    const currentStepIndex = conversationState?.currentStepIndex;
-    if (!Number.isInteger(currentStepIndex) || currentStepIndex < 0 || currentStepIndex >= dialogueLines.length) {
-      return;
-    }
+    const lineAudioTargets = dialogueLines
+      .map((line) => dialogueState.getLineAudioTarget(line, itemId))
+      .filter(Boolean);
 
-    const currentStepLine = dialogueLines[currentStepIndex];
-    if (!currentStepLine) {
-      return;
-    }
-
-    const lineAudioTarget = dialogueState.getLineAudioTarget(currentStepLine, itemId) || null;
-
-    if (!lineAudioTarget) {
+    if (!lineAudioTargets.length) {
       return;
     }
 
     lastAutoPlayedStepRef.current = stepPlaybackKey;
-    playAudioTarget(lineAudioTarget);
-  }, [itemId, selectedItem, conversationState?.stepNumber, dialogueLines, dialogueState]);
+    autoplayRunRef.current += 1;
+    const runId = autoplayRunRef.current;
+    let lineIndex = 0;
+    let unsubscribe = () => {};
+    let delayTimerId = null;
+
+    const clearDelayTimer = () => {
+      if (delayTimerId !== null) {
+        window.clearTimeout(delayTimerId);
+        delayTimerId = null;
+      }
+    };
+
+    const cleanupRun = () => {
+      clearDelayTimer();
+      unsubscribe();
+      unsubscribe = () => {};
+    };
+
+    const playNextLine = () => {
+      if (autoplayRunRef.current !== runId) {
+        return;
+      }
+
+      if (lineIndex >= lineAudioTargets.length) {
+        cleanupRun();
+        return;
+      }
+
+      const target = lineAudioTargets[lineIndex];
+      lineIndex += 1;
+
+      try {
+        playAudioTarget(target);
+      } catch {
+        // Keep autoplay fail-safe: ignore and continue.
+      }
+
+      if (lineIndex >= lineAudioTargets.length) {
+        return;
+      }
+
+      let sawPlaybackStart = getAudioPlaybackState().isPlaying;
+
+      const handlePlaybackChange = () => {
+        if (autoplayRunRef.current !== runId) {
+          return;
+        }
+
+        const playbackState = getAudioPlaybackState();
+        if (playbackState.isPlaying) {
+          sawPlaybackStart = true;
+          return;
+        }
+
+        if (!sawPlaybackStart) {
+          sawPlaybackStart = true;
+        }
+
+        unsubscribe();
+        unsubscribe = () => {};
+        clearDelayTimer();
+        delayTimerId = window.setTimeout(() => {
+          delayTimerId = null;
+          playNextLine();
+        }, 420);
+      };
+
+      unsubscribe();
+      unsubscribe = subscribeToAudioPlayback(handlePlaybackChange);
+      handlePlaybackChange();
+    };
+
+    playNextLine();
+
+    return () => {
+      autoplayRunRef.current += 1;
+      cleanupRun();
+    };
+  }, [sceneId, itemId, selectedItem, conversationState?.stepNumber, dialogueLines, dialogueState]);
 
   return (
     <aside
