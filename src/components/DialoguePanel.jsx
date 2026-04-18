@@ -42,6 +42,7 @@ function DialoguePanel({
   isRecentlyCompleted
 }) {
   const isListeningFocusedModule = sceneId === "puerto-rico-listening" || sceneId === "listening-module";
+  const isShadowingPriorityScene = sceneId === "puerto-rico-listening";
   const [softEmphasisLineKey, setSoftEmphasisLineKey] = useState("");
   const [isEnglishSupportRevealed, setIsEnglishSupportRevealed] = useState(true);
   const previousActiveLineKeyRef = useRef("");
@@ -182,6 +183,10 @@ function DialoguePanel({
           const showsConversationCue = hasConversationCue && index === 0;
           const isSpokenTurnLine = line.sourceType === "spoken-turn";
           const spokenTurnCue = isSpokenTurnLine ? "Say it out loud once." : "";
+          const isSystemLine = line.sourceType === "dialogue" && line.speaker !== "You";
+          const shadowPromptText = isShadowingPriorityScene && isActiveLine && isSystemLine && line.canReplay
+            ? "Repeat it out loud, then replay if needed."
+            : "";
 
           return (
             <li
@@ -205,6 +210,9 @@ function DialoguePanel({
               ) : null}
               {isSpokenTurnLine ? (
                 <p className="dialogue-line-memory">{spokenTurnCue}</p>
+              ) : null}
+              {shadowPromptText ? (
+                <p className="dialogue-line-memory">{shadowPromptText}</p>
               ) : null}
               <p className={`line-es ${isSoftEmphasisActive ? "is-soft-emphasis" : ""}`}>{line.es}</p>
               {hasEnglishLine ? (
