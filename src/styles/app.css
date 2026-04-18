@@ -600,6 +600,13 @@ button {
   transform-origin: center;
 }
 
+.dialogue-panel-backdrop-motif {
+  position: absolute;
+  inset: 0;
+  background: var(--dialogue-scene-motif);
+  opacity: 0.92;
+}
+
 .dialogue-panel-backdrop-glow {
   position: absolute;
   inset: 0;
@@ -611,7 +618,7 @@ button {
 .dialogue-panel-backdrop-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, rgba(12, 17, 26, 0.3) 0%, rgba(13, 19, 31, 0.48) 46%, rgba(15, 20, 31, 0.62) 100%);
+  background: var(--dialogue-scene-overlay);
 }
 
 .dialogue-panel-content {
@@ -630,6 +637,46 @@ button {
 .dialogue-panel .dialogue-listen-cue,
 .dialogue-panel .dialogue-english-delay-cue {
   color: rgba(233, 218, 199, 0.94);
+}
+
+.dialogue-panel.scene-theme-family-house .dialogue-line {
+  background: linear-gradient(180deg, rgba(255, 248, 238, 0.94) 0%, rgba(255, 241, 222, 0.9) 100%);
+  border-color: #e7caa5;
+}
+
+.dialogue-panel.scene-theme-kitchen-basic .dialogue-line {
+  background: linear-gradient(180deg, rgba(255, 253, 245, 0.94) 0%, rgba(255, 245, 224, 0.9) 100%);
+  border-color: #e5d2b2;
+}
+
+.dialogue-panel.scene-theme-city-transit .dialogue-line {
+  background: linear-gradient(180deg, rgba(248, 252, 255, 0.95) 0%, rgba(235, 244, 252, 0.91) 100%);
+  border-color: #c9d7e6;
+}
+
+.dialogue-panel.scene-theme-restaurant-ordering .dialogue-line {
+  background: linear-gradient(180deg, rgba(255, 247, 240, 0.94) 0%, rgba(253, 235, 221, 0.9) 100%);
+  border-color: #e2c1a0;
+}
+
+.dialogue-panel.scene-theme-puerto-rico-listening .dialogue-line {
+  background: linear-gradient(180deg, rgba(246, 252, 255, 0.95) 0%, rgba(234, 247, 250, 0.9) 100%);
+  border-color: #bdd5df;
+}
+
+.dialogue-panel.scene-theme-social-small-talk .dialogue-line {
+  background: linear-gradient(180deg, rgba(248, 253, 253, 0.95) 0%, rgba(236, 244, 243, 0.9) 100%);
+  border-color: #c4d8d3;
+}
+
+.dialogue-panel.scene-theme-work-communication .dialogue-line {
+  background: linear-gradient(180deg, rgba(247, 251, 255, 0.95) 0%, rgba(234, 241, 249, 0.9) 100%);
+  border-color: #cad5e3;
+}
+
+.dialogue-panel.scene-theme-daily-coordination .dialogue-line {
+  background: linear-gradient(180deg, rgba(250, 252, 255, 0.95) 0%, rgba(238, 245, 252, 0.9) 100%);
+  border-color: #c8d9e6;
 }
 
 .dialogue-list {
