@@ -1,28 +1,31 @@
 import { useEffect, useRef, useState } from "react";
 import AudioButton from "./AudioButton";
 
-function getFlowCueText(rating) {
-  if (rating === "appropriate") {
-    return "Nice fit. The exchange keeps moving naturally.";
-  }
-
+function getConversationalCorrectionText(rating) {
   if (rating === "acceptable") {
-    return "That works. Keep the conversation going.";
+    return "Nice. A slightly tighter phrasing would sound more natural here.";
   }
 
   if (rating === "off_target") {
-    return "No problem. Listen for the next cue and respond again.";
+    return "No worries. Let's steer it back to what this moment is asking.";
   }
 
   return "";
 }
 
-function getMemoryLeadInText(chainText) {
+function getConversationCueText(chainText, rating) {
   const normalizedText = typeof chainText === "string" ? chainText.trim() : "";
+  const correctionText = getConversationalCorrectionText(rating);
+
   if (!normalizedText) {
-    return "";
+    return correctionText;
   }
-  return `You just said: ${normalizedText}`;
+
+  if (!correctionText) {
+    return `You just said: ${normalizedText}`;
+  }
+
+  return `You just said: ${normalizedText} ${correctionText}`;
 }
 
 function DialoguePanel({
@@ -70,9 +73,8 @@ function DialoguePanel({
       ];
   const normalizedChainText = typeof chainContext?.text === "string" ? chainContext.text.trim() : "";
   const responseAwareRating = chainContext?.rating || selectedChoice?.rating || "";
-  const flowCueText = getFlowCueText(responseAwareRating);
-  const memoryLeadInText = getMemoryLeadInText(normalizedChainText);
-  const hasMemoryLeadIn = Boolean(memoryLeadInText);
+  const conversationCueText = getConversationCueText(normalizedChainText, responseAwareRating);
+  const hasConversationCue = Boolean(conversationCueText);
 
   const conversationLines = safeLines;
   const activeLineIndex = Number.isInteger(currentStepIndex) && currentStepIndex >= 0 && currentStepIndex < conversationLines.length
@@ -148,7 +150,6 @@ function DialoguePanel({
       ) : null}
       {isRecentlyCompleted ? <p className="response-guidance">Nice work. Conversation complete for this word.</p> : null}
       <p className="dialogue-listen-cue">Listen, then follow along.</p>
-      {flowCueText ? <p className={`dialogue-flow-cue is-${responseAwareRating}`}>{flowCueText}</p> : null}
       {isListeningFocusedModule && !isEnglishSupportRevealed ? (
         <p className="dialogue-english-delay-cue">English support appears shortly. Tap to reveal now.</p>
       ) : null}
@@ -163,12 +164,12 @@ function DialoguePanel({
           const lineAudioTarget = isActiveLine && line.canReplay ? getLineAudioTarget?.(line, selectedItemId) : null;
           const hasEnglishLine = typeof line.en === "string" && line.en.trim().length > 0;
           const isEnglishDelayed = hasEnglishLine && isListeningFocusedModule && !isEnglishSupportRevealed;
-          const showsMemoryLeadIn = hasMemoryLeadIn && index === 0;
+          const showsConversationCue = hasConversationCue && index === 0;
 
           return (
             <li
               key={line.id}
-              className={`dialogue-line ${isActiveLine ? "is-active-line" : ""} ${showsMemoryLeadIn ? "is-memory-anchored" : ""}`}
+              className={`dialogue-line ${isActiveLine ? "is-active-line" : ""} ${showsConversationCue ? "is-memory-anchored" : ""}`}
             >
               <div className="dialogue-line-meta">
                 <p className="line-speaker">{line.speaker}</p>
@@ -182,8 +183,8 @@ function DialoguePanel({
                   </div>
                 ) : null}
               </div>
-              {showsMemoryLeadIn ? (
-                <p className={`dialogue-line-memory ${responseAwareRating ? `is-${responseAwareRating}` : ""}`}>{memoryLeadInText}</p>
+              {showsConversationCue ? (
+                <p className={`dialogue-line-memory ${responseAwareRating ? `is-${responseAwareRating}` : ""}`}>{conversationCueText}</p>
               ) : null}
               <p className={`line-es ${isSoftEmphasisActive ? "is-soft-emphasis" : ""}`}>{line.es}</p>
               {hasEnglishLine ? (
