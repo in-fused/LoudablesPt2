@@ -573,9 +573,63 @@ button {
   backface-visibility: hidden;
 }
 
+.dialogue-panel {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  background: #2f3647;
+  border-color: #546078;
+}
+
 .dialogue-panel.is-recently-completed {
   border-color: #8ba86e;
-  background: linear-gradient(180deg, #fcfff9 0%, #f4fbe9 100%);
+}
+
+.dialogue-panel-backdrop {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.dialogue-panel-backdrop-image {
+  position: absolute;
+  inset: 0;
+  background: var(--dialogue-scene-backdrop);
+  transform: scale(1.02);
+  transform-origin: center;
+}
+
+.dialogue-panel-backdrop-glow {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(100% 68% at 50% 120%, rgba(9, 15, 25, 0.46) 0%, rgba(9, 15, 25, 0) 52%),
+    radial-gradient(120% 78% at 50% -18%, rgba(255, 244, 221, 0.24) 0%, rgba(255, 244, 221, 0) 48%);
+}
+
+.dialogue-panel-backdrop-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(12, 17, 26, 0.3) 0%, rgba(13, 19, 31, 0.48) 46%, rgba(15, 20, 31, 0.62) 100%);
+}
+
+.dialogue-panel-content {
+  position: relative;
+  z-index: 1;
+}
+
+.dialogue-panel .panel-label {
+  color: rgba(253, 246, 238, 0.9);
+}
+
+.dialogue-panel .response-guidance {
+  color: rgba(244, 230, 213, 0.95);
+}
+
+.dialogue-panel .dialogue-listen-cue,
+.dialogue-panel .dialogue-english-delay-cue {
+  color: rgba(233, 218, 199, 0.94);
 }
 
 .dialogue-list {
@@ -587,12 +641,20 @@ button {
   gap: var(--space-3);
 }
 
+.dialogue-list.is-slide-mode {
+  min-height: 146px;
+}
+
 .dialogue-line {
   padding: var(--space-2);
   border: 1px solid #ecd7be;
   border-radius: var(--radius-sm);
-  background: #fffefb;
+  background: linear-gradient(180deg, rgba(255, 252, 247, 0.95) 0%, rgba(255, 247, 236, 0.9) 100%);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+.dialogue-slide {
+  animation: dialogue-slide-in 220ms ease;
 }
 
 .dialogue-line-meta {
@@ -990,6 +1052,18 @@ button {
   }
 }
 
+@keyframes dialogue-slide-in {
+  0% {
+    opacity: 0;
+    transform: translate3d(10px, 0, 0);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
 @media (max-width: 359px) {
   .scene-items {
     grid-template-columns: 1fr;
@@ -1023,7 +1097,8 @@ button {
 
   .response-feedback,
   .response-reinforcement,
-  .response-choice-button.is-just-selected {
+  .response-choice-button.is-just-selected,
+  .dialogue-slide {
     animation: none;
   }
 }
