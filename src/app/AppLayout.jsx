@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import SceneCanvas from "../components/SceneCanvas";
 import BottomDrawer from "../components/BottomDrawer";
 
@@ -65,6 +65,26 @@ function AppLayout({ sceneState, dialogueState }) {
     };
   }, [sceneState.scene, sceneState.seenItemIds, dialogueState.exercisableItemIds, dialogueState.completedResponseItemIds]);
 
+  const [isModuleMilestoneActive, setIsModuleMilestoneActive] = useState(false);
+  const previousModuleCompleteRef = useRef(moduleProgress.moduleComplete);
+
+  useEffect(() => {
+    const wasComplete = previousModuleCompleteRef.current;
+    if (!wasComplete && moduleProgress.moduleComplete) {
+      setIsModuleMilestoneActive(true);
+      const timerId = window.setTimeout(() => {
+        setIsModuleMilestoneActive(false);
+      }, 1800);
+      previousModuleCompleteRef.current = moduleProgress.moduleComplete;
+      return () => {
+        window.clearTimeout(timerId);
+      };
+    }
+
+    previousModuleCompleteRef.current = moduleProgress.moduleComplete;
+    return undefined;
+  }, [moduleProgress.moduleComplete]);
+
   const itemStatusById = useMemo(() => {
     const seenSet = new Set(sceneState.seenItemIds || []);
     const completedSet = new Set(dialogueState.completedResponseItemIds || []);
@@ -81,6 +101,30 @@ function AppLayout({ sceneState, dialogueState }) {
     }, {});
   }, [sceneState.scene, sceneState.seenItemIds, dialogueState.completedResponseItemIds]);
 
+  const recommendedItemLabel = useMemo(() => {
+    const recommendedItemId = sceneState.recommendedItemId;
+    if (!recommendedItemId) {
+      return "";
+    }
+
+    const matchingItem = (sceneState.scene?.items || []).find((item) => item?.id === recommendedItemId);
+    return matchingItem?.spanish || "";
+  }, [sceneState.recommendedItemId, sceneState.scene]);
+
+  const nextSceneEntry = useMemo(() => {
+    const scenes = Array.isArray(sceneState.scenes) ? sceneState.scenes.filter((entry) => entry?.id) : [];
+    if (scenes.length <= 1) {
+      return null;
+    }
+
+    const activeIndex = scenes.findIndex((entry) => entry.id === sceneState.activeSceneId);
+    if (activeIndex < 0) {
+      return scenes[0] || null;
+    }
+
+    return scenes[activeIndex + 1] || scenes[0] || null;
+  }, [sceneState.scenes, sceneState.activeSceneId]);
+
   function handleResetCurrentSceneProgress() {
     dialogueState.resetCurrentSceneProgress?.();
     sceneState.resetCurrentSceneProgress?.();
@@ -89,6 +133,20 @@ function AppLayout({ sceneState, dialogueState }) {
   function handleResetAllProgress() {
     dialogueState.resetProgress?.();
     sceneState.resetAllProgress?.();
+  }
+
+  function handleSelectRecommendedItem() {
+    if (!sceneState.recommendedItemId) {
+      return;
+    }
+    sceneState.selectItem?.(sceneState.recommendedItemId);
+  }
+
+  function handleMoveToNextScene() {
+    if (!nextSceneEntry?.id) {
+      return;
+    }
+    sceneState.switchScene?.(nextSceneEntry.id);
   }
 
   return (
@@ -129,18 +187,33 @@ function AppLayout({ sceneState, dialogueState }) {
         </p>
 
         {moduleProgress.moduleComplete ? (
-          <div className="app-module-banner is-complete" role="status" aria-live="polite">
+          <div className={`app-module-banner is-complete ${isModuleMilestoneActive ? "is-milestone-pop" : ""}`} role="status" aria-live="polite">
+            <p className="app-module-overline">Milestone reached</p>
             <p className="app-module-message">{activeSceneTitle} complete. You finished this scene's response practice.</p>
             <p className="app-module-subtext">You can tap any completed word to review responses.</p>
+            {nextSceneEntry ? (
+              <button type="button" className="module-next-button" onClick={handleMoveToNextScene}>
+                {`Continue to ${nextSceneEntry.label}`}
+              </button>
+            ) : null}
           </div>
         ) : (
           <div className="app-module-banner" role="status" aria-live="polite">
+            <p className="app-module-overline">Progress runway</p>
             <p className="app-module-message">Keep exploring {activeSceneTitle} to finish the remaining response words.</p>
             <p className="app-module-subtext">
               {moduleProgress.totalExercises === 0
                 ? "No response exercises are available in this scene yet."
                 : `${moduleProgress.remainingCount} response words left: ${moduleProgress.remainingLabels.join(", ")}`}
             </p>
+            {recommendedItemLabel ? (
+              <div className="app-module-next-step">
+                <p className="app-module-next-label">Up next</p>
+                <button type="button" className="module-next-button" onClick={handleSelectRecommendedItem}>
+                  {`Continue with ${recommendedItemLabel}`}
+                </button>
+              </div>
+            ) : null}
           </div>
         )}
 

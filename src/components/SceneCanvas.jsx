@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState } from "react";
 import { getProgress, getRecommendedItemId } from "../features/progress/progressStore";
 
 function SceneCanvas({ scene, selectedItem, onSelectItem, itemStatusById = {} }) {
@@ -30,16 +31,35 @@ function SceneCanvas({ scene, selectedItem, onSelectItem, itemStatusById = {} })
   const completedItemCount = (sceneProgress.completedResponseItemIds || []).filter((itemId) => sceneItemIds.includes(itemId)).length;
   const completionRatio = sceneItemIds.length ? completedItemCount / sceneItemIds.length : 0;
   const lastCompletedItemId = sceneProgress.lastCompletedItemId;
+  const [justCompletedItemId, setJustCompletedItemId] = useState("");
+  const previousCompletedCountRef = useRef(completedItemCount);
+
+  useEffect(() => {
+    const previousCompletedCount = previousCompletedCountRef.current;
+    if (completedItemCount > previousCompletedCount && lastCompletedItemId) {
+      setJustCompletedItemId(lastCompletedItemId);
+      const timerId = window.setTimeout(() => {
+        setJustCompletedItemId((currentId) => (currentId === lastCompletedItemId ? "" : currentId));
+      }, 1400);
+      previousCompletedCountRef.current = completedItemCount;
+      return () => {
+        window.clearTimeout(timerId);
+      };
+    }
+
+    previousCompletedCountRef.current = completedItemCount;
+    return undefined;
+  }, [completedItemCount, lastCompletedItemId]);
 
   const recommendationText = !recommendedItem
     ? sceneItemIds.length
       ? "Scene complete. Tap any item to review."
       : "No vocabulary items available in this scene yet."
     : completedItemCount === 0
-      ? `Start with: ${recommendedItem.spanish}`
+      ? `Start with ${recommendedItem.spanish} to open this scene.`
       : completionRatio >= 0.8
-        ? `Finish with: ${recommendedItem.spanish}`
-        : `Continue with: ${recommendedItem.spanish}`;
+        ? `Final stretch: ${recommendedItem.spanish} is your next best step.`
+        : `Keep momentum with ${recommendedItem.spanish}.`;
 
   return (
     <div className="scene-canvas" role="region" aria-label={safeScene.title}>
@@ -55,7 +75,7 @@ function SceneCanvas({ scene, selectedItem, onSelectItem, itemStatusById = {} })
           const isActive = selectedItem?.id === item.id;
           const status = itemStatusById[item.id] || "default";
           const isRecommended = item.id === recommendedItemId;
-          const isJustCompleted = status === "completed" && item.id === lastCompletedItemId;
+          const isJustCompleted = status === "completed" && item.id === justCompletedItemId;
 
           return (
             <button
