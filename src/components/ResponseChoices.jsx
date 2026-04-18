@@ -91,6 +91,9 @@ function ResponseChoices({
       : recommendedAction === "next-item" && suggestedNextLabel
         ? `Next best action: try ${suggestedNextLabel}.`
         : "";
+  const spokenTurnPracticeCue = selectedChoice && canContinue && !isAutoAdvancePending
+    ? "Try saying your line before continuing. Tap your choice again to replay it."
+    : "";
 
   if (!safeExercise || !safeExercise.choices.length) {
     return (
@@ -171,6 +174,10 @@ function ResponseChoices({
           {feedbackToneLabel ? `${feedbackToneLabel} ` : ""}{selectedChoice.feedback || "Response selected."}
           {isAutoAdvancePending ? " Next line coming up..." : ""}
         </p>
+      ) : null}
+
+      {spokenTurnPracticeCue ? (
+        <p className="response-guidance" aria-live="polite">{spokenTurnPracticeCue}</p>
       ) : null}
 
       {canContinue && typeof onContinue === "function" ? (

@@ -72,11 +72,26 @@ function DialoguePanel({
         }
       ];
   const normalizedChainText = typeof chainContext?.text === "string" ? chainContext.text.trim() : "";
+  const normalizedSelectedResponseText = typeof selectedChoice?.text === "string" ? selectedChoice.text.trim() : "";
   const responseAwareRating = chainContext?.rating || selectedChoice?.rating || "";
   const conversationCueText = getConversationCueText(normalizedChainText, responseAwareRating);
   const hasConversationCue = Boolean(conversationCueText);
 
-  const conversationLines = safeLines;
+  const conversationLines = [
+    ...safeLines,
+    ...(normalizedSelectedResponseText
+      ? [
+          {
+            id: `spoken-turn-${selectedChoice?.id || "choice"}`,
+            speaker: "You",
+            es: normalizedSelectedResponseText,
+            en: "",
+            sourceType: "spoken-turn",
+            canReplay: false
+          }
+        ]
+      : [])
+  ];
   const activeLineIndex = Number.isInteger(currentStepIndex) && currentStepIndex >= 0 && currentStepIndex < conversationLines.length
     ? currentStepIndex
     : -1;
@@ -165,11 +180,13 @@ function DialoguePanel({
           const hasEnglishLine = typeof line.en === "string" && line.en.trim().length > 0;
           const isEnglishDelayed = hasEnglishLine && isListeningFocusedModule && !isEnglishSupportRevealed;
           const showsConversationCue = hasConversationCue && index === 0;
+          const isSpokenTurnLine = line.sourceType === "spoken-turn";
+          const spokenTurnCue = isSpokenTurnLine ? "Say it out loud once." : "";
 
           return (
             <li
               key={line.id}
-              className={`dialogue-line ${isActiveLine ? "is-active-line" : ""} ${showsConversationCue ? "is-memory-anchored" : ""}`}
+              className={`dialogue-line ${isActiveLine ? "is-active-line" : ""} ${showsConversationCue || isSpokenTurnLine ? "is-memory-anchored" : ""}`}
             >
               <div className="dialogue-line-meta">
                 <p className="line-speaker">{line.speaker}</p>
@@ -185,6 +202,9 @@ function DialoguePanel({
               </div>
               {showsConversationCue ? (
                 <p className={`dialogue-line-memory ${responseAwareRating ? `is-${responseAwareRating}` : ""}`}>{conversationCueText}</p>
+              ) : null}
+              {isSpokenTurnLine ? (
+                <p className="dialogue-line-memory">{spokenTurnCue}</p>
               ) : null}
               <p className={`line-es ${isSoftEmphasisActive ? "is-soft-emphasis" : ""}`}>{line.es}</p>
               {hasEnglishLine ? (
