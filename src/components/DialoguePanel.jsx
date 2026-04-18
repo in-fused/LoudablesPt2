@@ -181,6 +181,9 @@ function DialoguePanel({
   const normalizedChainText = typeof chainContext?.text === "string" ? chainContext.text.trim() : "";
   const normalizedSelectedResponseText = typeof selectedChoice?.text === "string" ? selectedChoice.text.trim() : "";
   const responseAwareRating = chainContext?.rating || selectedChoice?.rating || "";
+  const responseMomentRating = selectedChoice?.rating || "";
+  const isResponseMomentActive = Boolean(selectedChoice?.id) && Boolean(responseMomentRating) && !isRecentlyCompleted;
+  const isCompletionMomentActive = isRecentlyCompleted;
   const conversationCueText = getConversationCueText(normalizedChainText, responseAwareRating);
   const hasConversationCue = Boolean(conversationCueText);
 
@@ -275,7 +278,7 @@ function DialoguePanel({
 
   return (
       <section
-      className={`dialogue-panel scene-theme-${sceneTheme.key} ${isRecentlyCompleted ? "is-recently-completed" : ""} ${isListeningFocusedModule ? "is-listening-emphasis-mode" : ""} ${isListeningFocusedModule && !isEnglishSupportRevealed ? "is-english-support-delayed" : ""}`}
+      className={`dialogue-panel scene-theme-${sceneTheme.key} ${isRecentlyCompleted ? "is-recently-completed" : ""} ${isListeningFocusedModule ? "is-listening-emphasis-mode" : ""} ${isListeningFocusedModule && !isEnglishSupportRevealed ? "is-english-support-delayed" : ""} ${isResponseMomentActive ? "is-response-moment" : ""} ${isResponseMomentActive && responseMomentRating ? `is-response-${responseMomentRating}` : ""} ${isCompletionMomentActive ? "is-completion-moment" : ""}`}
       aria-label="Dialogue panel"
       style={{
         "--dialogue-scene-backdrop": sceneTheme.backdrop,

@@ -43,6 +43,22 @@ function getMicroFeedbackLine(rating, choiceId, lastLine) {
   return nextLine;
 }
 
+function getCompletionReinforcementText(rating) {
+  if (rating === "appropriate") {
+    return "Clean response. Locking this moment in.";
+  }
+
+  if (rating === "acceptable") {
+    return "Solid response. This moment is now complete.";
+  }
+
+  if (rating === "off_target") {
+    return "Nice recovery. Keep this correction in mind for the next moment.";
+  }
+
+  return "";
+}
+
 function ResponseChoices({
   exercise,
   selectedChoice,
@@ -66,6 +82,7 @@ function ResponseChoices({
     : null;
 
   const feedbackTone = selectedChoice?.rating || "";
+  const completionReinforcementText = getCompletionReinforcementText(feedbackTone);
   const [recentlySelectedChoiceId, setRecentlySelectedChoiceId] = useState(null);
   const [isContinueDelayActive, setIsContinueDelayActive] = useState(false);
   const [microFeedbackLine, setMicroFeedbackLine] = useState("");
@@ -175,7 +192,7 @@ function ResponseChoices({
 
   return (
     <section
-      className={`response-panel ${isCompleted ? "is-completed" : ""} ${isRecentlyCompleted ? "is-recently-completed" : ""} ${recommendedAction === "respond" ? "is-guidance-respond" : ""}`}
+      className={`response-panel ${isCompleted ? "is-completed" : ""} ${isRecentlyCompleted ? "is-recently-completed" : ""} ${recommendedAction === "respond" ? "is-guidance-respond" : ""} ${selectedChoice?.id ? "is-response-moment" : ""} ${feedbackTone ? `is-response-${feedbackTone}` : ""}`}
       aria-label="Response exercise"
     >
       <p className="panel-label">Your Response</p>
@@ -219,6 +236,12 @@ function ResponseChoices({
       {selectedChoice ? (
         <p className={`response-feedback ${feedbackTone ? `is-${feedbackTone}` : ""}`} role="status" aria-live="polite">
           {microFeedbackLine || "Okay, keep going."}
+        </p>
+      ) : null}
+
+      {isRecentlyCompleted && completionReinforcementText ? (
+        <p className={`response-reinforcement ${feedbackTone ? `is-${feedbackTone}` : ""}`} role="status" aria-live="polite">
+          {completionReinforcementText}
         </p>
       ) : null}
 
