@@ -661,19 +661,27 @@ button {
   box-shadow: inset 0 0 0 1px rgba(214, 159, 92, 0.14);
 }
 
-.dialogue-line.is-learner-line {
-  border-color: #d4c5b1;
-  background: #f8f3eb;
+.dialogue-line.is-memory-anchored {
+  border-color: #ddc4a4;
 }
 
-.dialogue-line.is-chain-context-line {
-  opacity: 0.96;
+.dialogue-line-memory {
+  margin: 6px 0 2px;
+  font-size: 0.74rem;
+  line-height: 1.35;
+  color: #8a725a;
 }
 
-.dialogue-line.is-current-response-line {
-  border-color: #caa076;
-  background: #fff1dc;
-  box-shadow: inset 0 0 0 1px rgba(202, 160, 118, 0.22);
+.dialogue-line-memory.is-appropriate {
+  color: #4d6e34;
+}
+
+.dialogue-line-memory.is-acceptable {
+  color: #7c5b36;
+}
+
+.dialogue-line-memory.is-off_target {
+  color: #84533f;
 }
 
 .dialogue-line.is-active-line .line-speaker {

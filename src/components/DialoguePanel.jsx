@@ -17,6 +17,14 @@ function getFlowCueText(rating) {
   return "";
 }
 
+function getMemoryLeadInText(chainText) {
+  const normalizedText = typeof chainText === "string" ? chainText.trim() : "";
+  if (!normalizedText) {
+    return "";
+  }
+  return `You just said: ${normalizedText}`;
+}
+
 function DialoguePanel({
   lines,
   chainContext,
@@ -61,42 +69,16 @@ function DialoguePanel({
         }
       ];
   const normalizedChainText = typeof chainContext?.text === "string" ? chainContext.text.trim() : "";
-  const normalizedSelectedResponseText = typeof selectedChoice?.text === "string" ? selectedChoice.text.trim() : "";
   const responseAwareRating = chainContext?.rating || selectedChoice?.rating || "";
   const flowCueText = getFlowCueText(responseAwareRating);
-  const hasChainContextLine = Boolean(normalizedChainText);
+  const memoryLeadInText = getMemoryLeadInText(normalizedChainText);
+  const hasMemoryLeadIn = Boolean(memoryLeadInText);
 
-  const conversationLines = [
-    ...(hasChainContextLine
-      ? [
-          {
-            id: `chain-${chainContext?.stepNumber || "previous"}`,
-            speaker: "You",
-            es: normalizedChainText,
-            en: "",
-            sourceType: "chain",
-            canReplay: false
-          }
-        ]
-      : []),
-    ...safeLines,
-    ...(normalizedSelectedResponseText
-      ? [
-          {
-            id: `current-response-${selectedChoice?.id || "choice"}`,
-            speaker: "You",
-            es: normalizedSelectedResponseText,
-            en: "",
-            sourceType: "selected-response",
-            canReplay: false
-          }
-        ]
-      : [])
-  ];
-  const activeLineIndex = Number.isInteger(currentStepIndex) && currentStepIndex >= 0 && currentStepIndex < safeLines.length
+  const conversationLines = safeLines;
+  const activeLineIndex = Number.isInteger(currentStepIndex) && currentStepIndex >= 0 && currentStepIndex < conversationLines.length
     ? currentStepIndex
     : -1;
-  const activeConversationLineIndex = activeLineIndex >= 0 ? activeLineIndex + (hasChainContextLine ? 1 : 0) : -1;
+  const activeConversationLineIndex = activeLineIndex;
   const activeLine = activeConversationLineIndex >= 0 ? conversationLines[activeConversationLineIndex] : null;
   const activeLineKey = activeLine?.id
     ? `${selectedItemId || "item"}:${activeLine.id}:${stepNumber || 0}`
@@ -181,14 +163,12 @@ function DialoguePanel({
           const lineAudioTarget = isActiveLine && line.canReplay ? getLineAudioTarget?.(line, selectedItemId) : null;
           const hasEnglishLine = typeof line.en === "string" && line.en.trim().length > 0;
           const isEnglishDelayed = hasEnglishLine && isListeningFocusedModule && !isEnglishSupportRevealed;
-          const isLearnerLine = line.sourceType === "chain" || line.sourceType === "selected-response";
-          const isCurrentResponseLine = line.sourceType === "selected-response";
-          const isChainContextLine = line.sourceType === "chain";
+          const showsMemoryLeadIn = hasMemoryLeadIn && index === 0;
 
           return (
             <li
               key={line.id}
-              className={`dialogue-line ${isActiveLine ? "is-active-line" : ""} ${isLearnerLine ? "is-learner-line" : ""} ${isCurrentResponseLine ? "is-current-response-line" : ""} ${isChainContextLine ? "is-chain-context-line" : ""}`}
+              className={`dialogue-line ${isActiveLine ? "is-active-line" : ""} ${showsMemoryLeadIn ? "is-memory-anchored" : ""}`}
             >
               <div className="dialogue-line-meta">
                 <p className="line-speaker">{line.speaker}</p>
@@ -202,6 +182,9 @@ function DialoguePanel({
                   </div>
                 ) : null}
               </div>
+              {showsMemoryLeadIn ? (
+                <p className={`dialogue-line-memory ${responseAwareRating ? `is-${responseAwareRating}` : ""}`}>{memoryLeadInText}</p>
+              ) : null}
               <p className={`line-es ${isSoftEmphasisActive ? "is-soft-emphasis" : ""}`}>{line.es}</p>
               {hasEnglishLine ? (
                 <p className={`line-en ${isSoftEmphasisActive ? "is-soft-emphasis" : ""} ${isEnglishDelayed ? "is-delayed-support" : ""}`}>{line.en}</p>
