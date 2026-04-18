@@ -44,6 +44,7 @@ button {
   flex-direction: column;
   gap: var(--space-3);
   overflow: clip;
+  transition: background-color 0.22s ease;
 }
 
 .app-header {
@@ -53,10 +54,17 @@ button {
   padding: var(--space-3);
   box-shadow: 0 8px 20px rgba(18, 24, 34, 0.28);
   backdrop-filter: blur(5px);
+  transition: transform 0.2s ease, opacity 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
 }
 
 .app-header-compact {
   z-index: 5;
+}
+
+.app-header.is-receded {
+  transform: translateY(-2px) scale(0.985);
+  opacity: 0.82;
+  box-shadow: 0 5px 12px rgba(18, 24, 34, 0.22);
 }
 
 .app-topbar {
@@ -336,6 +344,7 @@ button {
   flex-direction: column;
   justify-content: stretch;
   overflow: hidden;
+  transition: transform 0.22s ease;
 }
 
 .scene-section {
@@ -343,6 +352,7 @@ button {
   min-height: 0;
   height: 100%;
   overflow: hidden;
+  transition: transform 0.24s ease, opacity 0.24s ease, filter 0.24s ease;
 }
 
 .app-overlay-backdrop {
@@ -429,6 +439,7 @@ button {
   flex-direction: column;
   gap: var(--space-3);
   overflow: hidden;
+  transition: transform 0.24s ease, opacity 0.24s ease, filter 0.24s ease, box-shadow 0.24s ease, border-color 0.24s ease;
 }
 
 .scene-stage-card {
@@ -514,6 +525,7 @@ button {
   padding-bottom: var(--space-1);
   scrollbar-width: none;
   scroll-snap-type: x mandatory;
+  transition: max-height 0.22s ease, opacity 0.22s ease, transform 0.22s ease;
 }
 
 .scene-items-rail::-webkit-scrollbar {
@@ -652,6 +664,8 @@ button {
   -webkit-overflow-scrolling: touch;
   scroll-padding-bottom: var(--space-3);
   will-change: border-color, box-shadow, background-color;
+  transform: translate3d(0, calc(100% - 182px), 0);
+  transition: border-color 0.18s ease, box-shadow 0.18s ease, background-color 0.18s ease, transform 0.24s ease, opacity 0.24s ease;
 }
 
 .drawer-handle {
@@ -660,6 +674,84 @@ button {
   border-radius: 999px;
   background: rgba(138, 108, 77, 0.38);
   margin: 0 auto 2px;
+  transition: opacity 0.2s ease, transform 0.2s ease, background-color 0.2s ease;
+}
+
+.app-state-home .app-main {
+  transform: translate3d(0, 2px, 0);
+}
+
+.app-state-home .scene-section {
+  transform: scale(0.968) translate3d(0, 12px, 0);
+  opacity: 0.46;
+  filter: saturate(0.84) blur(0.9px);
+}
+
+.app-state-home .scene-canvas {
+  border-color: rgba(103, 120, 142, 0.3);
+  box-shadow: 0 8px 18px rgba(4, 10, 18, 0.22);
+}
+
+.app-state-home .bottom-drawer {
+  transform: translate3d(0, calc(100% - 72px), 0);
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+.app-state-home .drawer-handle {
+  opacity: 0.55;
+}
+
+.app-state-home .app-overlay-sheet.scene-sheet {
+  max-height: 82dvh;
+}
+
+.app-state-lesson .scene-section {
+  transform: scale(1) translate3d(0, 0, 0);
+  opacity: 1;
+  filter: none;
+}
+
+.app-state-lesson .scene-items-rail {
+  max-height: 122px;
+  opacity: 0.78;
+}
+
+.app-state-response .app-header {
+  opacity: 0.72;
+  transform: translateY(-3px) scale(0.982);
+}
+
+.app-state-response .scene-section {
+  transform: scale(0.985) translate3d(0, -4px, 0);
+  opacity: 0.86;
+}
+
+.app-state-response .scene-canvas {
+  filter: saturate(0.92);
+}
+
+.app-state-response .scene-items-rail {
+  max-height: 54px;
+  opacity: 0.3;
+  transform: translate3d(0, 8px, 0);
+}
+
+.app-state-response .scene-item-button {
+  min-height: 86px;
+}
+
+.app-state-response .bottom-drawer {
+  transform: translate3d(0, 0, 0);
+  opacity: 1;
+  min-height: 60dvh;
+  max-height: 78dvh;
+  box-shadow: 0 18px 38px rgba(64, 44, 20, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.75);
+}
+
+.app-state-response .drawer-handle {
+  background: rgba(120, 86, 50, 0.56);
+  transform: scaleX(1.12);
 }
 
 .bottom-drawer.is-auto-advancing {

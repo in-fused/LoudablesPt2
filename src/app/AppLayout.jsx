@@ -164,10 +164,32 @@ function AppLayout({ sceneState, dialogueState }) {
   }
 
   const hasSceneOptions = (sceneState.scenes || []).length > 0;
+  const selectedItemId = sceneState.selectedItem?.id || null;
+  const responseExercise = selectedItemId && dialogueState?.getResponseExerciseForItem
+    ? dialogueState.getResponseExerciseForItem(selectedItemId)
+    : null;
+  const conversationState = selectedItemId && dialogueState?.getConversationStateForItem
+    ? dialogueState.getConversationStateForItem(selectedItemId)
+    : {
+      hasNextStep: false,
+      canContinue: false,
+      isCurrentStepResponseCompleted: false,
+      isAutoAdvancePending: false
+    };
+
+  const isHomeState = isSceneSheetOpen;
+  const isResponseState = !isHomeState
+    && Boolean(selectedItemId)
+    && (
+      conversationState.isAutoAdvancePending
+      || conversationState.canContinue
+      || (Boolean(responseExercise) && !conversationState.isCurrentStepResponseCompleted)
+    );
+  const appViewState = isHomeState ? "home" : (isResponseState ? "response" : "lesson");
 
   return (
-    <div className="app-shell">
-      <header className="app-header app-header-compact">
+    <div className={`app-shell app-state-${appViewState}`}>
+      <header className={`app-header app-header-compact ${appViewState !== "home" ? "is-receded" : ""}`}>
         <div className="app-topbar">
           <div className="app-title-wrap">
             <p className="app-kicker">Module 1</p>
