@@ -1,6 +1,48 @@
 import { useEffect, useRef, useState } from "react";
 import { playAudioTarget } from "../lib/audio";
 
+const MICRO_FEEDBACK_BY_RATING = {
+  appropriate: [
+    "Nice, that lands.",
+    "Great, that fits.",
+    "Perfect, that flows."
+  ],
+  acceptable: [
+    "Nice, that works.",
+    "Good, close enough.",
+    "Yep, that works here."
+  ],
+  off_target: [
+    "Almost, try a nearby option.",
+    "Close, try another angle.",
+    "Not quite, try another one."
+  ]
+};
+
+function getSeedFromChoiceId(choiceId) {
+  return String(choiceId || "")
+    .split("")
+    .reduce((total, character) => total + character.charCodeAt(0), 0);
+}
+
+function getMicroFeedbackLine(rating, choiceId, lastLine) {
+  const variants = Array.isArray(MICRO_FEEDBACK_BY_RATING[rating]) ? MICRO_FEEDBACK_BY_RATING[rating] : [];
+  if (!variants.length) {
+    return "";
+  }
+
+  const seed = getSeedFromChoiceId(choiceId);
+  let index = seed % variants.length;
+  let nextLine = variants[index];
+
+  if (variants.length > 1 && nextLine === lastLine) {
+    index = (index + 1) % variants.length;
+    nextLine = variants[index];
+  }
+
+  return nextLine;
+}
+
 function ResponseChoices({
   exercise,
   selectedChoice,
@@ -24,16 +66,15 @@ function ResponseChoices({
     : null;
 
   const feedbackTone = selectedChoice?.rating || "";
-  const feedbackToneLabel = feedbackTone === "appropriate"
-    ? "Strong match."
-    : feedbackTone === "acceptable"
-      ? "Works, but there is a more natural option."
-      : feedbackTone === "off_target"
-        ? "Off target for this moment."
-        : "";
   const [recentlySelectedChoiceId, setRecentlySelectedChoiceId] = useState(null);
   const [isContinueDelayActive, setIsContinueDelayActive] = useState(false);
+  const [microFeedbackLine, setMicroFeedbackLine] = useState("");
   const lastHandledChoiceIdRef = useRef(selectedChoice?.id || null);
+  const lastMicroFeedbackByRatingRef = useRef({
+    appropriate: "",
+    acceptable: "",
+    off_target: ""
+  });
 
   useEffect(() => {
     if (!selectedChoice?.id) {
@@ -79,11 +120,23 @@ function ResponseChoices({
     };
   }, [selectedChoice?.id]);
 
-  const reinforcementMessage = feedbackTone === "appropriate"
-    ? "Nice. Great response."
-    : feedbackTone === "acceptable"
-      ? "That works. Good response."
-      : "";
+  useEffect(() => {
+    const currentChoiceId = selectedChoice?.id || null;
+    const currentRating = selectedChoice?.rating || "";
+
+    if (!currentChoiceId || !currentRating) {
+      setMicroFeedbackLine("");
+      return;
+    }
+
+    const lastLineForRating = lastMicroFeedbackByRatingRef.current[currentRating] || "";
+    const nextLine = getMicroFeedbackLine(currentRating, currentChoiceId, lastLineForRating);
+    setMicroFeedbackLine(nextLine);
+    if (nextLine) {
+      lastMicroFeedbackByRatingRef.current[currentRating] = nextLine;
+    }
+  }, [selectedChoice?.id, selectedChoice?.rating]);
+
   const actionGuidanceText = recommendedAction === "respond"
     ? "Next best action: choose a response."
     : recommendedAction === "continue"
@@ -143,12 +196,6 @@ function ResponseChoices({
         <p className="response-guidance">Choose a response to continue this conversation moment.</p>
       ) : null}
 
-      {reinforcementMessage ? (
-        <p className={`response-reinforcement ${feedbackTone ? `is-${feedbackTone}` : ""}`} role="status" aria-live="polite">
-          {reinforcementMessage}
-        </p>
-      ) : null}
-
       <div className="response-choices" role="group" aria-label="Response options">
         {safeExercise.choices.map((choice) => {
           const isSelected = selectedChoice?.id === choice.id;
@@ -171,8 +218,7 @@ function ResponseChoices({
 
       {selectedChoice ? (
         <p className={`response-feedback ${feedbackTone ? `is-${feedbackTone}` : ""}`} role="status" aria-live="polite">
-          {feedbackToneLabel ? `${feedbackToneLabel} ` : ""}{selectedChoice.feedback || "Response selected."}
-          {isAutoAdvancePending ? " Next line coming up..." : ""}
+          {microFeedbackLine || "Okay, keep going."}
         </p>
       ) : null}
 
