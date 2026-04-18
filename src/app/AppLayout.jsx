@@ -66,12 +66,15 @@ function AppLayout({ sceneState, dialogueState }) {
   }, [sceneState.scene, sceneState.seenItemIds, dialogueState.exercisableItemIds, dialogueState.completedResponseItemIds]);
 
   const [isModuleMilestoneActive, setIsModuleMilestoneActive] = useState(false);
+  const [isSceneSheetOpen, setIsSceneSheetOpen] = useState(false);
+  const [isProgressSheetOpen, setIsProgressSheetOpen] = useState(false);
   const previousModuleCompleteRef = useRef(moduleProgress.moduleComplete);
 
   useEffect(() => {
     const wasComplete = previousModuleCompleteRef.current;
     if (!wasComplete && moduleProgress.moduleComplete) {
       setIsModuleMilestoneActive(true);
+      setIsProgressSheetOpen(true);
       const timerId = window.setTimeout(() => {
         setIsModuleMilestoneActive(false);
       }, 1800);
@@ -140,6 +143,7 @@ function AppLayout({ sceneState, dialogueState }) {
       return;
     }
     sceneState.selectItem?.(sceneState.recommendedItemId);
+    setIsProgressSheetOpen(false);
   }
 
   function handleMoveToNextScene() {
@@ -147,49 +151,158 @@ function AppLayout({ sceneState, dialogueState }) {
       return;
     }
     sceneState.switchScene?.(nextSceneEntry.id);
+    setIsProgressSheetOpen(false);
+    setIsSceneSheetOpen(false);
   }
+
+  function handleSwitchScene(sceneId) {
+    if (!sceneId) {
+      return;
+    }
+    sceneState.switchScene?.(sceneId);
+    setIsSceneSheetOpen(false);
+  }
+
+  const hasSceneOptions = (sceneState.scenes || []).length > 0;
 
   return (
     <div className="app-shell">
-      <header className="app-header">
-        <p className="app-kicker">Module 1</p>
-        <h1 className="app-title">{activeSceneTitle}</h1>
-        <p className="app-scene-meta">Active scene</p>
-        <div className="scene-switcher" aria-label="Scene switcher">
-          {groupedScenes.map((group) => (
-            <section key={group.id} className="scene-switch-group" aria-label={`${group.label} modules`}>
-              <p className="scene-switch-group-label">{group.label}</p>
-              <div className="scene-switch-group-grid" role="group" aria-label={`${group.label} scene options`}>
-                {group.scenes.map((sceneEntry) => {
-                  const isActiveScene = sceneEntry.id === sceneState.activeSceneId;
-                  const difficultyLabel = typeof sceneEntry.difficulty === "string" ? sceneEntry.difficulty.trim() : "";
-                  return (
-                    <button
-                      key={sceneEntry.id}
-                      type="button"
-                      className={`scene-switch-button ${isActiveScene ? "is-active" : ""}`}
-                      onClick={() => sceneState.switchScene?.(sceneEntry.id)}
-                      aria-pressed={isActiveScene}
-                      aria-label={`${sceneEntry.label}${difficultyLabel ? `, ${difficultyLabel}` : ""}${isActiveScene ? ", active scene" : ""}`}
-                    >
-                      <span className="scene-switch-button-label">{sceneEntry.label}</span>
-                      {difficultyLabel ? <span className="scene-switch-difficulty">{difficultyLabel}</span> : null}
-                    </button>
-                  );
-                })}
-              </div>
-            </section>
-          ))}
+      <header className="app-header app-header-compact">
+        <div className="app-topbar">
+          <div className="app-title-wrap">
+            <p className="app-kicker">Module 1</p>
+            <h1 className="app-title">{activeSceneTitle}</h1>
+          </div>
+          <div className="app-utility-actions">
+            <button
+              type="button"
+              className={`top-icon-button ${isSceneSheetOpen ? "is-active" : ""}`}
+              onClick={() => {
+                setIsProgressSheetOpen(false);
+                setIsSceneSheetOpen((isOpen) => !isOpen);
+              }}
+              aria-expanded={isSceneSheetOpen}
+              aria-label="Open scene picker"
+            >
+              Scenes
+            </button>
+            <button
+              type="button"
+              className={`top-icon-button ${isProgressSheetOpen ? "is-active" : ""}`}
+              onClick={() => {
+                setIsSceneSheetOpen(false);
+                setIsProgressSheetOpen((isOpen) => !isOpen);
+              }}
+              aria-expanded={isProgressSheetOpen}
+              aria-label="Open progress panel"
+            >
+              Progress
+            </button>
+          </div>
         </div>
-        {(sceneState.scenes || []).length === 0 ? <p className="response-fallback">No scenes are currently available.</p> : null}
-        <p className="app-progress-summary">
-          {activeSceneTitle}: Seen {moduleProgress.seenCount}/{moduleProgress.totalItems} • Responses {moduleProgress.completedCount}/{moduleProgress.totalExercises}
-        </p>
+
+        <div className="app-status-strip" aria-live="polite">
+          <p className="app-progress-summary">
+            Seen {moduleProgress.seenCount}/{moduleProgress.totalItems}
+          </p>
+          <p className="app-progress-summary">
+            Responses {moduleProgress.completedCount}/{moduleProgress.totalExercises}
+          </p>
+        </div>
+      </header>
+
+      <main className="app-main" aria-label="Learning scene">
+        <section className="scene-section">
+          <SceneCanvas
+            scene={sceneState.scene}
+            selectedItem={sceneState.selectedItem}
+            onSelectItem={sceneState.selectItem}
+            itemStatusById={itemStatusById}
+          />
+        </section>
+
+        <BottomDrawer
+          selectedItem={sceneState.selectedItem}
+          dialogueState={dialogueState}
+          grammarHint={sceneState.grammarHint}
+          sceneId={sceneState.sceneId}
+        />
+      </main>
+
+      {(isSceneSheetOpen || isProgressSheetOpen) ? (
+        <button
+          type="button"
+          className="app-overlay-backdrop"
+          aria-label="Close overlay"
+          onClick={() => {
+            setIsSceneSheetOpen(false);
+            setIsProgressSheetOpen(false);
+          }}
+        />
+      ) : null}
+
+      <aside
+        className={`app-overlay-sheet scene-sheet ${isSceneSheetOpen ? "is-open" : ""}`}
+        aria-hidden={!isSceneSheetOpen}
+      >
+        <div className="sheet-heading-row">
+          <p className="sheet-kicker">Select Scene</p>
+          <button
+            type="button"
+            className="sheet-close-button"
+            onClick={() => setIsSceneSheetOpen(false)}
+            aria-label="Close scene picker"
+          >
+            Close
+          </button>
+        </div>
+        {groupedScenes.map((group) => (
+          <section key={group.id} className="scene-switch-group" aria-label={`${group.label} modules`}>
+            <p className="scene-switch-group-label">{group.label}</p>
+            <div className="scene-switch-group-rail" role="group" aria-label={`${group.label} scene options`}>
+              {group.scenes.map((sceneEntry) => {
+                const isActiveScene = sceneEntry.id === sceneState.activeSceneId;
+                const difficultyLabel = typeof sceneEntry.difficulty === "string" ? sceneEntry.difficulty.trim() : "";
+                return (
+                  <button
+                    key={sceneEntry.id}
+                    type="button"
+                    className={`scene-switch-button ${isActiveScene ? "is-active" : ""}`}
+                    onClick={() => handleSwitchScene(sceneEntry.id)}
+                    aria-pressed={isActiveScene}
+                    aria-label={`${sceneEntry.label}${difficultyLabel ? `, ${difficultyLabel}` : ""}${isActiveScene ? ", active scene" : ""}`}
+                  >
+                    <span className="scene-switch-button-label">{sceneEntry.label}</span>
+                    {difficultyLabel ? <span className="scene-switch-difficulty">{difficultyLabel}</span> : null}
+                  </button>
+                );
+              })}
+            </div>
+          </section>
+        ))}
+        {!hasSceneOptions ? <p className="response-fallback">No scenes are currently available.</p> : null}
+      </aside>
+
+      <aside
+        className={`app-overlay-sheet progress-sheet ${isProgressSheetOpen ? "is-open" : ""}`}
+        aria-hidden={!isProgressSheetOpen}
+      >
+        <div className="sheet-heading-row">
+          <p className="sheet-kicker">Scene Progress</p>
+          <button
+            type="button"
+            className="sheet-close-button"
+            onClick={() => setIsProgressSheetOpen(false)}
+            aria-label="Close progress panel"
+          >
+            Close
+          </button>
+        </div>
 
         {moduleProgress.moduleComplete ? (
           <div className={`app-module-banner is-complete ${isModuleMilestoneActive ? "is-milestone-pop" : ""}`} role="status" aria-live="polite">
             <p className="app-module-overline">Milestone reached</p>
-            <p className="app-module-message">{activeSceneTitle} complete. You finished this scene's response practice.</p>
+            <p className="app-module-message">{activeSceneTitle} complete. You finished this scene&apos;s response practice.</p>
             <p className="app-module-subtext">You can tap any completed word to review responses.</p>
             {nextSceneEntry ? (
               <button type="button" className="module-next-button" onClick={handleMoveToNextScene}>
@@ -223,27 +336,7 @@ function AppLayout({ sceneState, dialogueState }) {
         <button type="button" className="reset-all-button" onClick={handleResetAllProgress}>
           Reset all scenes
         </button>
-      </header>
-
-      <main className="app-main" aria-label="Learning scene">
-        <section className="scene-section">
-          <SceneCanvas
-            scene={sceneState.scene}
-            selectedItem={sceneState.selectedItem}
-            onSelectItem={sceneState.selectItem}
-            itemStatusById={itemStatusById}
-          />
-        </section>
-
-        <section className="drawer-section">
-          <BottomDrawer
-            selectedItem={sceneState.selectedItem}
-            dialogueState={dialogueState}
-            grammarHint={sceneState.grammarHint}
-            sceneId={sceneState.sceneId}
-          />
-        </section>
-      </main>
+      </aside>
     </div>
   );
 }

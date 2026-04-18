@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import DialoguePanel from "./DialoguePanel";
 import AudioButton from "./AudioButton";
 import GrammarHint from "./GrammarHint";
@@ -34,14 +34,14 @@ function BottomDrawer({ selectedItem, dialogueState, grammarHint, sceneId }) {
   const conversationState = dialogueState?.getConversationStateForItem
     ? dialogueState.getConversationStateForItem(itemId)
     : {
-    currentStepIndex: 0,
-    stepNumber: 1,
-    totalSteps: 1,
-    hasNextStep: false,
-    canContinue: false,
-    isCurrentStepResponseCompleted: false,
-    isAutoAdvancePending: false
-      };
+      currentStepIndex: 0,
+      stepNumber: 1,
+      totalSteps: 1,
+      hasNextStep: false,
+      canContinue: false,
+      isCurrentStepResponseCompleted: false,
+      isAutoAdvancePending: false
+    };
 
   const engagementState = dialogueState?.getEngagementStateForItem
     ? dialogueState.getEngagementStateForItem(itemId)
@@ -136,6 +136,23 @@ function BottomDrawer({ selectedItem, dialogueState, grammarHint, sceneId }) {
       .join(" ");
   const lastAutoPlayedStepRef = useRef("");
   const autoplayRunRef = useRef(0);
+  const [activeLayer, setActiveLayer] = useState("response");
+
+  useEffect(() => {
+    if (!selectedItem) {
+      setActiveLayer("response");
+      return;
+    }
+
+    if (recommendedAction === "respond" || recommendedAction === "continue") {
+      setActiveLayer("response");
+      return;
+    }
+
+    if (!responseExercise && dialogueLines.length) {
+      setActiveLayer("conversation");
+    }
+  }, [selectedItem, recommendedAction, responseExercise, dialogueLines.length]);
 
   useEffect(() => {
     if (sceneId !== "puerto-rico-listening") {
@@ -254,10 +271,15 @@ function BottomDrawer({ selectedItem, dialogueState, grammarHint, sceneId }) {
       className={`bottom-drawer ${conversationState.isAutoAdvancePending ? "is-auto-advancing" : ""} ${engagementState.isRecentlyCompleted ? "is-recently-completed" : ""} ${conversationState.isCurrentStepResponseCompleted ? "is-step-complete" : ""}`}
       aria-label="Conversation drawer"
     >
+      <div className="drawer-handle" aria-hidden="true" />
+
       <div className="drawer-header">
-        <p className="drawer-label">Selected Item</p>
-        <p className="drawer-value">{selectedItemLabel}</p>
-        <p className="drawer-subvalue">{selectedItemSubLabel}</p>
+        <div>
+          <p className="drawer-label">Active Word</p>
+          <p className="drawer-value">{selectedItemLabel}</p>
+          <p className="drawer-subvalue">{selectedItemSubLabel}</p>
+        </div>
+
         <div className="drawer-meta">
           {selectedItem && conversationState.totalSteps > 0 ? (
             <span className={`drawer-chip ${conversationState.isCurrentStepResponseCompleted ? "is-active-progress" : ""}`}>
@@ -266,13 +288,13 @@ function BottomDrawer({ selectedItem, dialogueState, grammarHint, sceneId }) {
           ) : null}
           {totalResponseItems > 0 ? (
             <span className={`drawer-chip ${responseCompleted ? "is-active-progress" : ""}`}>
-              {`Scene Progress ${completedResponseItems}/${totalResponseItems}`}
+              {`Scene ${completedResponseItems}/${totalResponseItems}`}
             </span>
           ) : null}
         </div>
       </div>
 
-      <div className="drawer-section-block drawer-actions">
+      <div className="drawer-top-actions">
         <AudioButton
           label={selectedItem ? `Play ${selectedItem.spanish} pronunciation` : "Play selected item audio"}
           audioTarget={selectedItemAudioTarget}
@@ -281,53 +303,85 @@ function BottomDrawer({ selectedItem, dialogueState, grammarHint, sceneId }) {
 
       <p className="drawer-guidance" aria-live="polite">{combinedGuidance}</p>
 
-      <div className="drawer-section-block is-conversation-primary">
-        <p className="drawer-section-title">Conversation</p>
-        <DialoguePanel
-          lines={dialogueLines}
-          chainContext={chainContext}
-          selectedChoice={selectedChoice}
-          selectedItemId={itemId}
-          sceneId={sceneId}
-          getLineAudioTarget={dialogueState?.getLineAudioTarget}
-          currentStepIndex={conversationState.currentStepIndex}
-          stepNumber={conversationState.stepNumber}
-          totalSteps={conversationState.totalSteps}
-          isAutoAdvancePending={conversationState.isAutoAdvancePending}
-          isRecentlyCompleted={engagementState.isRecentlyCompleted}
-        />
+      <div className="drawer-layer-switch" role="tablist" aria-label="Interaction layers">
+        <button
+          type="button"
+          role="tab"
+          aria-selected={activeLayer === "conversation"}
+          className={`drawer-layer-button ${activeLayer === "conversation" ? "is-active" : ""}`}
+          onClick={() => setActiveLayer("conversation")}
+        >
+          Dialogue
+        </button>
+        <button
+          type="button"
+          role="tab"
+          aria-selected={activeLayer === "response"}
+          className={`drawer-layer-button ${activeLayer === "response" ? "is-active" : ""}`}
+          onClick={() => setActiveLayer("response")}
+        >
+          Response
+        </button>
+        <button
+          type="button"
+          role="tab"
+          aria-selected={activeLayer === "grammar"}
+          className={`drawer-layer-button ${activeLayer === "grammar" ? "is-active" : ""}`}
+          onClick={() => setActiveLayer("grammar")}
+        >
+          Grammar
+        </button>
       </div>
 
-      <div className="drawer-section-block is-response-secondary">
-        <p className="drawer-section-title">Your Response</p>
-        <ResponseChoices
-          exercise={responseExercise}
-          selectedChoice={selectedChoice}
-          recommendedAction={recommendedAction}
-          onSelectChoice={(choiceId) => {
-            if (!itemId) {
-              return;
-            }
-            dialogueState?.chooseResponse?.(itemId, choiceId);
-          }}
-          isCompleted={responseCompleted}
-          isRecentlyCompleted={engagementState.isRecentlyCompleted}
-          suggestedNextLabel={suggestedNextLabel}
-          hasNextStep={conversationState.hasNextStep}
-          canContinue={conversationState.canContinue}
-          isAutoAdvancePending={conversationState.isAutoAdvancePending}
-          onContinue={() => {
-            if (!itemId) {
-              return;
-            }
-            dialogueState?.continueConversation?.(itemId);
-          }}
-        />
-      </div>
+      <div className="drawer-layer-panels">
+        <div className={`drawer-layer-panel ${activeLayer === "conversation" ? "is-active" : ""}`} role="tabpanel" aria-hidden={activeLayer !== "conversation"}>
+          <DialoguePanel
+            lines={dialogueLines}
+            chainContext={chainContext}
+            selectedChoice={selectedChoice}
+            selectedItemId={itemId}
+            sceneId={sceneId}
+            getLineAudioTarget={dialogueState?.getLineAudioTarget}
+            currentStepIndex={conversationState.currentStepIndex}
+            stepNumber={conversationState.stepNumber}
+            totalSteps={conversationState.totalSteps}
+            isAutoAdvancePending={conversationState.isAutoAdvancePending}
+            isRecentlyCompleted={engagementState.isRecentlyCompleted}
+          />
+        </div>
 
-      <div className="drawer-section-block">
-        <p className="drawer-section-title">Grammar</p>
-        <GrammarHint hint={grammarHint} />
+        <div className={`drawer-layer-panel ${activeLayer === "response" ? "is-active" : ""}`} role="tabpanel" aria-hidden={activeLayer !== "response"}>
+          <ResponseChoices
+            exercise={responseExercise}
+            selectedChoice={selectedChoice}
+            recommendedAction={recommendedAction}
+            onSelectChoice={(choiceId) => {
+              if (!itemId) {
+                return;
+              }
+              dialogueState?.chooseResponse?.(itemId, choiceId);
+            }}
+            isCompleted={responseCompleted}
+            isRecentlyCompleted={engagementState.isRecentlyCompleted}
+            suggestedNextLabel={suggestedNextLabel}
+            hasNextStep={conversationState.hasNextStep}
+            canContinue={conversationState.canContinue}
+            isAutoAdvancePending={conversationState.isAutoAdvancePending}
+            onContinue={() => {
+              if (!itemId) {
+                return;
+              }
+              dialogueState?.continueConversation?.(itemId);
+            }}
+          />
+        </div>
+
+        <div className={`drawer-layer-panel ${activeLayer === "grammar" ? "is-active" : ""}`} role="tabpanel" aria-hidden={activeLayer !== "grammar"}>
+          <div className="drawer-section-block">
+            <p className="drawer-section-title">Grammar Hint</p>
+            <GrammarHint hint={grammarHint} />
+          </div>
+        </div>
       </div>
     </aside>
   );

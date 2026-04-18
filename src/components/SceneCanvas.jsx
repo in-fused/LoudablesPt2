@@ -27,6 +27,7 @@ function SceneCanvas({ scene, selectedItem, onSelectItem, itemStatusById = {} })
   const recommendedItemId = getRecommendedItemId(sceneItemIds, safeSceneId, selectedItem?.id);
 
   const recommendedItem = safeItems.find((item) => item.id === recommendedItemId) || null;
+  const spotlightItem = selectedItem || recommendedItem || safeItems[0] || null;
   const sceneProgress = getProgress(safeSceneId);
   const completedItemCount = (sceneProgress.completedResponseItemIds || []).filter((itemId) => sceneItemIds.includes(itemId)).length;
   const completionRatio = sceneItemIds.length ? completedItemCount / sceneItemIds.length : 0;
@@ -63,14 +64,27 @@ function SceneCanvas({ scene, selectedItem, onSelectItem, itemStatusById = {} })
 
   return (
     <div className="scene-canvas" role="region" aria-label={safeScene.title}>
-      <div className="scene-card">
+      <div className="scene-stage-card">
         <p className="scene-kicker">Scene</p>
         <h2 className="scene-title">{safeScene.title}</h2>
         <p className="scene-description">{safeScene.description}</p>
         <p className="scene-recommendation">{recommendationText}</p>
+
+        {spotlightItem ? (
+          <button
+            type="button"
+            className={`scene-spotlight-button ${selectedItem?.id === spotlightItem.id ? "is-active" : ""}`}
+            onClick={() => onSelectItem?.(spotlightItem.id)}
+            aria-pressed={selectedItem?.id === spotlightItem.id}
+          >
+            <p className="scene-spotlight-kicker">Focused word</p>
+            <p className="scene-spotlight-es">{spotlightItem.spanish || spotlightItem.id}</p>
+            <p className="scene-spotlight-en">{spotlightItem.english || "Vocabulary item"}</p>
+          </button>
+        ) : null}
       </div>
 
-      <div className="scene-items" aria-label="Scene vocabulary items">
+      <div className="scene-items-rail" aria-label="Scene vocabulary items">
         {safeItems.length ? safeItems.map((item) => {
           const isActive = selectedItem?.id === item.id;
           const status = itemStatusById[item.id] || "default";
