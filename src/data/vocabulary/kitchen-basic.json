@@ -3,8 +3,8 @@
   "list": [
     {
       "id": "cocina",
-      "spanish": "cocina",
-      "english": "kitchen",
+      "spanish": "Para hacer esa receta necesitas tres tomates y caldo de pollo frío.",
+      "english": "To make that recipe, you need three tomatoes and cold chicken broth.",
       "audioKey": "vocab.cocina"
     },
     {
@@ -21,8 +21,8 @@
     },
     {
       "id": "pan",
-      "spanish": "pan",
-      "english": "bread",
+      "spanish": "De postre voy a servir manzanas asadas sobre pan de nueces.",
+      "english": "For dessert, I am going to serve roasted apples on nut bread.",
       "audioKey": "vocab.pan"
     },
     {

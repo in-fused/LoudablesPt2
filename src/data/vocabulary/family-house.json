@@ -3,8 +3,8 @@
   "list": [
     {
       "id": "casa",
-      "spanish": "casa",
-      "english": "house",
+      "spanish": "¿En qué calle está la casa?",
+      "english": "What street is the house on?",
       "audioKey": "vocab.casa"
     },
     {
@@ -39,8 +39,8 @@
     },
     {
       "id": "mama",
-      "spanish": "mamá",
-      "english": "mom",
+      "spanish": "No sé si invitar para el cumpleaños de mi mamá a la familia cercana o solo amigos.",
+      "english": "I don't know whether to invite close family or just friends to my mom's birthday.",
       "audioKey": "vocab.mama"
     },
     {
