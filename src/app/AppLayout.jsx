@@ -177,7 +177,8 @@ function AppLayout({ sceneState, dialogueState }) {
       isAutoAdvancePending: false
     };
 
-  const isHomeState = isSceneSheetOpen;
+  const isOverlayOpen = isSceneSheetOpen || isProgressSheetOpen;
+  const isHomeState = isOverlayOpen;
   const isResponseState = !isHomeState
     && Boolean(selectedItemId)
     && (
@@ -248,6 +249,8 @@ function AppLayout({ sceneState, dialogueState }) {
           dialogueState={dialogueState}
           grammarHint={sceneState.grammarHint}
           sceneId={sceneState.sceneId}
+          appViewState={appViewState}
+          isOverlayOpen={isOverlayOpen}
         />
       </main>
 

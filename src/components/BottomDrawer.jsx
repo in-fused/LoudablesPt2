@@ -5,7 +5,7 @@ import GrammarHint from "./GrammarHint";
 import ResponseChoices from "./ResponseChoices";
 import { getAudioPlaybackState, playAudioTarget, subscribeToAudioPlayback } from "../lib/audio";
 
-function BottomDrawer({ selectedItem, dialogueState, grammarHint, sceneId }) {
+function BottomDrawer({ selectedItem, dialogueState, grammarHint, sceneId, appViewState = "lesson", isOverlayOpen = false }) {
   const selectedItemLabel = selectedItem ? selectedItem.spanish : "No item selected yet";
   const selectedItemSubLabel = selectedItem ? selectedItem.english : "Tap a highlighted word to begin";
 
@@ -137,6 +137,39 @@ function BottomDrawer({ selectedItem, dialogueState, grammarHint, sceneId }) {
   const lastAutoPlayedStepRef = useRef("");
   const autoplayRunRef = useRef(0);
   const [activeLayer, setActiveLayer] = useState("response");
+  const [drawerMode, setDrawerMode] = useState("half");
+  const dragPointerIdRef = useRef(null);
+  const dragStartYRef = useRef(0);
+  const draggedHandleRef = useRef(false);
+  const suppressHandleClickRef = useRef(false);
+
+  function getSupportedModes() {
+    return selectedItem ? ["peek", "half", "full"] : ["peek", "half"];
+  }
+
+  function moveDrawerMode(direction) {
+    const modes = getSupportedModes();
+    const currentIndex = modes.indexOf(drawerMode);
+    const safeCurrentIndex = currentIndex >= 0 ? currentIndex : 0;
+    const nextIndex = direction === "up"
+      ? Math.min(safeCurrentIndex + 1, modes.length - 1)
+      : Math.max(safeCurrentIndex - 1, 0);
+    setDrawerMode(modes[nextIndex]);
+  }
+
+  function toggleDrawerMode() {
+    if (drawerMode === "peek") {
+      setDrawerMode("half");
+      return;
+    }
+
+    if (drawerMode === "half") {
+      setDrawerMode(selectedItem ? "full" : "peek");
+      return;
+    }
+
+    setDrawerMode("half");
+  }
 
   useEffect(() => {
     if (!selectedItem) {
@@ -153,6 +186,25 @@ function BottomDrawer({ selectedItem, dialogueState, grammarHint, sceneId }) {
       setActiveLayer("conversation");
     }
   }, [selectedItem, recommendedAction, responseExercise, dialogueLines.length]);
+
+  useEffect(() => {
+    if (isOverlayOpen || appViewState === "home") {
+      setDrawerMode("peek");
+      return;
+    }
+
+    if (appViewState === "response" || recommendedAction === "respond" || recommendedAction === "continue") {
+      setDrawerMode("full");
+      return;
+    }
+
+    if (!selectedItem) {
+      setDrawerMode("peek");
+      return;
+    }
+
+    setDrawerMode("half");
+  }, [appViewState, isOverlayOpen, selectedItem, recommendedAction]);
 
   useEffect(() => {
     if (sceneId !== "puerto-rico-listening") {
@@ -266,12 +318,96 @@ function BottomDrawer({ selectedItem, dialogueState, grammarHint, sceneId }) {
     };
   }, [sceneId, itemId, selectedItem, conversationState?.stepNumber, dialogueLines, dialogueState]);
 
+  function handleDragStart(event) {
+    if (event.pointerType === "mouse" && event.button !== 0) {
+      return;
+    }
+
+    dragPointerIdRef.current = event.pointerId;
+    dragStartYRef.current = event.clientY;
+    draggedHandleRef.current = false;
+    event.currentTarget.setPointerCapture?.(event.pointerId);
+  }
+
+  function handleDragMove(event) {
+    if (dragPointerIdRef.current !== event.pointerId) {
+      return;
+    }
+
+    if (Math.abs(event.clientY - dragStartYRef.current) >= 10) {
+      draggedHandleRef.current = true;
+    }
+  }
+
+  function handleDragEnd(event) {
+    if (dragPointerIdRef.current !== event.pointerId) {
+      return;
+    }
+
+    const deltaY = event.clientY - dragStartYRef.current;
+    const usedDragGesture = draggedHandleRef.current;
+    dragPointerIdRef.current = null;
+    dragStartYRef.current = 0;
+    draggedHandleRef.current = false;
+
+    if (!usedDragGesture) {
+      return;
+    }
+
+    suppressHandleClickRef.current = true;
+
+    if (deltaY <= -24) {
+      moveDrawerMode("up");
+    } else if (deltaY >= 24) {
+      moveDrawerMode("down");
+    }
+  }
+
+  function handleDragCancel(event) {
+    if (dragPointerIdRef.current !== event.pointerId) {
+      return;
+    }
+
+    dragPointerIdRef.current = null;
+    dragStartYRef.current = 0;
+    draggedHandleRef.current = false;
+  }
+
+  function handleHandleButtonClick() {
+    if (suppressHandleClickRef.current) {
+      suppressHandleClickRef.current = false;
+      return;
+    }
+
+    toggleDrawerMode();
+  }
+
+  const drawerActionLabel = drawerMode === "peek"
+    ? "Expand drawer"
+    : drawerMode === "half"
+      ? (selectedItem ? "Expand drawer to full" : "Collapse drawer")
+      : "Collapse drawer";
+
   return (
     <aside
-      className={`bottom-drawer ${conversationState.isAutoAdvancePending ? "is-auto-advancing" : ""} ${engagementState.isRecentlyCompleted ? "is-recently-completed" : ""} ${conversationState.isCurrentStepResponseCompleted ? "is-step-complete" : ""}`}
+      className={`bottom-drawer drawer-mode-${drawerMode} ${conversationState.isAutoAdvancePending ? "is-auto-advancing" : ""} ${engagementState.isRecentlyCompleted ? "is-recently-completed" : ""} ${conversationState.isCurrentStepResponseCompleted ? "is-step-complete" : ""}`}
+      data-drawer-mode={drawerMode}
       aria-label="Conversation drawer"
     >
-      <div className="drawer-handle" aria-hidden="true" />
+      <button
+        type="button"
+        className="drawer-handle-button"
+        onClick={handleHandleButtonClick}
+        onPointerDown={handleDragStart}
+        onPointerMove={handleDragMove}
+        onPointerUp={handleDragEnd}
+        onPointerCancel={handleDragCancel}
+        aria-label={drawerActionLabel}
+        aria-expanded={drawerMode !== "peek"}
+      >
+        <span className="drawer-handle" aria-hidden="true" />
+        <span className={`drawer-handle-chevron drawer-handle-chevron-${drawerMode}`} aria-hidden="true" />
+      </button>
 
       <div className="drawer-header">
         <div>

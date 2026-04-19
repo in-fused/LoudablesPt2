@@ -651,12 +651,11 @@ button {
   background: linear-gradient(180deg, #fffefb 0%, #fff9f1 100%);
   border: 1px solid var(--color-border);
   border-radius: calc(var(--radius-lg) + 2px) calc(var(--radius-lg) + 2px) 0 0;
-  padding: var(--space-3);
+  padding: var(--space-2) var(--space-3) var(--space-3);
   box-shadow: 0 10px 24px rgba(64, 44, 20, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.75);
   display: flex;
   flex-direction: column;
   gap: var(--space-2);
-  transition: border-color 0.18s ease, box-shadow 0.18s ease, background-color 0.18s ease;
   min-height: 45dvh;
   max-height: 64dvh;
   overflow-y: auto;
@@ -664,17 +663,65 @@ button {
   -webkit-overflow-scrolling: touch;
   scroll-padding-bottom: var(--space-3);
   will-change: border-color, box-shadow, background-color;
-  transform: translate3d(0, calc(100% - 182px), 0);
+  transform: translate3d(0, calc(100% - 232px), 0);
   transition: border-color 0.18s ease, box-shadow 0.18s ease, background-color 0.18s ease, transform 0.24s ease, opacity 0.24s ease;
 }
 
+.bottom-drawer[data-drawer-mode="peek"] {
+  transform: translate3d(0, calc(100% - 76px), 0);
+  min-height: 38dvh;
+}
+
+.bottom-drawer[data-drawer-mode="half"] {
+  transform: translate3d(0, calc(100% - 232px), 0);
+}
+
+.bottom-drawer[data-drawer-mode="full"] {
+  transform: translate3d(0, 0, 0);
+  min-height: 60dvh;
+  max-height: 78dvh;
+  box-shadow: 0 18px 38px rgba(64, 44, 20, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.75);
+}
+
+.drawer-handle-button {
+  margin: 0 auto 2px;
+  padding: 0;
+  min-height: 28px;
+  min-width: 64px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+}
+
 .drawer-handle {
-  width: 42px;
+  width: 34px;
   height: 5px;
   border-radius: 999px;
-  background: rgba(138, 108, 77, 0.38);
-  margin: 0 auto 2px;
+  background: rgba(138, 108, 77, 0.45);
   transition: opacity 0.2s ease, transform 0.2s ease, background-color 0.2s ease;
+}
+
+.drawer-handle-chevron {
+  width: 7px;
+  height: 7px;
+  border-right: 2px solid rgba(120, 86, 50, 0.72);
+  border-bottom: 2px solid rgba(120, 86, 50, 0.72);
+  transform: rotate(-135deg);
+  transition: transform 0.2s ease, opacity 0.2s ease;
+  opacity: 0.9;
+}
+
+.drawer-handle-chevron-full {
+  transform: rotate(45deg);
+}
+
+.drawer-handle-button:focus-visible {
+  outline: 2px solid rgba(214, 159, 92, 0.5);
+  outline-offset: 2px;
 }
 
 .app-state-home .app-main {
@@ -732,9 +779,11 @@ button {
 }
 
 .app-state-response .scene-items-rail {
-  max-height: 54px;
-  opacity: 0.3;
+  max-height: 0;
+  opacity: 0;
   transform: translate3d(0, 8px, 0);
+  pointer-events: none;
+  overflow: hidden;
 }
 
 .app-state-response .scene-item-button {
@@ -742,10 +791,7 @@ button {
 }
 
 .app-state-response .bottom-drawer {
-  transform: translate3d(0, 0, 0);
   opacity: 1;
-  min-height: 60dvh;
-  max-height: 78dvh;
   box-shadow: 0 18px 38px rgba(64, 44, 20, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.75);
 }
 
@@ -1600,6 +1646,10 @@ button {
 @media (max-width: 359px) {
   .scene-item-button {
     min-width: 78vw;
+  }
+
+  .bottom-drawer[data-drawer-mode="half"] {
+    transform: translate3d(0, calc(100% - 208px), 0);
   }
 }
 
