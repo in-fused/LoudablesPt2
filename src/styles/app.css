@@ -488,6 +488,7 @@ button {
   text-align: left;
   color: #4d3622;
   box-shadow: 0 7px 16px rgba(13, 19, 28, 0.2);
+  touch-action: pan-y;
 }
 
 .scene-spotlight-button.is-active {
@@ -523,8 +524,14 @@ button {
   gap: var(--space-3);
   overflow-x: auto;
   padding-bottom: var(--space-1);
+  padding-inline: 1px;
   scrollbar-width: none;
   scroll-snap-type: x mandatory;
+  scroll-padding-inline: var(--space-1);
+  scroll-behavior: smooth;
+  overscroll-behavior-x: contain;
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-x;
   transition: max-height 0.22s ease, opacity 0.22s ease, transform 0.22s ease;
 }
 
@@ -550,6 +557,7 @@ button {
   transition: border-color 0.16s ease, background-color 0.16s ease, box-shadow 0.16s ease, transform 0.08s ease, filter 0.16s ease;
   will-change: transform;
   scroll-snap-align: start;
+  scroll-snap-stop: always;
 }
 
 .scene-item-button.is-seen {
@@ -662,25 +670,29 @@ button {
   overscroll-behavior: contain;
   -webkit-overflow-scrolling: touch;
   scroll-padding-bottom: var(--space-3);
-  will-change: border-color, box-shadow, background-color;
-  transform: translate3d(0, calc(100% - 232px), 0);
+  will-change: border-color, box-shadow, background-color, transform;
+  transform: translate3d(0, calc(100% - 232px + var(--drawer-drag-offset, 0px)), 0);
   transition: border-color 0.18s ease, box-shadow 0.18s ease, background-color 0.18s ease, transform 0.24s ease, opacity 0.24s ease;
 }
 
 .bottom-drawer[data-drawer-mode="peek"] {
-  transform: translate3d(0, calc(100% - 76px), 0);
+  transform: translate3d(0, calc(100% - 76px + var(--drawer-drag-offset, 0px)), 0);
   min-height: 38dvh;
 }
 
 .bottom-drawer[data-drawer-mode="half"] {
-  transform: translate3d(0, calc(100% - 232px), 0);
+  transform: translate3d(0, calc(100% - 232px + var(--drawer-drag-offset, 0px)), 0);
 }
 
 .bottom-drawer[data-drawer-mode="full"] {
-  transform: translate3d(0, 0, 0);
+  transform: translate3d(0, var(--drawer-drag-offset, 0px), 0);
   min-height: 60dvh;
   max-height: 78dvh;
   box-shadow: 0 18px 38px rgba(64, 44, 20, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.75);
+}
+
+.bottom-drawer.is-dragging {
+  transition: none;
 }
 
 .drawer-handle-button {
@@ -695,6 +707,8 @@ button {
   align-items: center;
   justify-content: center;
   gap: 7px;
+  touch-action: none;
+  user-select: none;
 }
 
 .drawer-handle {
@@ -1649,7 +1663,7 @@ button {
   }
 
   .bottom-drawer[data-drawer-mode="half"] {
-    transform: translate3d(0, calc(100% - 208px), 0);
+    transform: translate3d(0, calc(100% - 208px + var(--drawer-drag-offset, 0px)), 0);
   }
 }
 

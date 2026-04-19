@@ -34,6 +34,16 @@ function SceneCanvas({ scene, selectedItem, onSelectItem, itemStatusById = {} })
   const lastCompletedItemId = sceneProgress.lastCompletedItemId;
   const [justCompletedItemId, setJustCompletedItemId] = useState("");
   const previousCompletedCountRef = useRef(completedItemCount);
+  const railRef = useRef(null);
+  const suppressSpotlightClickRef = useRef(false);
+  const spotlightPointerIdRef = useRef(null);
+  const spotlightDragRef = useRef({
+    startX: 0,
+    startY: 0,
+    deltaX: 0,
+    deltaY: 0,
+    moved: false
+  });
 
   useEffect(() => {
     const previousCompletedCount = previousCompletedCountRef.current;
@@ -51,6 +61,143 @@ function SceneCanvas({ scene, selectedItem, onSelectItem, itemStatusById = {} })
     previousCompletedCountRef.current = completedItemCount;
     return undefined;
   }, [completedItemCount, lastCompletedItemId]);
+
+  useEffect(() => {
+    const railElement = railRef.current;
+    if (!railElement || !spotlightItem?.id) {
+      return;
+    }
+
+    const activeCard = railElement.querySelector(`[data-item-id="${spotlightItem.id}"]`);
+    if (!activeCard) {
+      return;
+    }
+
+    activeCard.scrollIntoView({
+      behavior: "smooth",
+      block: "nearest",
+      inline: "center"
+    });
+  }, [spotlightItem?.id]);
+
+  function getSpotlightIndex() {
+    if (!safeItems.length) {
+      return -1;
+    }
+
+    if (selectedItem?.id) {
+      return safeItems.findIndex((item) => item.id === selectedItem.id);
+    }
+
+    if (spotlightItem?.id) {
+      return safeItems.findIndex((item) => item.id === spotlightItem.id);
+    }
+
+    return 0;
+  }
+
+  function moveSpotlightByOffset(offset) {
+    if (!offset || !safeItems.length) {
+      return;
+    }
+
+    const currentIndex = getSpotlightIndex();
+    const safeCurrentIndex = currentIndex >= 0 ? currentIndex : 0;
+    const targetIndex = Math.min(Math.max(safeCurrentIndex + offset, 0), safeItems.length - 1);
+    const targetItem = safeItems[targetIndex];
+    if (!targetItem?.id) {
+      return;
+    }
+
+    onSelectItem?.(targetItem.id);
+  }
+
+  function handleSpotlightPointerDown(event) {
+    if (event.pointerType === "mouse" && event.button !== 0) {
+      return;
+    }
+
+    spotlightPointerIdRef.current = event.pointerId;
+    spotlightDragRef.current = {
+      startX: event.clientX,
+      startY: event.clientY,
+      deltaX: 0,
+      deltaY: 0,
+      moved: false
+    };
+    event.currentTarget.setPointerCapture?.(event.pointerId);
+  }
+
+  function handleSpotlightPointerMove(event) {
+    if (spotlightPointerIdRef.current !== event.pointerId) {
+      return;
+    }
+
+    const deltaX = event.clientX - spotlightDragRef.current.startX;
+    const deltaY = event.clientY - spotlightDragRef.current.startY;
+    spotlightDragRef.current.deltaX = deltaX;
+    spotlightDragRef.current.deltaY = deltaY;
+
+    if (Math.abs(deltaX) > 8 || Math.abs(deltaY) > 8) {
+      spotlightDragRef.current.moved = true;
+    }
+  }
+
+  function handleSpotlightPointerEnd(event) {
+    if (spotlightPointerIdRef.current !== event.pointerId) {
+      return;
+    }
+
+    const { deltaX, deltaY, moved } = spotlightDragRef.current;
+    spotlightPointerIdRef.current = null;
+    spotlightDragRef.current = {
+      startX: 0,
+      startY: 0,
+      deltaX: 0,
+      deltaY: 0,
+      moved: false
+    };
+
+    if (!moved) {
+      return;
+    }
+
+    const isHorizontalSwipe = Math.abs(deltaX) >= 36 && Math.abs(deltaX) > Math.abs(deltaY) + 14;
+    if (!isHorizontalSwipe) {
+      return;
+    }
+
+    suppressSpotlightClickRef.current = true;
+    moveSpotlightByOffset(deltaX < 0 ? 1 : -1);
+  }
+
+  function handleSpotlightPointerCancel(event) {
+    if (spotlightPointerIdRef.current !== event.pointerId) {
+      return;
+    }
+
+    spotlightPointerIdRef.current = null;
+    spotlightDragRef.current = {
+      startX: 0,
+      startY: 0,
+      deltaX: 0,
+      deltaY: 0,
+      moved: false
+    };
+  }
+
+  function handleSpotlightClick() {
+    if (suppressSpotlightClickRef.current) {
+      suppressSpotlightClickRef.current = false;
+      return;
+    }
+
+    if (!spotlightItem?.id) {
+      return;
+    }
+
+    onSelectItem?.(spotlightItem.id);
+  }
 
   const recommendationText = !recommendedItem
     ? sceneItemIds.length
@@ -74,7 +221,11 @@ function SceneCanvas({ scene, selectedItem, onSelectItem, itemStatusById = {} })
           <button
             type="button"
             className={`scene-spotlight-button ${selectedItem?.id === spotlightItem.id ? "is-active" : ""}`}
-            onClick={() => onSelectItem?.(spotlightItem.id)}
+            onClick={handleSpotlightClick}
+            onPointerDown={handleSpotlightPointerDown}
+            onPointerMove={handleSpotlightPointerMove}
+            onPointerUp={handleSpotlightPointerEnd}
+            onPointerCancel={handleSpotlightPointerCancel}
             aria-pressed={selectedItem?.id === spotlightItem.id}
           >
             <p className="scene-spotlight-kicker">Focused word</p>
@@ -84,7 +235,7 @@ function SceneCanvas({ scene, selectedItem, onSelectItem, itemStatusById = {} })
         ) : null}
       </div>
 
-      <div className="scene-items-rail" aria-label="Scene vocabulary items">
+      <div className="scene-items-rail" aria-label="Scene vocabulary items" ref={railRef}>
         {safeItems.length ? safeItems.map((item) => {
           const isActive = selectedItem?.id === item.id;
           const status = itemStatusById[item.id] || "default";
@@ -98,6 +249,7 @@ function SceneCanvas({ scene, selectedItem, onSelectItem, itemStatusById = {} })
               className={`scene-item-button ${isActive ? "is-active" : ""} ${status === "seen" ? "is-seen" : ""} ${status === "completed" ? "is-completed" : ""} ${isRecommended ? "is-recommended" : ""} ${isJustCompleted ? "is-just-completed" : ""}`}
               onClick={() => onSelectItem?.(item.id)}
               aria-pressed={isActive}
+              data-item-id={item.id}
             >
               <span className="item-spanish">{item.spanish || item.id}</span>
               <span className="item-english">{item.english || "Vocabulary item"}</span>

@@ -138,8 +138,12 @@ function BottomDrawer({ selectedItem, dialogueState, grammarHint, sceneId, appVi
   const autoplayRunRef = useRef(0);
   const [activeLayer, setActiveLayer] = useState("response");
   const [drawerMode, setDrawerMode] = useState("half");
+  const [dragOffsetY, setDragOffsetY] = useState(0);
+  const [isHandleDragging, setIsHandleDragging] = useState(false);
   const dragPointerIdRef = useRef(null);
+  const dragStartXRef = useRef(0);
   const dragStartYRef = useRef(0);
+  const dragAxisRef = useRef("none");
   const draggedHandleRef = useRef(false);
   const suppressHandleClickRef = useRef(false);
 
@@ -324,8 +328,12 @@ function BottomDrawer({ selectedItem, dialogueState, grammarHint, sceneId, appVi
     }
 
     dragPointerIdRef.current = event.pointerId;
+    dragStartXRef.current = event.clientX;
     dragStartYRef.current = event.clientY;
+    dragAxisRef.current = "none";
     draggedHandleRef.current = false;
+    setIsHandleDragging(true);
+    setDragOffsetY(0);
     event.currentTarget.setPointerCapture?.(event.pointerId);
   }
 
@@ -334,9 +342,24 @@ function BottomDrawer({ selectedItem, dialogueState, grammarHint, sceneId, appVi
       return;
     }
 
-    if (Math.abs(event.clientY - dragStartYRef.current) >= 10) {
-      draggedHandleRef.current = true;
+    const deltaX = event.clientX - dragStartXRef.current;
+    const deltaY = event.clientY - dragStartYRef.current;
+    const absX = Math.abs(deltaX);
+    const absY = Math.abs(deltaY);
+
+    if (dragAxisRef.current === "none" && (absX >= 8 || absY >= 8)) {
+      dragAxisRef.current = absY > absX ? "y" : "x";
     }
+
+    if (dragAxisRef.current !== "y") {
+      return;
+    }
+
+    draggedHandleRef.current = absY >= 10;
+    const clampedOffset = Math.max(-136, Math.min(152, deltaY));
+    const dampedOffset = clampedOffset * 0.92;
+    setDragOffsetY(dampedOffset);
+    event.preventDefault?.();
   }
 
   function handleDragEnd(event) {
@@ -346,19 +369,24 @@ function BottomDrawer({ selectedItem, dialogueState, grammarHint, sceneId, appVi
 
     const deltaY = event.clientY - dragStartYRef.current;
     const usedDragGesture = draggedHandleRef.current;
+    const dragAxis = dragAxisRef.current;
     dragPointerIdRef.current = null;
+    dragStartXRef.current = 0;
     dragStartYRef.current = 0;
+    dragAxisRef.current = "none";
     draggedHandleRef.current = false;
+    setIsHandleDragging(false);
+    setDragOffsetY(0);
 
-    if (!usedDragGesture) {
+    if (!usedDragGesture || dragAxis !== "y") {
       return;
     }
 
     suppressHandleClickRef.current = true;
 
-    if (deltaY <= -24) {
+    if (deltaY <= -30) {
       moveDrawerMode("up");
-    } else if (deltaY >= 24) {
+    } else if (deltaY >= 30) {
       moveDrawerMode("down");
     }
   }
@@ -369,8 +397,12 @@ function BottomDrawer({ selectedItem, dialogueState, grammarHint, sceneId, appVi
     }
 
     dragPointerIdRef.current = null;
+    dragStartXRef.current = 0;
     dragStartYRef.current = 0;
+    dragAxisRef.current = "none";
     draggedHandleRef.current = false;
+    setIsHandleDragging(false);
+    setDragOffsetY(0);
   }
 
   function handleHandleButtonClick() {
@@ -390,9 +422,10 @@ function BottomDrawer({ selectedItem, dialogueState, grammarHint, sceneId, appVi
 
   return (
     <aside
-      className={`bottom-drawer drawer-mode-${drawerMode} ${conversationState.isAutoAdvancePending ? "is-auto-advancing" : ""} ${engagementState.isRecentlyCompleted ? "is-recently-completed" : ""} ${conversationState.isCurrentStepResponseCompleted ? "is-step-complete" : ""}`}
+      className={`bottom-drawer drawer-mode-${drawerMode} ${isHandleDragging ? "is-dragging" : ""} ${conversationState.isAutoAdvancePending ? "is-auto-advancing" : ""} ${engagementState.isRecentlyCompleted ? "is-recently-completed" : ""} ${conversationState.isCurrentStepResponseCompleted ? "is-step-complete" : ""}`}
       data-drawer-mode={drawerMode}
       aria-label="Conversation drawer"
+      style={{ "--drawer-drag-offset": `${dragOffsetY}px` }}
     >
       <button
         type="button"
