@@ -3,8 +3,8 @@
   "list": [
     {
       "id": "casa",
-      "es": "casa",
-      "en": "house",
+      "es": "¿En qué calle está la casa?",
+      "en": "What street is the house on?",
       "audioKey": "vocab.casa"
     },
     {
@@ -39,8 +39,8 @@
     },
     {
       "id": "mama",
-      "es": "mamá",
-      "en": "mom",
+      "es": "No sé si invitar para el cumpleaños de mi mamá a la familia cercana o solo amigos.",
+      "en": "I don't know whether to invite close family or just friends to my mom's birthday.",
       "audioKey": "vocab.mama"
     },
     {
@@ -51,8 +51,8 @@
     },
     {
       "id": "cocina",
-      "es": "cocina",
-      "en": "kitchen",
+      "es": "Para hacer esa receta necesitas tres tomates y caldo de pollo frío.",
+      "en": "To make that recipe, you need three tomatoes and cold chicken broth.",
       "audioKey": "vocab.cocina"
     },
     {
@@ -69,8 +69,8 @@
     },
     {
       "id": "pan",
-      "es": "pan",
-      "en": "bread",
+      "es": "De postre voy a servir manzanas asadas sobre pan de nueces.",
+      "en": "For dessert, I am going to serve roasted apples on nut bread.",
       "audioKey": "vocab.pan"
     },
     {
